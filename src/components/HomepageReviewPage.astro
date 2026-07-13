@@ -1,0 +1,250 @@
+---
+import page from "../content/home";
+
+interface PreviewBlock {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  loading?: "eager" | "lazy";
+}
+
+interface Props {
+  currentPath: string;
+  option: 1 | 2 | 3;
+  optionOneHref?: string;
+}
+
+const { currentPath, option, optionOneHref = "/" } = Astro.props;
+
+const switcherLinks = [
+  { label: "案1", href: optionOneHref },
+  { label: "案2", href: "/homepage2" },
+  { label: "案3", href: "/homepage3" }
+];
+
+const previewOptions: Record<number, { blocks: PreviewBlock[] }> = {
+  1: {
+    blocks: [
+      {
+        src: "/images/concepts/homepage-option-1.png",
+        alt: "ファーストビューのデザインプレビュー画像",
+        width: 1717,
+        height: 916,
+        loading: "eager"
+      },
+      {
+        src: "/images/concepts/philosophy-option-1.png",
+        alt: "理念・メッセージのデザインプレビュー画像",
+        width: 1536,
+        height: 1024
+      },
+      {
+        src: "/images/concepts/services-option-1.png",
+        alt: "サービス概要のデザインプレビュー画像",
+        width: 1536,
+        height: 1024
+      },
+      {
+        src: "/images/concepts/mission-option-1.png",
+        alt: "使命のデザインプレビュー画像",
+        width: 1672,
+        height: 941
+      },
+      {
+        src: "/images/concepts/company-option-1.png",
+        alt: "会社概要のデザインプレビュー画像",
+        width: 1672,
+        height: 941
+      }
+    ]
+  },
+  2: {
+    blocks: [
+      {
+        src: "/images/concepts/homepage-option-2.png",
+        alt: "ファーストビューのデザインプレビュー画像",
+        width: 1536,
+        height: 1024,
+        loading: "eager"
+      },
+      {
+        src: "/images/concepts/philosophy-option-2.png",
+        alt: "理念・メッセージのデザインプレビュー画像",
+        width: 1536,
+        height: 1024
+      },
+      {
+        src: "/images/concepts/services-option-2.png",
+        alt: "サービス概要のデザインプレビュー画像",
+        width: 1693,
+        height: 929
+      },
+      {
+        src: "/images/concepts/mission-option-2.png",
+        alt: "使命のデザインプレビュー画像",
+        width: 1672,
+        height: 941
+      },
+      {
+        src: "/images/concepts/company-option-2.png",
+        alt: "会社概要のデザインプレビュー画像",
+        width: 1672,
+        height: 941
+      }
+    ]
+  },
+  3: {
+    blocks: [
+      {
+        src: "/images/concepts/homepage-option-3.png",
+        alt: "ファーストビューのデザインプレビュー画像",
+        width: 1717,
+        height: 916,
+        loading: "eager"
+      },
+      {
+        src: "/images/concepts/philosophy-option-3.png",
+        alt: "理念・メッセージのデザインプレビュー画像",
+        width: 1536,
+        height: 1024
+      },
+      {
+        src: "/images/concepts/services-option-3.png",
+        alt: "サービス概要のデザインプレビュー画像",
+        width: 1536,
+        height: 1024
+      },
+      {
+        src: "/images/concepts/mission-option-3.png",
+        alt: "使命のデザインプレビュー画像",
+        width: 1672,
+        height: 941
+      },
+      {
+        src: "/images/concepts/company-option-3.png",
+        alt: "会社概要のデザインプレビュー画像",
+        width: 1672,
+        height: 941
+      }
+    ]
+  }
+};
+
+const previewOption = previewOptions[option];
+const previewLeadBlocks = previewOption.blocks.slice(0, 3);
+const previewTailBlocks = previewOption.blocks.slice(3);
+
+const locationCards = [
+  {
+    name: page.locations?.[0]?.name ?? "新中野教室",
+    address: page.locations?.[0]?.address ?? "〒164-0011 東京都中野区中央4-1-3 ボニータ新中野ビル4F",
+    image: "/images/source-extracted/home/home-02.jpeg",
+    alt: "赤い床に寝具が整えられた新中野教室の内観",
+    href: "/classes/shin-nakano"
+  },
+  {
+    name: page.locations?.[1]?.name ?? "銀座教室",
+    address: page.locations?.[1]?.address ?? "〒104-0061 東京都中央区銀座2-11-8 ラウンドクロス銀座2丁目ビル2F",
+    image: "/images/source-extracted/home/home-03.jpeg",
+    alt: "赤い座布団と仏像が並ぶ銀座教室の内観",
+    href: "/classes/ginza"
+  },
+  {
+    name: page.locations?.[2]?.name ?? "北千住教室",
+    address: page.locations?.[2]?.address ?? "〒121-0815 東京都足立区島根2-32-21 いづみハイツ竹の塚2F",
+    image: "/images/source-extracted/home/home-04.png",
+    alt: "受講者が体を動かしている北千住教室の様子",
+    href: "/classes/kitasenju-advanced"
+  }
+];
+---
+
+<section class="preview-switcher">
+  <div class="container preview-switcher-row">
+    <span>デザイン比較</span>
+    <nav aria-label="Homepage concept switcher">
+      <ul class="preview-switcher-list">
+        {switcherLinks.map((item) => (
+          <li>
+            <a class={item.href === currentPath ? "is-active" : undefined} href={item.href}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</section>
+
+<section class="preview-gallery" aria-label="上部デザインプレビュー">
+  <div class="container preview-gallery-shell">
+    {previewLeadBlocks.map((block) => (
+      <div class="preview-gallery-block">
+        <figure class="preview-gallery-figure">
+          <img
+            src={block.src}
+            alt={block.alt}
+            width={block.width}
+            height={block.height}
+            loading={block.loading ?? "lazy"}
+          />
+        </figure>
+      </div>
+    ))}
+  </div>
+</section>
+
+<section class="early-locations home-locations-section" aria-labelledby={`homepage-locations-title-${option}`}>
+  <div class="container">
+    <div class="home-section-heading narrow-heading home-section-heading-centered">
+      <h2 id={`homepage-locations-title-${option}`}>通いやすい3つの拠点</h2>
+    </div>
+
+    <div class="location-card-grid">
+      {locationCards.map((location) => (
+        <article class="location-card location-preview-card">
+          <figure class="location-card-media">
+            <img
+              src={location.image}
+              alt={location.alt}
+              width="836"
+              height="469"
+              loading="lazy"
+            />
+          </figure>
+
+          <div class="location-card-copy">
+            <h3>{location.name}</h3>
+            <p>{location.address}</p>
+            <a class="text-link" href={location.href}>
+              詳細を見る
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="section-action section-action-centered">
+      <a class="button" href="/access">アクセス一覧を見る</a>
+    </div>
+  </div>
+</section>
+
+<section class="preview-gallery preview-gallery-tail" aria-label="下部デザインプレビュー">
+  <div class="container preview-gallery-shell">
+    {previewTailBlocks.map((block) => (
+      <div class="preview-gallery-block">
+        <figure class="preview-gallery-figure">
+          <img
+            src={block.src}
+            alt={block.alt}
+            width={block.width}
+            height={block.height}
+            loading={block.loading ?? "lazy"}
+          />
+        </figure>
+      </div>
+    ))}
+  </div>
+</section>

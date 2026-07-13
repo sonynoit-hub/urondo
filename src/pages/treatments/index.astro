@@ -1,0 +1,32 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import CTASection from "../../components/CTASection.astro";
+import page from "../../content/treatments";
+---
+
+<MainLayout title={page.title} description={page.description}>
+  <section class="hero treatments-hero">
+    <div class="container treatments-hero-shell">
+      <h1>{page.heroTitle}</h1>
+      {page.heroIntro && <p class="hero-intro treatments-hero-intro">{page.heroIntro}</p>}
+    </div>
+  </section>
+
+  <section class="content-section treatments-overview-section">
+    <div class="container">
+      <div class="treatments-overview-grid">
+        {page.cards?.map((card) => (
+          <article class="treatments-overview-card">
+            <h2>{card.title}</h2>
+            {card.body && <p>{card.body}</p>}
+            {card.href && <a class="text-link" href={card.href}>詳細を見る →</a>}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    class="about-final-cta"
+  />
+</MainLayout>

@@ -1,0 +1,182 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import CTASection from "../../components/CTASection.astro";
+import TreatmentNav from "../../components/TreatmentNav.astro";
+import page from "../../content/treatments-in-person";
+
+const [introSection, flowSection, examplesSection] = page.sections ?? [];
+
+const getExampleTitle = (text: string) => text.split("：")[0] ?? text;
+const getExampleBody = (text: string) => {
+  const separatorIndex = text.indexOf("：");
+  return separatorIndex >= 0 ? text.slice(separatorIndex + 1) : text;
+};
+
+const flowSteps = flowSection
+  ? [
+      {
+        title: "お問い合わせ",
+        paragraphs: flowSection.paragraphs?.slice(0, 3) ?? []
+      },
+      {
+        title: "ご来館・問診票記入",
+        paragraphs: flowSection.paragraphs?.slice(3, 4) ?? []
+      },
+      {
+        title: "施術",
+        paragraphs: []
+      },
+      {
+        title: "施術後の説明・次回予約",
+        paragraphs: flowSection.paragraphs?.slice(4, 5) ?? []
+      }
+    ]
+  : [];
+
+const scheduleGroups = [
+  {
+    location: "中野事務所",
+    rows: [
+      { label: "午前の施術", day: "月・火・木・土", times: ["１０：３０～１１：００", "１１：００～１１：３０", "１１：３０～１２：００", "１２：００～１２：３０"] },
+      { label: "午後の施術", day: "土曜日", times: ["１５：００～１５：３０", "１５：３０～１６：００"] }
+    ]
+  },
+  {
+    location: "銀座事務所",
+    rows: [
+      { label: "午前の施術", day: "水曜日", times: ["１０：３０～１１：００", "１１：００～１１：３０", "１１：３０～１２：００", ""] },
+      { label: "午後の施術", day: "月曜日", times: ["１６：３０～１７：００", "１７：００～１７：３０"] }
+    ]
+  }
+];
+---
+
+<MainLayout title={page.title} description={page.description}>
+  <section class="hero treatments-hero in-person-hero">
+    <div class="container treatments-hero-shell">
+      <h1>{page.heroTitle}</h1>
+      {page.heroIntro && <p class="hero-intro treatments-hero-intro">{page.heroIntro}</p>}
+    </div>
+  </section>
+
+  {introSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading">
+          <h2>{introSection.title}</h2>
+        </div>
+
+        <div class="in-person-lead-flow">
+          {introSection.paragraphs?.map((paragraph, index) => (
+            <p class:list={[index === 0 ? "in-person-lead" : "in-person-text"]}>{paragraph}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {flowSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading">
+          <h2>{flowSection.title}</h2>
+        </div>
+
+        <div class="in-person-flow-list">
+          {flowSteps.map((step, index) => (
+            <article class="in-person-flow-item">
+              <div class="in-person-flow-marker">{String(index + 1).padStart(2, "0")}</div>
+              <div class="in-person-flow-copy">
+                <h3>{step.title}</h3>
+                {step.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {page.pricing && page.pricing.length > 0 && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading">
+          <h2>料金</h2>
+        </div>
+
+        <div class="in-person-pricing-card">
+          {page.pricing.map((item) => (
+            <div class:list={["in-person-pricing-row", !item.note && "is-simple"]}>
+              <div>
+                <p class="about-bullet-index">{item.label}</p>
+                <strong>{item.value}</strong>
+              </div>
+              {item.note && <p>{item.note}</p>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {page.schedule && page.schedule.length > 0 && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading">
+          <h2>施術実施時間</h2>
+        </div>
+
+        <div class="in-person-schedule-grid">
+          {scheduleGroups.map((group) => (
+            <article class="in-person-schedule-place">
+              <h3>{group.location}</h3>
+              <div class="in-person-schedule-rows">
+                {group.rows.map((row) => (
+                  <div class="in-person-schedule-row">
+                    <div>
+                      <p class="about-bullet-index">{row.label}</p>
+                      <strong>{row.day}</strong>
+                    </div>
+                    <ul>
+                      {row.times.map((time) => (
+                        <li class:list={[time === "" && "is-empty-slot"]} aria-hidden={time === "" ? "true" : undefined}>
+                          {time}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {examplesSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading in-person-example-heading">
+          <h2>{examplesSection.title}</h2>
+          {examplesSection.paragraphs?.map((paragraph) => <p class="section-lead">{paragraph}</p>)}
+        </div>
+
+        <div class="in-person-example-list">
+          {examplesSection.bullets?.map((example) => (
+            <details class="in-person-example-item">
+              <summary>{getExampleTitle(example)}</summary>
+              <p>{getExampleBody(example)}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <TreatmentNav currentHref="/treatments/in-person" />
+
+  <CTASection
+    class="about-final-cta"
+  />
+</MainLayout>

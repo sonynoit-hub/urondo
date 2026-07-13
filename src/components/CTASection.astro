@@ -1,0 +1,25 @@
+---
+interface Props {
+  title?: string;
+  body?: string;
+  href?: string;
+  label?: string;
+  class?: string;
+}
+
+const {
+  title = "ご相談",
+  body = "内容をご確認のうえ、必要に応じてお問い合わせください。",
+  href = "/contact",
+  label = "お問い合わせへ",
+  class: className = ""
+} = Astro.props;
+---
+
+<section class="content-section">
+  <div class:list={["container", "cta-box", className]}>
+    <h2>{title}</h2>
+    <p>{body}</p>
+    <a class="button" href={href}>{label}</a>
+  </div>
+</section>

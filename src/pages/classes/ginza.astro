@@ -1,0 +1,11 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import Hero from "../../components/Hero.astro";
+import SectionBlock from "../../components/SectionBlock.astro";
+import page from "../../content/classes-ginza";
+---
+
+<MainLayout title={page.title} description={page.description}>
+  <Hero title={page.heroTitle} intro={page.heroIntro} />
+  <SectionBlock sections={page.sections} />
+</MainLayout>

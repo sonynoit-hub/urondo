@@ -1,0 +1,11 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Hero from "../components/Hero.astro";
+import LocationCard from "../components/LocationCard.astro";
+import page from "../content/access";
+---
+
+<MainLayout title={page.title} description={page.description}>
+  <Hero title={page.heroTitle} intro={page.heroIntro} />
+  <LocationCard items={page.locations} />
+</MainLayout>

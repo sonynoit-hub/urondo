@@ -1,0 +1,9 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import page from "../content/about";
+import AboutReviewPage from "../components/AboutReviewPage.astro";
+---
+
+<MainLayout title={page.title} description={page.description}>
+  <AboutReviewPage currentPath="/about3" option={3} />
+</MainLayout>

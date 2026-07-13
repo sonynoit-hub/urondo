@@ -1,0 +1,9 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import page from "../content/home";
+import HomepageReviewPage from "../components/HomepageReviewPage.astro";
+---
+
+<MainLayout title="Homepage 1" description={page.description}>
+  <HomepageReviewPage currentPath="/homepage1" option={1} optionOneHref="/homepage1" />
+</MainLayout>

@@ -1,0 +1,57 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import CTASection from "../../components/CTASection.astro";
+import TreatmentNav from "../../components/TreatmentNav.astro";
+import page from "../../content/treatments-private-instruction";
+
+const [overviewSection] = page.sections ?? [];
+
+const instructionItems = (overviewSection?.bullets ?? []).map((item) => {
+  const separatorIndex = item.indexOf("：");
+  return {
+    label: separatorIndex >= 0 ? item.slice(0, separatorIndex) : "",
+    body: separatorIndex >= 0 ? item.slice(separatorIndex + 1) : item
+  };
+});
+
+const detailRows = [...instructionItems];
+if (page.pricing?.length) {
+  detailRows.splice(Math.max(detailRows.length - 1, 0), 0, ...page.pricing.map((item) => ({
+    label: item.label,
+    body: item.value
+  })));
+}
+---
+
+<MainLayout title={page.title} description={page.description}>
+  <section class="hero treatments-hero private-instruction-hero">
+    <div class="container treatments-hero-shell">
+      <h1>{page.heroTitle}</h1>
+    </div>
+  </section>
+
+  {instructionItems.length > 0 && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading private-instruction-heading">
+          <h2>ご案内</h2>
+        </div>
+
+        <div class="private-instruction-card">
+          {detailRows.map((item) => (
+            <div class="private-instruction-row">
+              {item.label && <p class="about-bullet-index">{item.label}</p>}
+              <p>{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <TreatmentNav currentHref="/treatments/private-instruction" />
+
+  <CTASection
+    class="about-final-cta"
+  />
+</MainLayout>

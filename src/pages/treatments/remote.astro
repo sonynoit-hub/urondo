@@ -1,0 +1,167 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import CTASection from "../../components/CTASection.astro";
+import TreatmentNav from "../../components/TreatmentNav.astro";
+import page from "../../content/treatments-remote";
+
+const [introSection, methodSection, scienceSection, applicationSection, precautionsSection] = page.sections ?? [];
+const scienceYearLabels = ["1990年", "1995年"];
+const downloadLinks = page.downloads?.slice(1) ?? [];
+const formatPrecautionText = (text: string) => text.replace(/^\d+）/, "");
+---
+
+<MainLayout title={page.title} description={page.description}>
+  <section class="hero treatments-hero remote-hero">
+    <div class="container treatments-hero-shell">
+      <h1>{page.heroTitle}</h1>
+      {page.heroIntro && <p class="hero-intro treatments-hero-intro">{page.heroIntro}</p>}
+    </div>
+  </section>
+
+  {introSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading">
+          <h2>{introSection.title}</h2>
+        </div>
+
+        <div class="in-person-lead-flow">
+          {introSection.paragraphs?.map((paragraph, index) => (
+            <p class:list={[index === 0 ? "in-person-lead" : "in-person-text"]}>{paragraph}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {methodSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading remote-method-heading">
+          <h2>{methodSection.title}</h2>
+        </div>
+
+        <div class="remote-method-flow">
+          {methodSection.paragraphs?.map((paragraph, index) => (
+            <article class="remote-method-item">
+              <p class="about-bullet-index">{String(index + 1).padStart(2, "0")}</p>
+              <p>{paragraph}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {scienceSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading">
+          <h2>{scienceSection.title}</h2>
+        </div>
+
+        <div class="about-science-list">
+          {scienceSection.bullets?.map((bullet, index) => (
+            <article class="about-science-item">
+              <p class="about-bullet-index about-science-year">{scienceYearLabels[index]}</p>
+              <p>{bullet}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {(page.pricing || page.schedule) && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading">
+          <h2>料金・施術時間</h2>
+        </div>
+
+        <div class="in-person-pricing-card">
+          {page.pricing?.map((item) => (
+            <div class:list={["in-person-pricing-row", !item.note && "is-simple"]}>
+              <div>
+                <p class="about-bullet-index">{item.label}</p>
+                <strong>{item.value}</strong>
+              </div>
+              {item.note && <p>{item.note}</p>}
+            </div>
+          ))}
+          {page.schedule?.map((item) => (
+            <div class="in-person-pricing-row is-simple">
+              <div>
+                <p class="about-bullet-index">{item.label}</p>
+                <strong>{item.value}</strong>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {applicationSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading">
+          <h2>{applicationSection.title}</h2>
+        </div>
+
+        <div class="remote-application-steps">
+          {applicationSection.bullets?.map((bullet, index) => (
+            <article class="remote-application-step">
+              <div class="in-person-flow-marker">{String(index + 1).padStart(2, "0")}</div>
+              <p>{bullet}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {downloadLinks.length > 0 && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading">
+          <h2>申込書ダウンロード</h2>
+        </div>
+
+        <div class="remote-download-grid">
+          {downloadLinks.map((item) => (
+            <a class="remote-download-card" href={item.href}>
+              <strong>{item.label}</strong>
+              {item.description && <span>{item.description}</span>}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {precautionsSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading remote-precaution-heading">
+          <h2>{precautionsSection.title}</h2>
+        </div>
+
+        <div class="remote-precaution-list">
+          {precautionsSection.bullets?.map((bullet, index) => (
+            <article class="remote-precaution-item">
+              <p class="about-bullet-index">{index + 1}</p>
+              <p>{formatPrecautionText(bullet)}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <TreatmentNav currentHref="/treatments/remote" />
+
+  <CTASection
+    class="about-final-cta"
+  />
+</MainLayout>

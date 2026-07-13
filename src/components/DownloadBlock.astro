@@ -1,0 +1,23 @@
+---
+import type { DownloadItem } from "../content/types";
+
+interface Props {
+  items?: DownloadItem[];
+}
+
+const { items = [] } = Astro.props;
+---
+
+{items.length > 0 && (
+  <section class="content-section">
+    <div class="container card-grid">
+      {items.map((item) => (
+        <article class="card">
+          <h2>{item.label}</h2>
+          {item.description && <p>{item.description}</p>}
+          <a class="button" href={item.href}>ダウンロード</a>
+        </article>
+      ))}
+    </div>
+  </section>
+)}

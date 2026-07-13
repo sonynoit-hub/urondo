@@ -1,0 +1,44 @@
+---
+import { mainNav, site } from "../content/site";
+---
+
+<header class="site-header">
+  <div class="container header-row">
+    <a class="brand" href="/">{site.name}</a>
+
+    <div class="header-actions">
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <ul class="nav-list">
+          {mainNav.map((item) => (
+            <li>
+              <a class={item.label === "お問い合わせ" ? "nav-contact-link" : undefined} href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <details class="mobile-menu">
+        <summary aria-label="メニューを開く">
+          <span></span>
+          <span></span>
+          <span></span>
+        </summary>
+        <div class="mobile-menu-panel">
+          <nav aria-label="Mobile navigation">
+            <ul class="mobile-nav-list">
+              {mainNav.map((item) => (
+                <li>
+                  <a class={item.label === "お問い合わせ" ? "nav-contact-link mobile-nav-contact-link" : undefined} href={item.href}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,76 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import CTASection from "../../components/CTASection.astro";
+import TreatmentNav from "../../components/TreatmentNav.astro";
+import page from "../../content/treatments-special-remote";
+
+const [introSection, recentSection, precautionsSection] = page.sections ?? [];
+---
+
+<MainLayout title={page.title} description={page.description}>
+  <section class="hero treatments-hero special-remote-hero">
+    <div class="container treatments-hero-shell">
+      <h1>{page.heroTitle}</h1>
+      {page.heroIntro && <p class="hero-intro treatments-hero-intro">{page.heroIntro}</p>}
+    </div>
+  </section>
+
+  {introSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="special-remote-intro-card">
+          {introSection.paragraphs?.map((paragraph, index) => (
+            <p class:list={[index === 0 ? "in-person-lead" : "in-person-text"]}>{paragraph}</p>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {recentSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading">
+          <h2>{recentSection.title}</h2>
+        </div>
+
+        <div class="special-remote-event-card">
+          {recentSection.bullets?.map((item) => {
+            const [month, ...titleParts] = item.split(" ");
+            return (
+              <div class="special-remote-event-row">
+                <p class="about-bullet-index">{month}</p>
+                <p>{titleParts.join(" ")}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {precautionsSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading remote-precaution-heading">
+          <h2>{precautionsSection.title}</h2>
+        </div>
+
+        <div class="remote-precaution-list">
+          {precautionsSection.bullets?.map((bullet, index) => (
+            <article class="remote-precaution-item">
+              <p class="about-bullet-index">{index + 1}</p>
+              <p>{bullet}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <TreatmentNav currentHref="/treatments/special-remote" />
+
+  <CTASection
+    class="about-final-cta"
+  />
+</MainLayout>

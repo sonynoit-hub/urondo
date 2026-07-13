@@ -1,0 +1,169 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import CTASection from "../components/CTASection.astro";
+import page from "../content/about";
+
+const [profileSection, qigongSection, scienceSection, formatsSection] = page.sections ?? [];
+const scienceYearLabels = ["1990年", "1996年"];
+
+const formatCards = [
+  {
+    title: "通院施術",
+    href: "/treatments/in-person",
+    body: formatsSection?.bullets?.[0]
+  },
+  {
+    title: "遠隔念力施術",
+    href: "/treatments/remote",
+    body: formatsSection?.bullets?.[1]
+  },
+  {
+    title: "個別指導",
+    href: "/treatments/private-instruction",
+    body: formatsSection?.bullets?.[2]
+  },
+  {
+    title: "特別遠隔施術",
+    href: "/treatments/special-remote",
+    body: formatsSection?.bullets?.[3]
+  }
+];
+---
+
+<MainLayout title={page.title} description={page.description}>
+  <section class="home-hero about-document-hero">
+    <div class="container about-hero-shell">
+      <div class="hero-text-column about-hero-copy">
+        <h1>{page.heroTitle}</h1>
+        {page.heroIntro && <p class="hero-lead about-hero-intro">{page.heroIntro}</p>}
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="container">
+      <div class="home-section-heading narrow-heading">
+        <h2>{profileSection?.title}</h2>
+      </div>
+
+      <div class="about-profile-grid">
+        <div class="prose-block about-prose-card">
+          {profileSection?.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+
+        <figure class="about-profile-figure">
+          <img
+            src="/images/source-extracted/about-liang-qigong/about-liang-qigong-01.jpeg"
+            alt="座禅を組む梁蔭全先生の写真"
+            width="200"
+            height="300"
+            loading="eager"
+          />
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section about-document-section">
+    <div class="container about-document-grid">
+      <div class="home-section-heading narrow-heading about-document-heading">
+        <h2>紹介記事</h2>
+      </div>
+
+      <div class="about-document-gallery">
+        <figure class="about-document-card">
+          <img
+            src="/images/source-extracted/about-liang-qigong/about-liang-qigong-02.jpeg"
+            alt="梁蔭全先生を紹介する雑誌記事の誌面"
+            width="440"
+            height="606"
+            loading="lazy"
+          />
+        </figure>
+
+        <figure class="about-document-card">
+          <img
+            src="/images/source-extracted/about-liang-qigong/about-liang-qigong-03.jpeg"
+            alt="梁蔭全先生の気功実験を紹介する掲載誌面"
+            width="523"
+            height="712"
+            loading="lazy"
+          />
+        </figure>
+
+        <figure class="about-document-card">
+          <img
+            src="/images/source-extracted/about-liang-qigong/about-liang-qigong-04.jpeg"
+            alt="東京と北京間の遠隔離気功水実験に関する論文資料"
+            width="600"
+            height="841"
+            loading="lazy"
+          />
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="container">
+      <div class="home-section-heading narrow-heading">
+        <h2>{qigongSection?.title}</h2>
+      </div>
+
+      <div class="about-qigong-flow">
+        {qigongSection?.bullets?.[0] && (
+          <p class="about-qigong-lead">{qigongSection.bullets[0]}</p>
+        )}
+
+        <div class="about-qigong-steps">
+          {qigongSection?.bullets?.slice(1).map((bullet) => (
+            <article class="about-qigong-step">
+              <p>{bullet}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="container">
+      <div class="home-section-heading narrow-heading">
+        <h2>{scienceSection?.title}</h2>
+      </div>
+
+      <div class="about-science-list">
+        {scienceSection?.bullets?.map((bullet, index) => (
+          <article class="about-science-item">
+            <p class="about-bullet-index about-science-year">{scienceYearLabels[index]}</p>
+            <p>{bullet}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section about-format-section">
+    <div class="container">
+      <div class="home-section-heading narrow-heading">
+        <h2>{formatsSection?.title}</h2>
+      </div>
+
+      <div class="about-format-grid">
+        {formatCards.map((card) => (
+          <article class="about-format-card">
+            <h3>{card.title}</h3>
+            {card.body && <p>{card.body}</p>}
+            <a class="text-link" href={card.href}>
+              詳細を見る →
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    class="about-final-cta"
+  />
+</MainLayout>
