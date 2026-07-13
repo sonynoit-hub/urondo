@@ -981,11 +981,14 @@ img {
 .location-preview-card {
   display: grid;
   gap: 1rem;
+  grid-template-rows: auto 1fr;
+  height: 100%;
   overflow: hidden;
   padding: 1rem;
 }
 
 .location-card-media {
+  aspect-ratio: 4 / 3;
   border-radius: 18px;
   margin: 0;
   min-height: 220px;
@@ -999,8 +1002,10 @@ img {
 }
 
 .location-card-copy {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.7rem;
+  height: 100%;
 }
 
 .location-card-tag {
@@ -1016,7 +1021,265 @@ img {
 }
 
 .location-card-copy .text-link {
-  margin-top: 0;
+  justify-self: center;
+  margin-top: auto;
+  padding-top: 0.9rem;
+}
+
+.classes-location-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.classes-hero {
+  padding-bottom: 0.75rem;
+  text-align: center;
+}
+
+.classes-hero-inner {
+  display: grid;
+  justify-items: center;
+}
+
+.classes-hero .hero-intro {
+  margin-bottom: 0;
+}
+
+.classes-locations-section {
+  padding-top: 0.75rem;
+}
+
+.classes-location-card {
+  align-content: stretch;
+}
+
+.classes-location-card .location-card-media {
+  min-height: 0;
+}
+
+.classes-location-card .location-card-copy h3 {
+  font-size: clamp(1.22rem, 1.8vw, 1.5rem);
+  line-height: 1.45;
+  white-space: nowrap;
+}
+
+.classes-location-subtitle {
+  color: var(--gold);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.55;
+  margin: -0.25rem 0 0;
+  min-height: 2.8em;
+}
+
+.classes-location-address {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.classes-access-list {
+  color: var(--muted);
+  display: grid;
+  gap: 0.45rem;
+  line-height: 1.75;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.classes-access-list li {
+  border-left: 2px solid var(--border);
+  padding-left: 0.75rem;
+}
+
+.classes-document-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.classes-document-button {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--accent);
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  text-align: center;
+}
+
+.classes-document-button span {
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.classes-document-button small {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.company-overview-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(28, 38, 35, 0.06);
+  display: grid;
+  overflow: hidden;
+}
+
+.company-hero {
+  padding: 1.5rem 0 0.25rem;
+  text-align: center;
+}
+
+.company-hero-inner {
+  display: grid;
+  justify-items: center;
+}
+
+.company-hero h1 {
+  font-size: clamp(1.75rem, 3vw, 2.35rem);
+  margin-bottom: 0.45rem;
+}
+
+.company-hero .hero-intro {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.company-overview-section {
+  padding-top: 0.25rem;
+}
+
+.company-overview-row {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(9rem, 0.2fr) minmax(0, 0.8fr);
+  padding: 0.55rem 1rem;
+}
+
+.company-overview-row + .company-overview-row {
+  border-top: 1px solid var(--border);
+}
+
+.company-overview-row p:last-child {
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.company-overview-row .about-bullet-index {
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0;
+}
+
+.special-items-hero {
+  padding: 2.2rem 0 0.5rem;
+  text-align: center;
+}
+
+.special-items-hero-inner {
+  display: grid;
+  justify-items: center;
+}
+
+.special-items-hero h1 {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.15;
+  margin: 0 0 1rem;
+}
+
+.special-items-hero .hero-intro {
+  margin: 0;
+}
+
+.special-items-intro-layout {
+  align-items: stretch;
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: minmax(260px, 0.38fr) minmax(0, 0.62fr);
+}
+
+.special-items-hero-image {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 14px 36px rgba(28, 38, 35, 0.09);
+  margin: 0;
+  padding: 0.8rem;
+}
+
+.special-items-hero-image img {
+  border-radius: 12px;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.special-items-intro-card,
+.special-items-application-card,
+.special-items-type-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(28, 38, 35, 0.06);
+}
+
+.special-items-intro-card,
+.special-items-application-card {
+  padding: 1.35rem;
+}
+
+.special-items-intro-card h2,
+.special-items-application-card h2 {
+  color: var(--accent);
+  margin: 0 0 0.9rem;
+}
+
+.special-items-intro-card p,
+.special-items-application-card p,
+.special-items-type-card p:last-child {
+  color: var(--muted);
+  line-height: 1.85;
+  margin: 0;
+}
+
+.special-items-intro-card p + p {
+  margin-top: 0.9rem;
+}
+
+.special-items-type-columns {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+}
+
+.special-items-type-column {
+  display: grid;
+  gap: 0.8rem;
+  align-content: start;
+}
+
+.special-items-type-card {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: 2.2rem minmax(0, 1fr);
+  padding: 1rem 1.1rem;
+}
+
+.special-items-type-card.is-long p:last-child {
+  font-size: 0.94rem;
+  white-space: nowrap;
+}
+
+.special-items-type-card .about-bullet-index {
+  margin-bottom: 0;
 }
 
 .preview-switcher {
@@ -1884,6 +2147,8 @@ summary:focus-visible,
   .services-grid,
   .values-grid,
   .location-card-grid,
+  .classes-location-grid,
+  .classes-document-grid,
   .treatment-nav-grid,
   .problem-chip-grid,
   .philosophy-values,
@@ -1978,6 +2243,7 @@ summary:focus-visible,
   .services-grid,
   .values-grid,
   .location-card-grid,
+  .classes-location-grid,
   .problem-chip-grid,
   .experience-mosaic,
   .about-document-gallery,
@@ -1993,6 +2259,10 @@ summary:focus-visible,
 
   .treatment-nav-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .classes-document-grid {
+    grid-template-columns: 1fr;
   }
 
   .service-card,
@@ -2053,6 +2323,28 @@ summary:focus-visible,
 
   .special-remote-event-row {
     grid-template-columns: 1fr;
+  }
+
+  .company-overview-row {
+    grid-template-columns: 1fr;
+  }
+
+  .special-items-intro-layout,
+  .special-items-type-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .special-items-hero {
+    padding-top: 1.4rem;
+  }
+
+  .special-items-type-card.is-long p:last-child {
+    font-size: inherit;
+    white-space: normal;
+  }
+
+  .classes-location-card .location-card-copy h3 {
+    white-space: normal;
   }
 
   .remote-method-heading h2,

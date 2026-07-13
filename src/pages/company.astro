@@ -1,11 +1,37 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Hero from "../components/Hero.astro";
-import SectionBlock from "../components/SectionBlock.astro";
 import page from "../content/company";
+
+const [overviewSection] = page.sections ?? [];
+const companyRows = (overviewSection?.bullets ?? []).map((item) => {
+  const separatorIndex = item.indexOf("：");
+  return {
+    label: separatorIndex >= 0 ? item.slice(0, separatorIndex) : "",
+    value: separatorIndex >= 0 ? item.slice(separatorIndex + 1) : item
+  };
+});
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <Hero title={page.heroTitle} intro={page.heroIntro} />
-  <SectionBlock sections={page.sections} />
+  <section class="hero company-hero">
+    <div class="container company-hero-inner">
+      <h1>{page.heroTitle}</h1>
+      {page.heroIntro && <p class="hero-intro">{page.heroIntro}</p>}
+    </div>
+  </section>
+
+  {companyRows.length > 0 && (
+    <section class="content-section company-overview-section">
+      <div class="container">
+        <div class="company-overview-card">
+          {companyRows.map((row) => (
+            <div class="company-overview-row">
+              {row.label && <p class="about-bullet-index">{row.label}</p>}
+              <p>{row.value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 </MainLayout>

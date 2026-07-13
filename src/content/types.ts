@@ -34,8 +34,12 @@ export type DownloadItem = {
 
 export type LocationItem = {
   name: string;
+  subtitle?: string;
   address: string;
   access?: string[];
+  image?: string;
+  alt?: string;
+  href?: string;
 };
 
 export type PageData = {

@@ -1,11 +1,81 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Hero from "../components/Hero.astro";
-import SectionBlock from "../components/SectionBlock.astro";
+import CTASection from "../components/CTASection.astro";
 import page from "../content/special-items";
+
+const [introSection, typesSection, applicationSection] = page.sections ?? [];
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <Hero title={page.heroTitle} intro={page.heroIntro} />
-  <SectionBlock sections={page.sections} />
+  <section class="hero special-items-hero">
+    <div class="container special-items-hero-inner">
+      <h1>{page.heroTitle}</h1>
+      {page.heroIntro && <p class="hero-intro">{page.heroIntro}</p>}
+    </div>
+  </section>
+
+  {introSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="special-items-intro-layout">
+          <figure class="special-items-hero-image">
+            <img
+              src="/images/source-extracted/special-items/special-items-01.jpeg"
+              alt="梁蔭全先生直筆入魂の秘伝呪符"
+              width="414"
+              height="536"
+            />
+          </figure>
+
+          <div class="special-items-intro-card">
+            <h2>{introSection.title}</h2>
+            {introSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {typesSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading">
+          <h2>{typesSection.title}</h2>
+        </div>
+
+        <div class="special-items-type-columns">
+          <div class="special-items-type-column">
+            {typesSection.bullets?.slice(0, 4).map((item, index) => (
+              <article class="special-items-type-card">
+                <p class="about-bullet-index">{index + 1}</p>
+                <p>{item}</p>
+              </article>
+            ))}
+          </div>
+
+          <div class="special-items-type-column">
+            {typesSection.bullets?.slice(4).map((item, index) => (
+              <article class:list={["special-items-type-card", index === 0 && "is-long"]}>
+                <p class="about-bullet-index">{index + 5}</p>
+                <p>{item}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {applicationSection && (
+    <section class="content-section">
+      <div class="container">
+        <div class="special-items-application-card">
+          <h2>{applicationSection.title}</h2>
+          {applicationSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CTASection class="about-final-cta" />
 </MainLayout>

@@ -1,13 +1,76 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
-import Hero from "../../components/Hero.astro";
-import CardGrid from "../../components/CardGrid.astro";
 import CTASection from "../../components/CTASection.astro";
 import page from "../../content/classes";
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <Hero title={page.heroTitle} intro={page.heroIntro} />
-  <CardGrid items={page.cards} />
-  <CTASection />
+  <section class="hero classes-hero">
+    <div class="container classes-hero-inner">
+      <h1>{page.heroTitle}</h1>
+      {page.heroIntro && <p class="hero-intro">{page.heroIntro}</p>}
+    </div>
+  </section>
+
+  {page.locations && page.locations.length > 0 && (
+    <section class="content-section classes-locations-section">
+      <div class="container">
+        <div class="classes-location-grid">
+          {page.locations.map((location) => (
+            <article class="location-card location-preview-card classes-location-card">
+              {location.image && (
+                <figure class="location-card-media">
+                  <img
+                    src={location.image}
+                    alt={location.alt ?? location.name}
+                    width="836"
+                    height="469"
+                    loading="lazy"
+                  />
+                </figure>
+              )}
+
+              <div class="location-card-copy">
+                <p class="location-card-tag">教室</p>
+                <h3>{location.name}</h3>
+                {location.subtitle && <p class="classes-location-subtitle">{location.subtitle}</p>}
+                <p class="classes-location-address">{location.address}</p>
+
+                {location.access && (
+                  <ul class="classes-access-list">
+                    {location.access.map((line) => <li>{line}</li>)}
+                  </ul>
+                )}
+
+                {location.href && <a class="text-link" href={location.href}>詳細を見る</a>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {page.cards && page.cards.length > 0 && (
+    <section class="content-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading">
+          <h2>教室・講座一覧</h2>
+        </div>
+
+        <div class="classes-document-grid">
+          {page.cards.map((card) => (
+            card.href && (
+              <a class="classes-document-button" href={card.href}>
+                <span>{card.title}</span>
+                {card.body && <small>{card.body}</small>}
+              </a>
+            )
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CTASection class="about-final-cta" />
 </MainLayout>
