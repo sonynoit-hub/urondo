@@ -1898,10 +1898,23 @@ summary:focus-visible,
 }
 
 @media (max-width: 720px) {
-  .header-row,
   .final-cta-inner {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .header-row {
+    align-items: center;
+    flex-direction: row;
+    gap: 0.75rem;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .header-actions {
+    margin-left: auto;
   }
 
   .desktop-nav,
@@ -1911,6 +1924,19 @@ summary:focus-visible,
 
   .mobile-menu {
     display: block;
+  }
+
+  .mobile-menu-panel {
+    max-height: calc(100vh - 5rem);
+    overflow-y: auto;
+    right: 0;
+    width: min(calc(100vw - 2rem), 320px);
+  }
+
+  .mobile-nav-list,
+  .mobile-nav-list li,
+  .mobile-nav-list a {
+    width: 100%;
   }
 
   .home-hero {
