@@ -1,15 +1,60 @@
 ---
+import CompanyOverviewIcon from "../components/CompanyOverviewIcon.astro";
 import MainLayout from "../layouts/MainLayout.astro";
 import page from "../content/company";
 
+type CompanyIconKey =
+  | "building"
+  | "calendar"
+  | "coins"
+  | "pin"
+  | "person"
+  | "sprout"
+  | "history"
+  | "phone"
+  | "printer"
+  | "mail";
+
+const iconByLabel: Record<string, CompanyIconKey> = {
+  "商号": "building",
+  "設立": "calendar",
+  "資本金": "coins",
+  "本社所在地": "pin",
+  "代表取締役兼社長": "person",
+  "取締役・総師範": "person",
+  "事業内容": "sprout",
+  "沿革": "history",
+  "TEL": "phone",
+  "FAX": "printer",
+  "MAIL": "mail"
+};
+
 const [overviewSection] = page.sections ?? [];
-const companyRows = (overviewSection?.bullets ?? []).map((item) => {
-  const separatorIndex = item.indexOf("：");
-  return {
-    label: separatorIndex >= 0 ? item.slice(0, separatorIndex) : "",
-    value: separatorIndex >= 0 ? item.slice(separatorIndex + 1) : item
-  };
-});
+const companyRows = (overviewSection?.bullets ?? [])
+  .map((item) => {
+    const separatorIndex = item.indexOf("：");
+    return {
+      icon: iconByLabel[separatorIndex >= 0 ? item.slice(0, separatorIndex) : ""] ?? "building",
+      label: separatorIndex >= 0 ? item.slice(0, separatorIndex) : "",
+      value: separatorIndex >= 0 ? item.slice(separatorIndex + 1) : item
+    };
+  })
+  .reduce<{ icon: CompanyIconKey; label: string; values: string[] }[]>((rows, row) => {
+    const previousRow = rows.at(-1);
+
+    if (previousRow && previousRow.label === row.label) {
+      previousRow.values.push(row.value);
+      return rows;
+    }
+
+    rows.push({
+      icon: row.icon,
+      label: row.label,
+      values: [row.value]
+    });
+
+    return rows;
+  }, []);
 ---
 
 <MainLayout title={page.title} description={page.description}>
@@ -26,8 +71,13 @@ const companyRows = (overviewSection?.bullets ?? []).map((item) => {
         <div class="company-overview-card">
           {companyRows.map((row) => (
             <div class="company-overview-row">
+              <CompanyOverviewIcon icon={row.icon} />
               {row.label && <p class="about-bullet-index">{row.label}</p>}
-              <p>{row.value}</p>
+              <div class="company-overview-values">
+                {row.values.map((value) => (
+                  <p>{value}</p>
+                ))}
+              </div>
             </div>
           ))}
         </div>

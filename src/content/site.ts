@@ -10,10 +10,13 @@ export const site = {
 
 export const mainNav: NavItem[] = [
   { label: "ホーム", href: "/" },
-  { label: "先生紹介", href: "/about" },
+  { label: "梁蔭全と梁気功", href: "/about" },
   { label: "施術案内", href: "/treatments" },
-  { label: "教室案内", href: "/classes" },
+  { label: "健康気功教室", href: "/classes" },
+  { label: "関連販売物", href: "/related-products" },
+  { label: "アクセス", href: "/access" },
   { label: "お問い合わせ", href: "/contact" }
+
 ];
 
 export const footerNav: NavItem[] = [

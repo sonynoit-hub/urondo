@@ -1,7 +1,7 @@
 import type { PageData } from "./types";
 
 const downloads: PageData = {
-  title: "申込書ダウンロード",
+  title: "申込書ダウード",
   description: "既存の申込書ダウンロードページ。",
   heroTitle: "申込書ダウンロード",
   heroIntro: "お客様からご提供いただいた遠隔治療申込書をダウンロードできます。",

@@ -41,14 +41,11 @@ const formatPrecautionText = (text: string) => text.replace(/^\d+）/, "");
           <h2>{methodSection.title}</h2>
         </div>
 
-        <div class="remote-method-flow">
-          {methodSection.paragraphs?.map((paragraph, index) => (
-            <article class="remote-method-item">
-              <p class="about-bullet-index">{String(index + 1).padStart(2, "0")}</p>
-              <p>{paragraph}</p>
-            </article>
+        <article class="remote-method-card">
+          {methodSection.paragraphs?.map((paragraph) => (
+            <p>{paragraph}</p>
           ))}
-        </div>
+        </article>
       </div>
     </section>
   )}
@@ -125,7 +122,7 @@ const formatPrecautionText = (text: string) => text.replace(/^\d+）/, "");
     <section class="content-section">
       <div class="container">
         <div class="home-section-heading narrow-heading">
-          <h2>申込書ダウンロード</h2>
+          <h2>遠隔念力気功申込書</h2>
         </div>
 
         <div class="remote-download-grid">

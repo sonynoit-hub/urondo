@@ -8,7 +8,7 @@ const treatments: PageData = {
   cards: [
     {
       title: "通院施術",
-      body: "中野と銀座の施術室にて、梁蔭全が気功施術を行います。",
+      body: "新中野と銀座の施術室にて、梁蔭全が気功施術を行います。",
       href: "/treatments/in-person"
     },
     {

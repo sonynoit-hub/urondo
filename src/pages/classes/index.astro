@@ -2,13 +2,15 @@
 import MainLayout from "../../layouts/MainLayout.astro";
 import CTASection from "../../components/CTASection.astro";
 import page from "../../content/classes";
+
+const [teacherGreetingSection, teacherGoalsSection, teacherSupportSection] = page.sections ?? [];
 ---
 
 <MainLayout title={page.title} description={page.description}>
   <section class="hero classes-hero">
     <div class="container classes-hero-inner">
-      <h1>{page.heroTitle}</h1>
       {page.heroIntro && <p class="hero-intro">{page.heroIntro}</p>}
+      <h1>{page.heroTitle}</h1>
     </div>
   </section>
 
@@ -18,34 +20,82 @@ import page from "../../content/classes";
         <div class="classes-location-grid">
           {page.locations.map((location) => (
             <article class="location-card location-preview-card classes-location-card">
-              {location.image && (
-                <figure class="location-card-media">
-                  <img
-                    src={location.image}
-                    alt={location.alt ?? location.name}
-                    width="836"
-                    height="469"
-                    loading="lazy"
-                  />
-                </figure>
+              {location.href ? (
+                <a class="classes-location-card-link" href={location.href}>
+                  {location.image && (
+                    <figure class="location-card-media">
+                      <img
+                        src={location.image}
+                        alt={location.alt ?? location.name}
+                        width="836"
+                        height="469"
+                        loading="lazy"
+                      />
+                    </figure>
+                  )}
+
+                  <div class="location-card-copy classes-location-name-only">
+                    <h3>{location.name}</h3>
+                  </div>
+                </a>
+              ) : (
+                <>
+                  {location.image && (
+                    <figure class="location-card-media">
+                      <img
+                        src={location.image}
+                        alt={location.alt ?? location.name}
+                        width="836"
+                        height="469"
+                        loading="lazy"
+                      />
+                    </figure>
+                  )}
+
+                  <div class="location-card-copy classes-location-name-only">
+                    <h3>{location.name}</h3>
+                  </div>
+                </>
               )}
-
-              <div class="location-card-copy">
-                <p class="location-card-tag">教室</p>
-                <h3>{location.name}</h3>
-                {location.subtitle && <p class="classes-location-subtitle">{location.subtitle}</p>}
-                <p class="classes-location-address">{location.address}</p>
-
-                {location.access && (
-                  <ul class="classes-access-list">
-                    {location.access.map((line) => <li>{line}</li>)}
-                  </ul>
-                )}
-
-                {location.href && <a class="text-link" href={location.href}>詳細を見る</a>}
-              </div>
             </article>
           ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {(teacherGreetingSection || teacherGoalsSection || teacherSupportSection) && (
+    <section class="content-section classes-teacher-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading classes-teacher-heading">
+          <h2>講師紹介</h2>
+        </div>
+
+        <div class="classes-teacher-card">
+          {teacherGreetingSection && (
+            <div class="classes-teacher-block">
+              {teacherGreetingSection.title && <h3>{teacherGreetingSection.title}</h3>}
+              {teacherGreetingSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+          )}
+
+          {teacherSupportSection && (
+            <div class="classes-teacher-block classes-teacher-support">
+              {teacherSupportSection.title && <h3>{teacherSupportSection.title}</h3>}
+              {teacherSupportSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+          )}
+
+          {teacherGoalsSection && (
+            <div class="classes-teacher-block classes-teacher-goals">
+              {teacherGoalsSection.title && <h3>{teacherGoalsSection.title}</h3>}
+              {teacherGoalsSection.bullets && (
+                <ul>
+                  {teacherGoalsSection.bullets.map((bullet) => <li>{bullet}</li>)}
+                </ul>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </section>

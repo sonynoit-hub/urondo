@@ -5,6 +5,7 @@ import TreatmentNav from "../../components/TreatmentNav.astro";
 import page from "../../content/treatments-special-remote";
 
 const [introSection, recentSection, precautionsSection] = page.sections ?? [];
+const highlightedNotice = "開催案内は会員にはメールと公式ホームページでお知らせします。";
 ---
 
 <MainLayout title={page.title} description={page.description}>
@@ -20,7 +21,14 @@ const [introSection, recentSection, precautionsSection] = page.sections ?? [];
       <div class="container">
         <div class="special-remote-intro-card">
           {introSection.paragraphs?.map((paragraph, index) => (
-            <p class:list={[index === 0 ? "in-person-lead" : "in-person-text"]}>{paragraph}</p>
+            <p
+              class:list={[
+                index === 0 ? "in-person-lead" : "in-person-text",
+                paragraph === highlightedNotice && "special-remote-notice"
+              ]}
+            >
+              {paragraph}
+            </p>
           ))}
         </div>
       </div>
