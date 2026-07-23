@@ -12,19 +12,6 @@ const mapUrl = (address: string) =>
 <MainLayout title={page.title} description={page.description}>
   <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
 
-  <section class="access-overview">
-    <div class="container access-overview-inner">
-      <nav class="location-jump-nav" aria-label="教室を選ぶ">
-        {locations.map((location, index) => (
-          <a href={`#${locationIds[index]}`}>
-            <span>{location.name}</span>
-            <span aria-hidden="true">↓</span>
-          </a>
-        ))}
-      </nav>
-    </div>
-  </section>
-
   <section class="locations-section" aria-label="教室所在地">
     <div class="container locations-list">
       {locations.map((location, index) => (
@@ -112,45 +99,6 @@ const mapUrl = (address: string) =>
     line-height: 1.65;
     margin: 0.85rem 0 0;
     max-width: 56rem;
-  }
-
-  .access-overview {
-    background: rgba(255, 255, 255, 0.72);
-    border-bottom: 1px solid var(--border);
-    margin-top: 1.2rem;
-    padding: 0.9rem 0;
-  }
-
-  .access-overview-inner {
-    display: block;
-  }
-
-  .location-jump-nav {
-    border-bottom: 1px solid var(--border);
-    border-top: 1px solid var(--border);
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .location-jump-nav a {
-    align-items: center;
-    display: flex;
-    font-size: 0.92rem;
-    gap: 0.65rem;
-    justify-content: center;
-    min-height: 56px;
-    padding: 0.8rem;
-    transition: background-color 180ms ease, color 180ms ease;
-  }
-
-  .location-jump-nav a + a {
-    border-left: 1px solid var(--border);
-  }
-
-  .location-jump-nav a:hover,
-  .location-jump-nav a:focus-visible {
-    background: var(--surface-alt);
-    color: var(--accent);
   }
 
   .locations-section {
@@ -299,10 +247,6 @@ const mapUrl = (address: string) =>
   }
 
   @media (max-width: 900px) {
-    .access-overview-inner {
-      grid-template-columns: 1fr;
-    }
-
     .access-location {
       grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
     }
@@ -315,15 +259,6 @@ const mapUrl = (address: string) =>
   @media (max-width: 700px) {
     .access-hero {
       padding: clamp(1.8rem, 4vw, 3rem) 0;
-    }
-
-    .location-jump-nav {
-      grid-template-columns: 1fr;
-    }
-
-    .location-jump-nav a + a {
-      border-left: 0;
-      border-top: 1px solid var(--border);
     }
 
     .access-location {
