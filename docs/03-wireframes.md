@@ -68,15 +68,10 @@
 ## Classes Landing `/classes`
 - Hero
 - Classroom overview
-- Learning path cards
-- Instructor preview
-- CTA
-
-## Instructors `/classes/instructors`
-- Hero
-- Main instructor
-- Supporting instructors
-- Teaching philosophy
+- Three classroom image links
+- Teacher introduction
+- Participant goals
+- Course list
 - CTA
 
 ## Shin-Nakano `/classes/shin-nakano`
@@ -94,7 +89,8 @@
 - Hero
 - Class description
 - What you learn
-- Schedule
+- Thursday schedule
+- Friday schedule
 - Instructors
 - Fee
 - Venue
@@ -138,6 +134,7 @@
 - Shin-Nakano location
 - Ginza location
 - Kitasenju location
+- Detailed access guidance cards
 
 ## Company `/company`
 - Hero

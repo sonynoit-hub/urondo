@@ -1,11 +1,251 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
-import Hero from "../../components/Hero.astro";
-import SectionBlock from "../../components/SectionBlock.astro";
+import PageHero from "../../components/PageHero.astro";
 import page from "../../content/classes-correspondence";
+
+const [
+  introSection,
+  beginnerSection,
+  beginnerDetailSection,
+  beginnerMaterialSection,
+  beginnerCertificationSection,
+  intermediateSection,
+  intermediateMaterialSection,
+  intermediateCertificationSection,
+  advancedSection,
+  advancedCertificationSection,
+  summarySection,
+  deadlineSection,
+  applicationSection
+] = page.sections ?? [];
+
+const removeMatchingItems = (items: string[] = [], matchers: string[] = []) =>
+  items.filter((item) => !matchers.some((matcher) => item.includes(matcher)));
+
+const courseCards = [
+  {
+    label: "初級",
+    title: beginnerSection?.title,
+    duration: "半年間",
+    durationNote: "MAX １年間",
+    fee: "６万円",
+    feeNote: "税込 ６.６万円",
+    intro: introSection?.paragraphs?.slice(0, 2) ?? [],
+    overview: beginnerSection?.paragraphs?.filter((paragraph) => !paragraph.startsWith("（")) ?? [],
+    sections: [
+      {
+        title: "学べる内容",
+        items: beginnerSection?.bullets ?? []
+      },
+      {
+        title: beginnerDetailSection?.title,
+        paragraphs: beginnerDetailSection?.paragraphs ?? []
+      },
+      {
+        title: beginnerMaterialSection?.title,
+        items: removeMatchingItems(beginnerMaterialSection?.bullets ?? [], ["受講料"])
+      },
+      {
+        title: beginnerCertificationSection?.title,
+        items: beginnerCertificationSection?.bullets ?? []
+      }
+    ]
+  },
+  {
+    label: "中級",
+    title: intermediateSection?.title,
+    duration: "１年間",
+    durationNote: "MAX ２年間",
+    fee: "２４万円",
+    feeNote: "税込 ２６.４万円",
+    intro: [],
+    overview: intermediateSection?.paragraphs?.filter((paragraph) => !paragraph.startsWith("（")) ?? [],
+    sections: [
+      {
+        title: "コース内容",
+        items: removeMatchingItems(intermediateSection?.bullets ?? [], ["受講料"])
+      },
+      {
+        title: intermediateMaterialSection?.title,
+        items: intermediateMaterialSection?.bullets ?? []
+      },
+      {
+        title: intermediateCertificationSection?.title,
+        paragraphs: intermediateCertificationSection?.paragraphs?.filter((paragraph) => !paragraph.startsWith("（")) ?? [],
+        items: intermediateCertificationSection?.bullets ?? []
+      }
+    ]
+  },
+  {
+    label: "上級",
+    title: advancedSection?.title,
+    duration: "２年間",
+    durationNote: "MAX ４年間",
+    fee: "３６万円",
+    feeNote: "税込 ３９.６万円",
+    intro: [],
+    overview: advancedSection?.paragraphs ?? [],
+    sections: [
+      {
+        title: "コース内容・受講条件",
+        items: removeMatchingItems(advancedSection?.bullets ?? [], ["受講期間", "受講料は"])
+      },
+      {
+        title: advancedCertificationSection?.title,
+        items: advancedCertificationSection?.bullets ?? []
+      }
+    ]
+  }
+];
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <Hero title={page.heroTitle} intro={page.heroIntro} />
-  <SectionBlock sections={page.sections} />
+  <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
+
+  <section class="class-detail-hero-support class-detail-hero-support-simple">
+    <div class="container class-detail-hero-shell class-detail-hero-shell-single">
+      <div class="class-detail-stat-list">
+        <span>３コース</span>
+        <span>初級〜上級</span>
+        <span>通信で学ぶ</span>
+      </div>
+    </div>
+  </section>
+
+  {introSection && (
+    <section class="content-section class-detail-section">
+      <div class="container">
+        <div class="class-detail-overview-card class-detail-overview-card-correspondence">
+          <div class="home-section-heading narrow-heading class-detail-heading">
+            <h2>{introSection.title}</h2>
+          </div>
+
+          <div class="class-detail-prose">
+            {introSection.paragraphs?.slice(0, 2).map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="content-section class-detail-section">
+    <div class="container">
+      <div class="home-section-heading narrow-heading class-detail-heading">
+        <h2>{summarySection?.title ?? "コース比較"}</h2>
+      </div>
+
+      <div class="correspondence-summary-panel">
+        <div class="correspondence-summary-head">
+          <span>コース</span>
+          <span>内容</span>
+          <span>期間</span>
+          <span>受講料</span>
+        </div>
+
+        {courseCards.map((course) => (
+          <article class="correspondence-summary-row">
+            <div class="correspondence-summary-course">
+              <div class="class-detail-schedule-label">{course.label}</div>
+            </div>
+
+            <div class="correspondence-summary-main">
+              {course.title && <h3>{course.title}</h3>}
+            </div>
+
+            <div class="correspondence-summary-meta">
+              <strong>{course.duration}</strong>
+              <small>{course.durationNote}</small>
+            </div>
+
+            <div class="correspondence-summary-meta">
+              <strong>{course.fee}</strong>
+              <small>{course.feeNote}</small>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section class-detail-section">
+    <div class="container">
+      <div class="home-section-heading narrow-heading class-detail-heading">
+        <h2>各コースの詳細</h2>
+      </div>
+
+      <div class="class-course-stack">
+        {courseCards.map((course) => (
+          <article class="class-course-card correspondence-course-card">
+            <div class="class-course-header correspondence-course-header">
+              <div class="correspondence-course-title-group">
+                <div class="class-detail-schedule-label">{course.label}</div>
+                {course.title && <h3>{course.title}</h3>}
+              </div>
+
+              <div class="correspondence-course-facts">
+                <span>{course.duration} / {course.durationNote}</span>
+                <span>{course.fee} / {course.feeNote}</span>
+              </div>
+            </div>
+
+            <div class="class-detail-prose correspondence-course-intro">
+              {course.intro.map((paragraph) => <p>{paragraph}</p>)}
+              {course.overview.map((paragraph) => <p>{paragraph}</p>)}
+            </div>
+
+            <div class="correspondence-course-sections">
+              {course.sections
+                .filter((section) => (section.items?.length ?? 0) > 0 || (section.paragraphs?.length ?? 0) > 0)
+                .map((section) => (
+                  <section class="correspondence-course-section">
+                    {section.title && <h4>{section.title}</h4>}
+                    {section.paragraphs?.length ? (
+                      <div class="class-detail-prose">
+                        {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+                      </div>
+                    ) : null}
+                    {section.items?.length ? (
+                      <ul class="class-detail-line-list correspondence-line-list">
+                        {section.items.map((item) => <li>{item}</li>)}
+                      </ul>
+                    ) : null}
+                  </section>
+                ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {(deadlineSection || applicationSection) && (
+    <section class="content-section class-detail-section">
+      <div class="container">
+        <div class="correspondence-application-panel">
+          {deadlineSection && (
+            <section class="correspondence-application-section">
+              <h3>{deadlineSection.title}</h3>
+              <div class="class-detail-prose">
+                {deadlineSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+              </div>
+            </section>
+          )}
+
+          {applicationSection && (
+            <section class="correspondence-application-section">
+              <h3>{applicationSection.title}</h3>
+              <div class="class-detail-prose">
+                {applicationSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+                {applicationSection.bullets?.length ? (
+                  <ul class="class-detail-line-list correspondence-line-list">
+                    {applicationSection.bullets.map((bullet) => <li>{bullet}</li>)}
+                  </ul>
+                ) : null}
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
 </MainLayout>

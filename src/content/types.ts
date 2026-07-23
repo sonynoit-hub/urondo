@@ -1,12 +1,19 @@
 export type NavItem = {
   label: string;
   href: string;
+  children?: NavItem[];
+};
+
+export type SectionGroup = {
+  title: string;
+  bullets: string[];
 };
 
 export type Section = {
   title?: string;
   paragraphs?: string[];
   bullets?: string[];
+  groups?: SectionGroup[];
 };
 
 export type PriceItem = {

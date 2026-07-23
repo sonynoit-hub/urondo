@@ -1,11 +1,23 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
-import Hero from "../../components/Hero.astro";
-import SectionBlock from "../../components/SectionBlock.astro";
+import PageHero from "../../components/PageHero.astro";
 import page from "../../content/classes-special-lectures";
+
+const [, noticeSection] = page.sections ?? [];
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <Hero title={page.heroTitle} intro={page.heroIntro} />
-  <SectionBlock sections={page.sections} />
+  <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
+
+  {noticeSection && (
+    <section class="content-section class-detail-section">
+      <div class="container">
+        <article class="class-detail-overview-card">
+          <div class="class-detail-prose">
+            {noticeSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+        </article>
+      </div>
+    </section>
+  )}
 </MainLayout>

@@ -13,7 +13,7 @@ const treatments: PageData = {
     },
     {
       title: "遠隔念力施術",
-      body: "遠方や病状で通院が難しい方には、遠隔念力気功療法で対応します。",
+      body: "遠方や病状で通院が難しい方に、遠隔念力気功療法で対応します。",
       href: "/treatments/remote"
     },
     {

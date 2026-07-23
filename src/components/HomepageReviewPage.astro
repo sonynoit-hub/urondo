@@ -18,9 +18,9 @@ interface Props {
 const { currentPath, option, optionOneHref = "/" } = Astro.props;
 
 const switcherLinks = [
-  { label: "案1", href: optionOneHref },
-  { label: "案2", href: "/homepage2" },
-  { label: "案3", href: "/homepage3" }
+  { label: "案１", href: optionOneHref },
+  { label: "案２", href: "/homepage2" },
+  { label: "案３", href: "/homepage3" }
 ];
 
 const previewOptions: Record<number, { blocks: PreviewBlock[] }> = {
@@ -138,21 +138,21 @@ const previewTailBlocks = previewOption.blocks.slice(3);
 const locationCards = [
   {
     name: page.locations?.[0]?.name ?? "新中野教室",
-    address: page.locations?.[0]?.address ?? "〒164-0011 東京都中野区中央4-1-3 ボニータ新中野ビル4F",
+    address: page.locations?.[0]?.address ?? "〒１６４-００１１ 東京都中野区中央４-１-３ ボニータ新中野ビル４F",
     image: "/images/source-extracted/home/home-02.jpeg",
     alt: "赤い床に寝具が整えられた新中野教室の内観",
     href: "/classes/shin-nakano"
   },
   {
     name: page.locations?.[1]?.name ?? "銀座教室",
-    address: page.locations?.[1]?.address ?? "〒104-0061 東京都中央区銀座2-11-8 ラウンドクロス銀座2丁目ビル2F",
+    address: page.locations?.[1]?.address ?? "〒１０４-００６１ 東京都中央区銀座２-１１-８ ラウンドクロス銀座２丁目ビル２F",
     image: "/images/source-extracted/home/home-03.jpeg",
     alt: "赤い座布団と仏像が並ぶ銀座教室の内観",
     href: "/classes/ginza"
   },
   {
     name: page.locations?.[2]?.name ?? "北千住教室",
-    address: page.locations?.[2]?.address ?? "〒121-0815 東京都足立区島根2-32-21 いづみハイツ竹の塚2F",
+    address: page.locations?.[2]?.address ?? "〒１２１-０８１５ 東京都足立区島根２-３２-２１ いづみハイツ竹の塚２F",
     image: "/images/source-extracted/home/home-04.png",
     alt: "受講者が体を動かしている北千住教室の様子",
     href: "/classes/kitasenju-advanced"
@@ -198,7 +198,7 @@ const locationCards = [
 <section class="early-locations home-locations-section" aria-labelledby={`homepage-locations-title-${option}`}>
   <div class="container">
     <div class="home-section-heading narrow-heading home-section-heading-centered">
-      <h2 id={`homepage-locations-title-${option}`}>通いやすい3つの拠点</h2>
+      <h2 id={`homepage-locations-title-${option}`}>通いやすい３つの拠点</h2>
     </div>
 
     <div class="location-card-grid">

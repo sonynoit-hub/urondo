@@ -1,15 +1,14 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Hero from "../components/Hero.astro";
+import PageHero from "../components/PageHero.astro";
 import SectionBlock from "../components/SectionBlock.astro";
 import DownloadBlock from "../components/DownloadBlock.astro";
-import CTASection from "../components/CTASection.astro";
 import page from "../content/contact";
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <Hero title={page.heroTitle} intro={page.heroIntro} />
+  <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
+
   <SectionBlock sections={page.sections} />
   <DownloadBlock items={page.downloads} />
-  <CTASection />
 </MainLayout>

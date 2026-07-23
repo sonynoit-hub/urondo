@@ -1,6 +1,7 @@
 ---
 import CompanyOverviewIcon from "../components/CompanyOverviewIcon.astro";
 import MainLayout from "../layouts/MainLayout.astro";
+import PageHero from "../components/PageHero.astro";
 import page from "../content/company";
 
 type CompanyIconKey =
@@ -58,12 +59,7 @@ const companyRows = (overviewSection?.bullets ?? [])
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <section class="hero company-hero">
-    <div class="container company-hero-inner">
-      <h1>{page.heroTitle}</h1>
-      {page.heroIntro && <p class="hero-intro">{page.heroIntro}</p>}
-    </div>
-  </section>
+  <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
 
   {companyRows.length > 0 && (
     <section class="content-section company-overview-section">

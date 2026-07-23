@@ -1,18 +1,15 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
-import CTASection from "../../components/CTASection.astro";
+import PageHero from "../../components/PageHero.astro";
 import page from "../../content/classes";
 
 const [teacherGreetingSection, teacherGoalsSection, teacherSupportSection] = page.sections ?? [];
+const locationHrefs = new Set((page.locations ?? []).map((location) => location.href).filter(Boolean));
+const supportPrograms = (page.cards ?? []).filter((card) => card.href && !locationHrefs.has(card.href));
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <section class="hero classes-hero">
-    <div class="container classes-hero-inner">
-      {page.heroIntro && <p class="hero-intro">{page.heroIntro}</p>}
-      <h1>{page.heroTitle}</h1>
-    </div>
-  </section>
+  <PageHero title={page.heroTitle || page.title} subtitle={page.heroIntro ?? page.description} />
 
   {page.locations && page.locations.length > 0 && (
     <section class="content-section classes-locations-section">
@@ -69,6 +66,7 @@ const [teacherGreetingSection, teacherGoalsSection, teacherSupportSection] = pag
       <div class="container">
         <div class="home-section-heading narrow-heading classes-teacher-heading">
           <h2>講師紹介</h2>
+          <p class="section-lead">健康気功教室で大切にしている考え方と、講師陣のご紹介です。</p>
         </div>
 
         <div class="classes-teacher-card">
@@ -101,17 +99,18 @@ const [teacherGreetingSection, teacherGoalsSection, teacherSupportSection] = pag
     </section>
   )}
 
-  {page.cards && page.cards.length > 0 && (
-    <section class="content-section">
+  {supportPrograms.length > 0 && (
+    <section class="content-section classes-programs-section">
       <div class="container">
-        <div class="home-section-heading narrow-heading">
-          <h2>教室・講座一覧</h2>
+        <div class="home-section-heading narrow-heading classes-programs-heading">
+          <h2>その他の講座</h2>
+          <p class="section-lead">通学教室のほかに、通信教育コースと特別講座もご案内しています。</p>
         </div>
 
-        <div class="classes-document-grid">
-          {page.cards.map((card) => (
+        <div class="classes-program-grid">
+          {supportPrograms.map((card) => (
             card.href && (
-              <a class="classes-document-button" href={card.href}>
+              <a class="classes-program-card" href={card.href}>
                 <span>{card.title}</span>
                 {card.body && <small>{card.body}</small>}
               </a>
@@ -121,6 +120,4 @@ const [teacherGreetingSection, teacherGoalsSection, teacherSupportSection] = pag
       </div>
     </section>
   )}
-
-  <CTASection class="about-final-cta" />
 </MainLayout>

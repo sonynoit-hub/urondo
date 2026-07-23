@@ -1,0 +1,310 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+
+const recipientEmail = "info@urondo.com";
+const bankAccount = "みずほ銀行中野北口支店 普通１３１６６７９ カ）ウーロンドウ";
+const confirmationItems = [
+  "当教室の授業では、直接身体に触れるようなことは一切ありません。",
+  "授業中の個人の健康管理は、全て自己責任でお願い申し上げます。",
+  "授業中に発生した事故、病気、ケガなどに対し誠意を持って応急処置等を行いますが、その後の一切の賠償責任等は負いかねますのでご了承ください。"
+];
+---
+
+<MainLayout title="健康気功教室受講申込書" description="健康気功教室受講申込書のオンライン入力ページ。">
+  <PageHero
+    title="健康気功教室受講申込書"
+    subtitle="このページで申込書をオンライン入力できます。入力内容はブラウザに保存でき、テキストでダウンロードし、既定のメールアプリで送信できます。"
+  />
+
+  <section class="content-section class-detail-section">
+    <div class="container qigong-app-shell">
+      <div class="qigong-app-lead card">
+        <p>入力内容はこのブラウザに自動保存されます。メール送信では添付を自動追加できないため、必要に応じてダウンロードしたファイルをメールに添付してください。</p>
+      </div>
+
+      <form class="qigong-app-form card" data-class-application-form>
+        <div class="qigong-app-grid qigong-app-grid-two">
+          <label class="qigong-app-field">
+            <span>申込日</span>
+            <input name="applicationDate" type="date" />
+          </label>
+
+          <label class="qigong-app-field">
+            <span>管理番号</span>
+            <input name="controlNumber" type="text" placeholder="任意" />
+          </label>
+        </div>
+
+        <div class="qigong-app-grid">
+          <label class="qigong-app-field">
+            <span>氏名</span>
+            <input name="name" type="text" autocomplete="name" required />
+          </label>
+        </div>
+
+        <div class="qigong-app-grid qigong-app-grid-address">
+          <label class="qigong-app-field">
+            <span>郵便番号</span>
+            <input name="postalCode" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="〒１６４-００１１" />
+          </label>
+
+          <label class="qigong-app-field">
+            <span>住所</span>
+            <input name="address" type="text" autocomplete="street-address" required />
+          </label>
+        </div>
+
+        <div class="qigong-app-grid qigong-app-grid-two">
+          <label class="qigong-app-field">
+            <span>メールアドレス</span>
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+
+          <label class="qigong-app-field">
+            <span>電話番号</span>
+            <input name="phone" type="tel" autocomplete="tel" required />
+          </label>
+        </div>
+
+        <fieldset class="qigong-app-group">
+          <legend>受講動機</legend>
+          <div class="qigong-app-check-grid">
+            <label><input name="motivation" type="checkbox" value="自身の健康" /> 自身の健康</label>
+            <label><input name="motivation" type="checkbox" value="独立開業" /> 独立開業</label>
+            <label><input name="motivation" type="checkbox" value="資格取得" /> 資格取得</label>
+          </div>
+        </fieldset>
+
+        <fieldset class="qigong-app-group">
+          <legend>希望コース</legend>
+          <div class="qigong-app-course-stack">
+            <div class="qigong-app-course-block">
+              <h3>新中野</h3>
+              <div class="qigong-app-check-grid">
+                <label><input name="courseChoice" type="checkbox" value="新中野：土曜日秘伝気功教室" /> 土曜日秘伝気功教室</label>
+                <label><input name="courseChoice" type="checkbox" value="新中野：金曜日秘伝気功教室" /> 金曜日秘伝気功教室</label>
+                <label><input name="courseChoice" type="checkbox" value="新中野：水曜日秘伝気功教室" /> 水曜日秘伝気功教室</label>
+              </div>
+            </div>
+
+            <div class="qigong-app-course-block">
+              <h3>銀座</h3>
+              <div class="qigong-app-check-grid">
+                <label><input name="courseChoice" type="checkbox" value="銀座：金曜日秘伝気功教室" /> 金曜日秘伝気功教室</label>
+                <label><input name="courseChoice" type="checkbox" value="銀座：木曜日秘伝気功教室" /> 木曜日秘伝気功教室</label>
+              </div>
+            </div>
+
+            <div class="qigong-app-course-block">
+              <h3>北千住（師範養成講座）</h3>
+              <div class="qigong-app-check-grid">
+                <label><input name="courseChoice" type="checkbox" value="北千住：水曜日師範コース" /> 水曜日師範コース</label>
+                <label><input name="courseChoice" type="checkbox" value="北千住：日曜日師範コース" /> 日曜日師範コース</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="qigong-app-group">
+          <legend>受講料お支払方法</legend>
+          <div class="qigong-app-check-grid">
+            <label><input name="paymentMethod" type="radio" value="一括払い（銀行振込）" /> 一括払い（銀行振込）</label>
+            <label><input name="paymentMethod" type="radio" value="分割払い（各月初）" /> 分割払い（各月初）</label>
+          </div>
+          <p class="qigong-app-bank">お振込先：{bankAccount}</p>
+        </fieldset>
+
+        <div class="qigong-app-grid qigong-app-grid-two">
+          <label class="qigong-app-field">
+            <span>入学希望日</span>
+            <input name="startDate" type="date" />
+          </label>
+        </div>
+
+        <fieldset class="qigong-app-group">
+          <legend>確認事項</legend>
+          <ul class="qigong-app-note-list">
+            {confirmationItems.map((item) => <li>{item}</li>)}
+          </ul>
+          <label class="qigong-app-confirm">
+            <input name="agreement" type="checkbox" value="同意済み" required />
+            上記確認事項に同意しました
+          </label>
+        </fieldset>
+
+        <div class="qigong-app-contact card">
+          <h2>お問い合わせ先</h2>
+          <p>（株）烏龍堂 TEL：０３-６３８２-５８１３ / FAX：０３-６３８２-５８１３</p>
+          <p>メール：{recipientEmail}</p>
+        </div>
+
+        <div class="qigong-app-actions">
+          <button class="button home-primary-button" type="button" data-action="save">下書きを保存</button>
+          <button class="button home-secondary-button" type="button" data-action="download">テキスト保存</button>
+          <button class="button home-secondary-button" type="button" data-action="email">メール作成</button>
+          <button class="button home-secondary-button" type="button" data-action="clear">入力を消去</button>
+        </div>
+
+        <p class="qigong-app-status" data-form-status>未保存</p>
+      </form>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ recipientEmail, bankAccount }}>
+    const form = document.querySelector("[data-class-application-form]");
+    const status = document.querySelector("[data-form-status]");
+    const saveKey = "health-qigong-application-v1";
+
+    if (form instanceof HTMLFormElement) {
+      const setStatus = (message) => {
+        if (status) status.textContent = message;
+      };
+
+      const today = () => new Date().toISOString().slice(0, 10);
+
+      const setDefaultDates = () => {
+        const applicationDateInput = form.querySelector('input[name="applicationDate"]');
+        if (applicationDateInput instanceof HTMLInputElement && !applicationDateInput.value) {
+          applicationDateInput.value = today();
+        }
+      };
+
+      const getValues = () => {
+        const formData = new FormData(form);
+        return {
+          applicationDate: String(formData.get("applicationDate") ?? ""),
+          controlNumber: String(formData.get("controlNumber") ?? ""),
+          name: String(formData.get("name") ?? ""),
+          postalCode: String(formData.get("postalCode") ?? ""),
+          address: String(formData.get("address") ?? ""),
+          email: String(formData.get("email") ?? ""),
+          phone: String(formData.get("phone") ?? ""),
+          motivation: formData.getAll("motivation").map(String),
+          courseChoice: formData.getAll("courseChoice").map(String),
+          paymentMethod: String(formData.get("paymentMethod") ?? ""),
+          startDate: String(formData.get("startDate") ?? ""),
+          agreement: formData.get("agreement") ? "同意済み" : ""
+        };
+      };
+
+      const applyValues = (values) => {
+        Object.entries(values).forEach(([key, value]) => {
+          const field = form.elements.namedItem(key);
+          if (!field) return;
+
+          if (field instanceof RadioNodeList) {
+            const items = Array.isArray(value) ? value : [value];
+            Array.from(field).forEach((input) => {
+              if (input instanceof HTMLInputElement) {
+                input.checked = items.includes(input.value);
+              }
+            });
+            return;
+          }
+
+          if (field instanceof HTMLInputElement) {
+            if (field.type === "checkbox") {
+              field.checked = Boolean(value);
+            } else {
+              field.value = String(value ?? "");
+            }
+          }
+        });
+      };
+
+      const saveDraft = (message = "下書きを保存しました") => {
+        localStorage.setItem(saveKey, JSON.stringify(getValues()));
+        setStatus(`${message} (${new Date().toLocaleTimeString("ja-JP", { hour: "2-digit", minute: "2-digit" })})`);
+      };
+
+      const restoreDraft = () => {
+        const saved = localStorage.getItem(saveKey);
+        if (!saved) {
+          setDefaultDates();
+          return;
+        }
+
+        try {
+          applyValues(JSON.parse(saved));
+          setStatus("保存済みの入力内容を復元しました");
+        } catch {
+          setDefaultDates();
+        }
+      };
+
+      const buildText = (values) => [
+        "健康気功教室受講申込書",
+        `申込日：${values.applicationDate || ""}`,
+        `管理番号：${values.controlNumber || ""}`,
+        "",
+        `氏名：${values.name || ""}`,
+        `住所：${values.postalCode || ""} ${values.address || ""}`.trim(),
+        `メールアドレス：${values.email || ""}`,
+        `電話番号：${values.phone || ""}`,
+        `受講動機：${values.motivation.length ? values.motivation.join("、") : ""}`,
+        `希望コース：${values.courseChoice.length ? values.courseChoice.join("、") : ""}`,
+        `受講料お支払方法：${values.paymentMethod || ""}`,
+        `お振込先：${bankAccount}`,
+        `入学希望日：${values.startDate || ""}`,
+        "",
+        "【確認事項】",
+        "① 当教室の授業では、直接身体に触れるようなことは一切ありません。",
+        "② 授業中の個人の健康管理は、全て自己責任でお願い申し上げます。",
+        "③ 授業中に発生した事故、病気、ケガなどに対し誠意を持って応急処置等を行いますが、その後の一切の賠償責任等は負いかねますのでご了承ください。",
+        `確認事項への同意：${values.agreement || "未確認"}`,
+        "",
+        "お問い合わせ先",
+        "（株）烏龍堂 TEL：０３-６３８２-５８１３ / FAX：０３-６３８２-５８１３",
+        `メール：${recipientEmail}`
+      ].join("\n");
+
+      const requireValid = () => {
+        if (!form.reportValidity()) {
+          setStatus("必須項目をご確認ください");
+          return false;
+        }
+        return true;
+      };
+
+      const downloadText = () => {
+        if (!requireValid()) return;
+        const values = getValues();
+        const blob = new Blob([buildText(values)], { type: "text/plain;charset=utf-8" });
+        const link = document.createElement("a");
+        const safeName = (values.name || "application").replace(/[\\/:*?\"<>|]/g, "_");
+        link.href = URL.createObjectURL(blob);
+        link.download = `健康気功教室受講申込書_${safeName}.txt`;
+        link.click();
+        URL.revokeObjectURL(link.href);
+        saveDraft("ダウンロード用に保存しました");
+      };
+
+      const composeEmail = () => {
+        if (!requireValid()) return;
+        const values = getValues();
+        const subject = encodeURIComponent(`健康気功教室受講申込書 ${values.name || ""}`.trim());
+        const body = encodeURIComponent(buildText(values));
+        saveDraft("メール送信用に保存しました");
+        window.location.href = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
+      };
+
+      const clearForm = () => {
+        localStorage.removeItem(saveKey);
+        form.reset();
+        setDefaultDates();
+        setStatus("入力内容を消去しました");
+      };
+
+      restoreDraft();
+
+      form.addEventListener("input", () => saveDraft("自動保存しました"));
+      form.addEventListener("change", () => saveDraft("自動保存しました"));
+
+      document.querySelector('[data-action="save"]')?.addEventListener("click", () => saveDraft());
+      document.querySelector('[data-action="download"]')?.addEventListener("click", downloadText);
+      document.querySelector('[data-action="email"]')?.addEventListener("click", composeEmail);
+      document.querySelector('[data-action="clear"]')?.addEventListener("click", clearForm);
+    }
+  </script>
+</MainLayout>

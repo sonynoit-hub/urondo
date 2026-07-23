@@ -1,13 +1,21 @@
 ---
 import { footerNav, mainNav, site } from "../content/site";
+import { toAsciiDigits } from "../utils/text";
+
+const phoneHref = `tel:${toAsciiDigits(site.phone)}`;
+const [postalCode, ...addressParts] = site.address.split(" ");
+const addressLine = addressParts.join(" ");
 ---
 
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-company">
       <p class="footer-title">{site.name}</p>
-      <p>{site.address}</p>
-      <p><a href={`tel:${site.phone}`}>{site.phone}</a></p>
+      <p>
+        <span class="footer-number">{postalCode}</span><br />
+        {addressLine}
+      </p>
+      <p><a class="footer-number" href={phoneHref}>{site.phone}</a></p>
       <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
     </div>
 

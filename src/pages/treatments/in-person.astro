@@ -1,8 +1,9 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
-import CTASection from "../../components/CTASection.astro";
+import PageHero from "../../components/PageHero.astro";
 import TreatmentNav from "../../components/TreatmentNav.astro";
 import page from "../../content/treatments-in-person";
+import { toFullWidthDigits } from "../../utils/text";
 
 const [introSection, flowSection, examplesSection] = page.sections ?? [];
 
@@ -52,12 +53,7 @@ const scheduleGroups = [
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <section class="hero treatments-hero in-person-hero">
-    <div class="container treatments-hero-shell">
-      <h1>{page.heroTitle}</h1>
-      {page.heroIntro && <p class="hero-intro treatments-hero-intro">{page.heroIntro}</p>}
-    </div>
-  </section>
+  <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
 
   {introSection && (
     <section class="content-section">
@@ -85,7 +81,7 @@ const scheduleGroups = [
         <div class="in-person-flow-list">
           {flowSteps.map((step, index) => (
             <article class="in-person-flow-item">
-              <div class="in-person-flow-marker">{String(index + 1).padStart(2, "0")}</div>
+              <div class="in-person-flow-marker">{toFullWidthDigits(String(index + 1).padStart(2, "0"))}</div>
               <div class="in-person-flow-copy">
                 <h3>{step.title}</h3>
                 {step.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
@@ -175,8 +171,4 @@ const scheduleGroups = [
   )}
 
   <TreatmentNav currentHref="/treatments/in-person" />
-
-  <CTASection
-    class="about-final-cta"
-  />
 </MainLayout>

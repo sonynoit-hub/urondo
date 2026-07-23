@@ -1,11 +1,353 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import Hero from "../components/Hero.astro";
-import LocationCard from "../components/LocationCard.astro";
+import PageHero from "../components/PageHero.astro";
 import page from "../content/access";
+
+const locations = page.locations ?? [];
+const locationIds = ["shin-nakano", "ginza", "kitasenju"];
+const mapUrl = (address: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <Hero title={page.heroTitle} intro={page.heroIntro} />
-  <LocationCard items={page.locations} />
+  <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
+
+  <section class="access-overview">
+    <div class="container access-overview-inner">
+      <nav class="location-jump-nav" aria-label="教室を選ぶ">
+        {locations.map((location, index) => (
+          <a href={`#${locationIds[index]}`}>
+            <span>{location.name}</span>
+            <span aria-hidden="true">↓</span>
+          </a>
+        ))}
+      </nav>
+    </div>
+  </section>
+
+  <section class="locations-section" aria-label="教室所在地">
+    <div class="container locations-list">
+      {locations.map((location, index) => (
+        <article class="access-location" id={locationIds[index]}>
+          <figure class="access-location-media">
+            {location.image && (
+              <img
+                src={location.image}
+                alt={location.alt ?? `${location.name}の室内`}
+                loading={index === 0 ? "eager" : "lazy"}
+              />
+            )}
+          </figure>
+
+          <div class="access-location-copy">
+            {location.subtitle && <p class="location-subtitle">{location.subtitle}</p>}
+            <h2>{location.name}</h2>
+
+            <div class="location-address">
+              <p class="location-label">住所</p>
+              <address>{location.address}</address>
+            </div>
+
+            {location.access && (
+              <div class="location-routes">
+                <h3>アクセス</h3>
+                <ul>
+                  {location.access.map((route) => <li>{route}</li>)}
+                </ul>
+              </div>
+            )}
+
+            <a
+              class="map-link"
+              href={mapUrl(location.address)}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Googleマップで見る <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
 </MainLayout>
+
+<style>
+  .access-hero {
+    background:
+      radial-gradient(circle at 84% 20%, rgba(210, 183, 128, 0.24), transparent 22rem),
+      linear-gradient(135deg, #183d35, #2c5a4e);
+    color: #fff;
+    overflow: hidden;
+    padding: clamp(1.8rem, 4vw, 3rem) 0;
+    position: relative;
+  }
+
+  .access-hero::after {
+    border: 1px solid rgba(229, 208, 164, 0.2);
+    border-radius: 50%;
+    content: "";
+    height: 24rem;
+    position: absolute;
+    right: -8rem;
+    top: -13rem;
+    width: 24rem;
+  }
+
+  .access-hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .access-hero h1 {
+    font-size: clamp(2.25rem, 4.25vw, 3.8rem);
+    letter-spacing: 0.08em;
+    line-height: 1;
+    margin: 0;
+  }
+
+  .access-hero-intro {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1rem;
+    line-height: 1.65;
+    margin: 0.85rem 0 0;
+    max-width: 56rem;
+  }
+
+  .access-overview {
+    background: rgba(255, 255, 255, 0.72);
+    border-bottom: 1px solid var(--border);
+    margin-top: 1.2rem;
+    padding: 0.9rem 0;
+  }
+
+  .access-overview-inner {
+    display: block;
+  }
+
+  .location-jump-nav {
+    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .location-jump-nav a {
+    align-items: center;
+    display: flex;
+    font-size: 0.92rem;
+    gap: 0.65rem;
+    justify-content: center;
+    min-height: 56px;
+    padding: 0.8rem;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  .location-jump-nav a + a {
+    border-left: 1px solid var(--border);
+  }
+
+  .location-jump-nav a:hover,
+  .location-jump-nav a:focus-visible {
+    background: var(--surface-alt);
+    color: var(--accent);
+  }
+
+  .locations-section {
+    padding: 1.2rem 0 clamp(3rem, 7vw, 6.5rem);
+  }
+
+  .locations-list {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .access-location {
+    background: rgba(255, 255, 255, 0.86);
+    border: 1px solid var(--border);
+    box-shadow: 0 18px 48px rgba(44, 36, 24, 0.08);
+    display: grid;
+    grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
+    overflow: hidden;
+    scroll-margin-top: 7rem;
+  }
+
+  .access-location-media {
+    background: #d7c18f;
+    border: 0;
+    box-shadow: none;
+    margin: 0;
+    min-height: 430px;
+    outline: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .access-location-media::before,
+  .access-location-media::after {
+    border: 0 !important;
+    content: none !important;
+    display: none !important;
+  }
+
+  .access-location-media img {
+    border: 0;
+    box-shadow: none;
+    height: 100%;
+    object-fit: cover;
+    outline: 0;
+    transition: transform 600ms ease;
+    width: 100%;
+  }
+
+  .access-location:hover .access-location-media img {
+    transform: scale(1.018);
+  }
+
+  .access-location-copy {
+    align-self: center;
+    padding: clamp(2rem, 5vw, 4rem);
+  }
+
+  .location-subtitle {
+    color: var(--gold);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin: 0 0 0.7rem;
+  }
+
+  .access-location-copy h2 {
+    color: var(--accent);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .location-address {
+    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    margin-top: 1.6rem;
+    padding: 1.15rem 0;
+  }
+
+  .location-label {
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    margin: 0;
+  }
+
+  .location-address address {
+    color: var(--text);
+    font-style: normal;
+    line-height: 1.75;
+  }
+
+  .location-routes {
+    margin-top: 1.5rem;
+  }
+
+  .location-routes h3 {
+    color: var(--text);
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.9rem;
+  }
+
+  .location-routes ul {
+    display: grid;
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .location-routes li {
+    color: var(--muted);
+    display: grid;
+    font-size: 0.94rem;
+    gap: 0.75rem;
+    grid-template-columns: 0.7rem minmax(0, 1fr);
+    line-height: 1.75;
+  }
+
+  .location-routes li::before {
+    background: var(--gold);
+    border-radius: 50%;
+    content: "";
+    height: 0.42rem;
+    margin-top: 0.65rem;
+    width: 0.42rem;
+  }
+
+  .map-link {
+    align-items: center;
+    border-bottom: 1px solid var(--accent);
+    color: var(--accent);
+    display: inline-flex;
+    font-size: 0.9rem;
+    font-weight: 700;
+    gap: 1rem;
+    margin-top: 1.7rem;
+    padding-bottom: 0.35rem;
+  }
+
+  @media (max-width: 900px) {
+    .access-overview-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .access-location {
+      grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+    }
+
+    .access-location-media {
+      min-height: 390px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .access-hero {
+      padding: clamp(1.8rem, 4vw, 3rem) 0;
+    }
+
+    .location-jump-nav {
+      grid-template-columns: 1fr;
+    }
+
+    .location-jump-nav a + a {
+      border-left: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .access-location {
+      grid-template-columns: 1fr;
+    }
+
+    .access-location-media {
+      aspect-ratio: 16 / 10;
+      min-height: 0;
+    }
+
+    .access-location-copy {
+      padding: 1.6rem;
+    }
+
+    .location-address {
+      gap: 0.5rem;
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .access-location-media img {
+      transition: none;
+    }
+  }
+</style>

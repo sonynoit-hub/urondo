@@ -4,8 +4,13 @@ const downloads: PageData = {
   title: "申込書ダウード",
   description: "既存の申込書ダウンロードページ。",
   heroTitle: "申込書ダウンロード",
-  heroIntro: "お客様からご提供いただいた遠隔治療申込書をダウンロードできます。",
+  heroIntro: "各種申込書とオンライン入力ページをご利用いただけます。",
   downloads: [
+    {
+      label: "健康気功教室申込書",
+      href: "/downloads/health-qigong-application",
+      description: "オンライン入力、ブラウザ保存、テキスト保存、メール作成に対応しています。"
+    },
     {
       label: "PDF申込書",
       href: "/downloads/remote-treatment-application.pdf",

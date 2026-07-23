@@ -8,7 +8,6 @@ demo-website/
 │   ├── images/
 │   │   ├── brand/
 │   │   ├── locations/
-│   │   ├── instructors/
 │   │   └── shared/
 │   ├── downloads/
 │   │   ├── remote-treatment-application.pdf
@@ -23,12 +22,12 @@ demo-website/
 │   │   ├── Footer.astro
 │   │   ├── Hero.astro
 │   │   ├── SectionBlock.astro
-│   │   ├── CardGrid.astro
-│   │   ├── PricingBlock.astro
-│   │   ├── ScheduleTable.astro
 │   │   ├── LocationCard.astro
 │   │   ├── DownloadBlock.astro
-│   │   └── CTASection.astro
+│   │   ├── TreatmentNav.astro
+│   │   ├── CompanyOverviewIcon.astro
+│   │   ├── HomepageReviewPage.astro
+│   │   └── AboutReviewPage.astro
 │   ├── content/
 │   │   ├── site.ts
 │   │   ├── seo.ts
@@ -40,7 +39,6 @@ demo-website/
 │   │   ├── treatments-private-instruction.ts
 │   │   ├── treatments-special-remote.ts
 │   │   ├── classes.ts
-│   │   ├── classes-instructors.ts
 │   │   ├── classes-shin-nakano.ts
 │   │   ├── classes-ginza.ts
 │   │   ├── classes-kitasenju-advanced.ts
@@ -68,7 +66,6 @@ demo-website/
 │   │   │   └── special-remote.astro
 │   │   ├── classes/
 │   │   │   ├── index.astro
-│   │   │   ├── instructors.astro
 │   │   │   ├── shin-nakano.astro
 │   │   │   ├── ginza.astro
 │   │   │   ├── kitasenju-advanced.astro
@@ -78,6 +75,10 @@ demo-website/
 │   │       └── remote-treatment-application.astro
 │   └── styles/
 │       └── global.css
+│
+├── src/
+│   └── utils/
+│       └── text.ts
 │
 ├── docs/
 │   ├── 01-project-overview.md
@@ -97,4 +98,7 @@ demo-website/
 - Keep original customer files separate from website code.
 - Store downloadable forms in `public/downloads/`.
 - Store customer-derived page content in `src/content/`.
+- Keep teacher introduction content inside `src/content/classes.ts` until a separate shared structure is needed.
+- Keep Ginza Thursday and Friday information together on the single `/classes/ginza` page.
 - Keep page files focused on layout and rendering only.
+- Remove deprecated shared components after pages migrate away from them.

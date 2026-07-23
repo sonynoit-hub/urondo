@@ -1,6 +1,6 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
-import CTASection from "../../components/CTASection.astro";
+import PageHero from "../../components/PageHero.astro";
 import TreatmentNav from "../../components/TreatmentNav.astro";
 import page from "../../content/treatments-private-instruction";
 
@@ -24,11 +24,7 @@ if (page.pricing?.length) {
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <section class="hero treatments-hero private-instruction-hero">
-    <div class="container treatments-hero-shell">
-      <h1>{page.heroTitle}</h1>
-    </div>
-  </section>
+  <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
 
   {instructionItems.length > 0 && (
     <section class="content-section">
@@ -50,8 +46,4 @@ if (page.pricing?.length) {
   )}
 
   <TreatmentNav currentHref="/treatments/private-instruction" />
-
-  <CTASection
-    class="about-final-cta"
-  />
 </MainLayout>

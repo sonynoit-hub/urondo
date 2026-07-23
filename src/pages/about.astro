@@ -1,44 +1,14 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import CTASection from "../components/CTASection.astro";
+import PageHero from "../components/PageHero.astro";
 import page from "../content/about";
 
-const [profileSection, qigongSection, scienceSection, formatsSection] = page.sections ?? [];
-const scienceYearLabels = ["1990年", "1996年"];
-
-const formatCards = [
-  {
-    title: "通院施術",
-    href: "/treatments/in-person",
-    body: formatsSection?.bullets?.[0]
-  },
-  {
-    title: "遠隔念力施術",
-    href: "/treatments/remote",
-    body: formatsSection?.bullets?.[1]
-  },
-  {
-    title: "個別指導",
-    href: "/treatments/private-instruction",
-    body: formatsSection?.bullets?.[2]
-  },
-  {
-    title: "特別遠隔施術",
-    href: "/treatments/special-remote",
-    body: formatsSection?.bullets?.[3]
-  }
-];
+const [profileSection, qigongSection, scienceSection] = page.sections ?? [];
+const scienceYearLabels = ["１９９０年", "１９９６年"];
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <section class="home-hero about-document-hero">
-    <div class="container about-hero-shell">
-      <div class="hero-text-column about-hero-copy">
-        <h1>{page.heroTitle}</h1>
-        {page.heroIntro && <p class="hero-lead about-hero-intro">{page.heroIntro}</p>}
-      </div>
-    </div>
-  </section>
+  <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
 
   <section class="content-section">
     <div class="container">
@@ -142,28 +112,4 @@ const formatCards = [
       </div>
     </div>
   </section>
-
-  <section class="content-section about-format-section">
-    <div class="container">
-      <div class="home-section-heading narrow-heading">
-        <h2>{formatsSection?.title}</h2>
-      </div>
-
-      <div class="about-format-grid">
-        {formatCards.map((card) => (
-          <article class="about-format-card">
-            <h3>{card.title}</h3>
-            {card.body && <p>{card.body}</p>}
-            <a class="text-link" href={card.href}>
-              詳細を見る →
-            </a>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <CTASection
-    class="about-final-cta"
-  />
 </MainLayout>

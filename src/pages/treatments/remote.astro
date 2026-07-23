@@ -1,22 +1,18 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
-import CTASection from "../../components/CTASection.astro";
+import PageHero from "../../components/PageHero.astro";
 import TreatmentNav from "../../components/TreatmentNav.astro";
 import page from "../../content/treatments-remote";
+import { toFullWidthDigits } from "../../utils/text";
 
 const [introSection, methodSection, scienceSection, applicationSection, precautionsSection] = page.sections ?? [];
-const scienceYearLabels = ["1990年", "1995年"];
+const scienceYearLabels = ["１９９０年", "１９９５年"];
 const downloadLinks = page.downloads?.slice(1) ?? [];
-const formatPrecautionText = (text: string) => text.replace(/^\d+）/, "");
+const formatPrecautionText = (text: string) => text.replace(/^[0-9０-９]+）/, "");
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <section class="hero treatments-hero remote-hero">
-    <div class="container treatments-hero-shell">
-      <h1>{page.heroTitle}</h1>
-      {page.heroIntro && <p class="hero-intro treatments-hero-intro">{page.heroIntro}</p>}
-    </div>
-  </section>
+  <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
 
   {introSection && (
     <section class="content-section">
@@ -109,7 +105,7 @@ const formatPrecautionText = (text: string) => text.replace(/^\d+）/, "");
         <div class="remote-application-steps">
           {applicationSection.bullets?.map((bullet, index) => (
             <article class="remote-application-step">
-              <div class="in-person-flow-marker">{String(index + 1).padStart(2, "0")}</div>
+              <div class="in-person-flow-marker">{toFullWidthDigits(String(index + 1).padStart(2, "0"))}</div>
               <p>{bullet}</p>
             </article>
           ))}
@@ -147,7 +143,7 @@ const formatPrecautionText = (text: string) => text.replace(/^\d+）/, "");
         <div class="remote-precaution-list">
           {precautionsSection.bullets?.map((bullet, index) => (
             <article class="remote-precaution-item">
-              <p class="about-bullet-index">{index + 1}</p>
+              <p class="about-bullet-index">{toFullWidthDigits(index + 1)}</p>
               <p>{formatPrecautionText(bullet)}</p>
             </article>
           ))}
@@ -157,8 +153,4 @@ const formatPrecautionText = (text: string) => text.replace(/^\d+）/, "");
   )}
 
   <TreatmentNav currentHref="/treatments/remote" />
-
-  <CTASection
-    class="about-final-cta"
-  />
 </MainLayout>

@@ -1,0 +1,78 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+  variant?: "green" | "yellow";
+}
+
+const { title, subtitle, variant = "green" } = Astro.props;
+---
+
+<section class:list={["page-hero", variant === "yellow" && "page-hero-yellow"]}>
+  <div class="container page-hero-inner">
+    <h1>{title}</h1>
+    <p>{subtitle}</p>
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    background:
+      radial-gradient(circle at 84% 20%, rgba(210, 183, 128, 0.24), transparent 22rem),
+      linear-gradient(135deg, #183d35, #2c5a4e);
+    color: #fff;
+    overflow: hidden;
+    padding: clamp(1.8rem, 4vw, 3rem) 0;
+    position: relative;
+  }
+
+  .page-hero::after {
+    border: 1px solid rgba(229, 208, 164, 0.2);
+    border-radius: 50%;
+    content: "";
+    height: 24rem;
+    position: absolute;
+    right: -8rem;
+    top: -13rem;
+    width: 24rem;
+  }
+
+  .page-hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(2.25rem, 4.25vw, 3.8rem);
+    letter-spacing: 0.08em;
+    line-height: 1.08;
+    margin: 0;
+  }
+
+  .page-hero p {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1rem;
+    line-height: 1.65;
+    margin: 0.85rem 0 0;
+    max-width: 56rem;
+  }
+
+  .page-hero-yellow {
+    background:
+      linear-gradient(90deg, rgba(166, 44, 38, 0.08) 1px, transparent 1px),
+      linear-gradient(rgba(166, 44, 38, 0.08) 1px, transparent 1px),
+      #f6df2a;
+    background-size: 32px 32px;
+    border-bottom: 1px solid rgba(88, 66, 18, 0.22);
+    color: #28251f;
+  }
+
+  .page-hero-yellow::after {
+    background: rgba(255, 250, 205, 0.72);
+    border-color: rgba(166, 44, 38, 0.18);
+  }
+
+  .page-hero-yellow p {
+    color: rgba(40, 37, 31, 0.72);
+  }
+</style>

@@ -16,7 +16,7 @@ const page: PageData = {
     }
   ],
   pricing: [
-    { label: "料金", value: "1時間　20万円" }
+    { label: "料金", value: "１時間　２０万円" }
   ]
 };
 

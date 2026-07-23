@@ -1,11 +1,107 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
-import Hero from "../../components/Hero.astro";
-import SectionBlock from "../../components/SectionBlock.astro";
+import PageHero from "../../components/PageHero.astro";
 import page from "../../content/classes-shin-nakano";
+
+const [
+  introSection,
+  syllabusSection,
+  scheduleSection,
+  teacherSection,
+  feeSection,
+  venueSection,
+  applicationSection
+] = page.sections ?? [];
+
+const infoRows = [scheduleSection, teacherSection, feeSection, venueSection, applicationSection].filter(Boolean);
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <Hero title={page.heroTitle} intro={page.heroIntro} />
-  <SectionBlock sections={page.sections} />
+  <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
+
+  {introSection && (
+    <section class="content-section class-detail-section classroom-overview-section">
+      <div class="container classroom-overview-grid">
+        <figure class="classroom-overview-image">
+          <img
+            src="/images/source-extracted/classes-overview/classes-overview-01.png"
+            alt="赤い床に寝具が整えられた新中野教室の内観"
+            width="836"
+            height="469"
+            loading="eager"
+          />
+        </figure>
+
+        <article class="class-detail-overview-card classroom-overview-copy">
+          <div class="home-section-heading narrow-heading class-detail-heading">
+            <h2>{introSection.title}</h2>
+          </div>
+
+          <div class="class-detail-prose">
+            {introSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+        </article>
+      </div>
+    </section>
+  )}
+
+  {syllabusSection && (
+    <section class="content-section class-detail-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading class-detail-heading">
+          <h2>{syllabusSection.title}</h2>
+        </div>
+
+        <div class="class-detail-syllabus-card">
+          {syllabusSection.groups?.length ? (
+            <div class="class-detail-syllabus-groups">
+              {syllabusSection.groups.map((group) => (
+                <section class="class-detail-syllabus-group">
+                  <h3>{group.title}</h3>
+                  <ul class="class-detail-syllabus-list">
+                    {group.bullets.map((bullet) => (
+                      <li>{bullet}</li>
+                    ))}
+                  </ul>
+                </section>
+              ))}
+            </div>
+          ) : (
+            <ul class="class-detail-syllabus-list">
+              {syllabusSection.bullets?.map((bullet) => (
+                <li>{bullet}</li>
+              ))}
+            </ul>
+          )}
+
+          {syllabusSection.paragraphs?.[0] && (
+            <div class="class-detail-syllabus-note">
+              <p>{syllabusSection.paragraphs[0]}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {infoRows.length > 0 && (
+    <section class="content-section class-detail-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading class-detail-heading">
+          <h2>開催概要</h2>
+        </div>
+
+        <div class="class-detail-info-panel">
+          {infoRows.map((section) => (
+            <article class="class-detail-info-row">
+              {section?.title && <h3>{section.title}</h3>}
+              <div class="class-detail-prose">
+                {section?.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 </MainLayout>

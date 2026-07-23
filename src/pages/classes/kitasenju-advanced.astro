@@ -1,11 +1,279 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
-import Hero from "../../components/Hero.astro";
-import SectionBlock from "../../components/SectionBlock.astro";
+import PageHero from "../../components/PageHero.astro";
 import page from "../../content/classes-kitasenju-advanced";
+
+const [
+  scheduleSection,
+  locationSection,
+  feeSection,
+  applicationSection,
+  eligibilitySection,
+  _contentSection,
+  goalsSection,
+  roleSection
+] = page.sections ?? [];
+
+const usesEmbeddedMarkers = (bullets?: string[]) =>
+  Boolean(
+    bullets?.length &&
+      bullets.every((bullet) => /^(（.+?）|[①-⑳]|※)/.test(bullet.trim()))
+  );
+
+const overviewRows = [scheduleSection, locationSection, feeSection, applicationSection].filter(Boolean);
+const deepCards = [goalsSection, roleSection].filter(Boolean);
+const eligibilityItems =
+  eligibilitySection?.bullets?.filter((bullet) => !bullet.trim().startsWith("※")) ?? [];
+const eligibilityNote = eligibilitySection?.bullets?.find((bullet) => bullet.trim().startsWith("※"));
+const referenceImages = [
+  {
+    src: "/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-02.jpeg",
+    alt: "太陽神功の練功方法と効果に関する資料",
+    title: "太陽神功"
+  },
+  {
+    src: "/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-03.jpeg",
+    alt: "天師動玄陰寒氷掌の練功方法と効果に関する資料",
+    title: "天師動玄陰寒氷掌"
+  },
+  {
+    src: "/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-04.jpeg",
+    alt: "基深密抽火定霊熱秘法の練功方法と効果に関する資料",
+    title: "基深密抽火定霊熱秘法"
+  },
+  {
+    src: "/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-05.jpeg",
+    alt: "禅の拳鎮魔法の練功方法と効果に関する資料",
+    title: "禅の拳鎮魔法"
+  },
+  {
+    src: "/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-06.jpeg",
+    alt: "仙道無上神霄九龍五雷法の練功方法と効果に関する資料",
+    title: "仙道無上神霄九龍五雷法"
+  },
+  {
+    src: "/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-07.jpeg",
+    alt: "二十八宿運命自控法の練功方法と効果に関する資料",
+    title: "二十八宿運命自控法"
+  }
+];
+const referenceImagesJson = JSON.stringify(referenceImages);
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <Hero title={page.heroTitle} intro={page.heroIntro} />
-  <SectionBlock sections={page.sections} />
+  <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
+
+  <section class="class-detail-hero-support class-detail-hero-support-kitasenju">
+    <div class="container class-detail-hero-shell class-detail-hero-shell-kitasenju class-detail-hero-shell-single">
+      <div class="class-detail-stat-list class-detail-stat-list-kitasenju">
+        <span>上級者向け</span>
+        <span>選定制</span>
+        <span>年間コース</span>
+      </div>
+
+      <figure class="class-detail-hero-media class-detail-hero-media-banner">
+        <img
+          src="/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-01.jpeg"
+          alt="心と体大元気365日の人体改造企画のバナー"
+          width="920"
+          height="257"
+          loading="eager"
+        />
+      </figure>
+    </div>
+  </section>
+
+  {overviewRows.length > 0 && (
+    <section class="content-section class-detail-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading class-detail-heading">
+          <h2>開催概要</h2>
+        </div>
+
+        <div class="class-detail-info-panel class-detail-info-panel-kitasenju">
+          {overviewRows.map((section) => (
+            <article class="class-detail-info-row">
+              {section?.title && <h3>{section.title}</h3>}
+              <div class="class-detail-prose">
+                {section?.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+                {section?.bullets && (
+                  <ul class:list={["class-detail-line-list", usesEmbeddedMarkers(section.bullets) && "class-detail-line-list-plain"]}>
+                    {section.bullets.map((bullet) => <li data-note={bullet.trim().startsWith("※") ? "true" : undefined}>{bullet}</li>)}
+                  </ul>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {eligibilitySection && (
+    <section class="content-section class-detail-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading class-detail-heading">
+          <h2>{eligibilitySection.title}</h2>
+        </div>
+
+        <article class="class-detail-eligibility-card class-detail-eligibility-card-kitasenju">
+          <div class="class-detail-prose">
+            {eligibilitySection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+
+          {eligibilityItems.length > 0 && (
+            <div class="class-detail-criteria-grid class-detail-criteria-grid-kitasenju">
+              {eligibilityItems.map((bullet, index) => (
+                <article class="class-detail-criteria-card">
+                  <span class="class-detail-criteria-index">{String(index + 1).padStart(2, "0")}</span>
+                  <p>{bullet}</p>
+                </article>
+              ))}
+            </div>
+          )}
+
+          {eligibilityNote && (
+            <p class="class-detail-criteria-note">{eligibilityNote}</p>
+          )}
+        </article>
+      </div>
+    </section>
+  )}
+
+  {referenceImages.length > 0 && (
+    <section class="content-section class-detail-section">
+      <div class="container">
+        <div class="home-section-heading narrow-heading class-detail-heading">
+          <h2>教室資料</h2>
+          <p class="section-lead">資料に含まれる実際の修練テーマを、教室資料そのままの画像でご紹介します。</p>
+        </div>
+
+        <div class="class-detail-poster-grid class-detail-poster-grid-kitasenju">
+          {referenceImages.map((image, index) => (
+            <figure class="class-detail-poster-card">
+              <button
+                class="class-detail-poster-trigger"
+                type="button"
+                data-poster-index={index}
+                aria-label={`${image.title}を拡大表示`}
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  width="605"
+                  height="841"
+                  loading="eager"
+                />
+              </button>
+              <figcaption>{image.title}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {deepCards.length > 0 && (
+    <section class="content-section class-detail-section">
+      <div class="container">
+        <div class="class-detail-meta-grid class-detail-meta-grid-kitasenju">
+          {deepCards.map((section) => (
+            <article class="class-detail-meta-card">
+              {section?.title && <h3>{section.title}</h3>}
+              <div class="class-detail-prose">
+                {section?.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+                {section?.bullets && (
+                  <ul class:list={["class-detail-line-list", usesEmbeddedMarkers(section.bullets) && "class-detail-line-list-plain"]}>
+                    {section.bullets.map((bullet) => <li data-note={bullet.trim().startsWith("※") ? "true" : undefined}>{bullet}</li>)}
+                  </ul>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <div class="class-detail-lightbox" data-kitasenju-lightbox hidden>
+    <button class="class-detail-lightbox-backdrop" type="button" data-lightbox-close aria-label="拡大表示を閉じる"></button>
+
+    <div class="class-detail-lightbox-dialog" role="dialog" aria-modal="true" aria-label="教室資料の拡大表示">
+      <div class="class-detail-lightbox-toolbar">
+        <div class="class-detail-lightbox-meta">
+          <span class="class-detail-lightbox-count"></span>
+          <p class="class-detail-lightbox-title"></p>
+        </div>
+        <button class="class-detail-lightbox-close" type="button" data-lightbox-close aria-label="閉じる">×</button>
+      </div>
+
+      <div class="class-detail-lightbox-stage">
+        <button class="class-detail-lightbox-nav" type="button" data-lightbox-prev aria-label="前の資料を見る">
+          ‹
+        </button>
+
+        <figure class="class-detail-lightbox-figure">
+          <img class="class-detail-lightbox-image" src="" alt="" width="605" height="841" />
+        </figure>
+
+        <button class="class-detail-lightbox-nav" type="button" data-lightbox-next aria-label="次の資料を見る">
+          ›
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ referenceImagesJson }}>
+    const viewerImages = JSON.parse(referenceImagesJson);
+    const lightbox = document.querySelector("[data-kitasenju-lightbox]");
+    const imageEl = lightbox?.querySelector(".class-detail-lightbox-image");
+    const titleEl = lightbox?.querySelector(".class-detail-lightbox-title");
+    const countEl = lightbox?.querySelector(".class-detail-lightbox-count");
+    const openButtons = Array.from(document.querySelectorAll("[data-poster-index]"));
+    const prevButton = lightbox?.querySelector("[data-lightbox-prev]");
+    const nextButton = lightbox?.querySelector("[data-lightbox-next]");
+    const closeButtons = Array.from(document.querySelectorAll("[data-lightbox-close]"));
+    let currentIndex = 0;
+
+    const renderViewer = (index) => {
+      if (!lightbox || !imageEl || !titleEl || !countEl) return;
+      currentIndex = (index + viewerImages.length) % viewerImages.length;
+      const item = viewerImages[currentIndex];
+      imageEl.setAttribute("src", item.src);
+      imageEl.setAttribute("alt", item.alt);
+      titleEl.textContent = item.title;
+      countEl.textContent = `${currentIndex + 1} / ${viewerImages.length}`;
+    };
+
+    const openViewer = (index) => {
+      if (!lightbox) return;
+      renderViewer(index);
+      lightbox.hidden = false;
+      document.documentElement.style.overflow = "hidden";
+    };
+
+    const closeViewer = () => {
+      if (!lightbox) return;
+      lightbox.hidden = true;
+      document.documentElement.style.overflow = "";
+    };
+
+    openButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const index = Number(button.getAttribute("data-poster-index") ?? "0");
+        openViewer(index);
+      });
+    });
+
+    prevButton?.addEventListener("click", () => renderViewer(currentIndex - 1));
+    nextButton?.addEventListener("click", () => renderViewer(currentIndex + 1));
+    closeButtons.forEach((button) => button.addEventListener("click", closeViewer));
+
+    document.addEventListener("keydown", (event) => {
+      if (!lightbox || lightbox.hidden) return;
+      if (event.key === "Escape") closeViewer();
+      if (event.key === "ArrowLeft") renderViewer(currentIndex - 1);
+      if (event.key === "ArrowRight") renderViewer(currentIndex + 1);
+    });
+  </script>
 </MainLayout>

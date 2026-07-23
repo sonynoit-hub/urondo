@@ -11,7 +11,6 @@
 │   ├── /treatments/private-instruction
 │   └── /treatments/special-remote
 ├── /classes
-│   ├── /classes/instructors
 │   ├── /classes/shin-nakano
 │   ├── /classes/ginza
 │   ├── /classes/kitasenju-advanced
@@ -38,7 +37,6 @@ treatments-remote.ts
 treatments-private-instruction.ts
 treatments-special-remote.ts
 classes.ts
-classes-instructors.ts
 classes-shin-nakano.ts
 classes-ginza.ts
 classes-kitasenju-advanced.ts
@@ -57,25 +55,23 @@ privacy-policy.ts
 - `Footer.astro`
 - `Hero.astro`
 - `SectionBlock.astro`
-- `CardGrid.astro`
-- `PricingBlock.astro`
-- `ScheduleTable.astro`
 - `LocationCard.astro`
 - `DownloadBlock.astro`
-- `CTASection.astro`
+- `TreatmentNav.astro`
+- `CompanyOverviewIcon.astro`
 
 ## Component-to-Page Mapping
-- Home: `Hero`, `SectionBlock`, `CardGrid`, `LocationCard`, `CTASection`
-- About: `Hero`, `SectionBlock`, `CTASection`
-- Treatments landing: `Hero`, `CardGrid`, `CTASection`
-- Treatment detail pages: `Hero`, `SectionBlock`, `PricingBlock`, `ScheduleTable`, `CTASection`
-- Classes landing: `Hero`, `CardGrid`, `LocationCard`, `CTASection`
-- Class detail pages: `Hero`, `SectionBlock`, `PricingBlock`, `ScheduleTable`, `CTASection`
+- Home: `HomepageReviewPage`, custom sections, `LocationCard`
+- About: custom sections and media layout
+- Treatments landing: custom hero and overview cards
+- Treatment detail pages: `TreatmentNav` plus page-specific custom sections
+- Classes landing: custom location preview grid and custom teacher intro section
+- Class detail pages: currently `Hero` and `SectionBlock`, moving toward page-specific custom layouts
 - Access: `Hero`, `LocationCard`, `SectionBlock`
-- Company: `Hero`, `SectionBlock`
-- Contact: `Hero`, `SectionBlock`, `DownloadBlock`, `CTASection`
+- Company: `CompanyOverviewIcon`, custom overview rows
+- Contact: `Hero`, `SectionBlock`, `DownloadBlock`
 - Downloads page: `Hero`, `DownloadBlock`, `SectionBlock`
-- Special Items: `Hero`, `SectionBlock`, `PricingBlock`, `CTASection`
+- Special Items: custom intro and numbered type cards
 - Privacy Policy: `Hero`, `SectionBlock`
 
 ## Homepage Section Order
@@ -87,8 +83,7 @@ privacy-policy.ts
 6. Class locations preview
 7. About Liang preview
 8. Company overview
-9. Contact CTA
-10. Footer
+9. Footer
 
 ## Service Page Order
 1. Hero
@@ -98,7 +93,7 @@ privacy-policy.ts
 5. Pricing
 6. Schedule
 7. Notes / precautions
-8. CTA
+8. Related treatment navigation
 
 ## Class Page Order
 1. Hero
@@ -109,7 +104,8 @@ privacy-policy.ts
 6. Fee
 7. Venue
 8. Application method
-9. CTA
+
+Ginza note: keep Thursday and Friday schedules together on `/classes/ginza` instead of splitting them into separate pages.
 
 ## Minimal Content Shape
 
@@ -147,7 +143,10 @@ export type PageData = {
 - Put downloads in `public/downloads/`.
 - Do not hardcode long text inside page files.
 - Use content files as the source of truth.
+- Use `3-1講師紹介.docx` content inside the `/classes` landing page instead of a standalone instructor route.
+- Keep detailed access directions on `/access`, not on the `/classes` landing page.
 - Reuse templates and shared components instead of building each page from scratch.
+- Remove deprecated components after migration so the handoff stays accurate.
 
 ## Build Order
 1. Main layout
@@ -155,21 +154,19 @@ export type PageData = {
 3. Footer
 4. Hero
 5. SectionBlock
-6. CTASection
-7. CardGrid
-8. PricingBlock
-9. ScheduleTable
-10. LocationCard
-11. Homepage
-12. Treatments landing
-13. Treatment detail pages
-14. Classes landing
-15. Class detail pages
-16. Access
-17. Company
-18. Contact
-19. Downloads page
-20. Special items
-21. Privacy policy
-22. SEO pass
-23. Mobile QA pass
+6. LocationCard
+7. DownloadBlock
+8. TreatmentNav
+9. Homepage
+10. Treatments landing
+11. Treatment detail pages
+12. Classes landing
+13. Class detail pages
+14. Access
+15. Company
+16. Contact
+17. Downloads page
+18. Special items
+19. Privacy policy
+20. SEO pass
+21. Mobile QA pass

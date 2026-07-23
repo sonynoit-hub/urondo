@@ -1,5 +1,10 @@
 ---
 import { mainNav, site } from "../content/site";
+
+const currentPath = Astro.url.pathname;
+
+const isCurrentPath = (href: string) =>
+  href === "/" ? currentPath === "/" : currentPath === href || currentPath.startsWith(`${href}/`);
 ---
 
 <header class="site-header">
@@ -9,13 +14,49 @@ import { mainNav, site } from "../content/site";
     <div class="header-actions">
       <nav class="desktop-nav" aria-label="Main navigation">
         <ul class="nav-list">
-          {mainNav.map((item) => (
-            <li>
-              <a class={item.label === "お問い合わせ" ? "nav-contact-link" : undefined} href={item.href}>
-                {item.label}
-              </a>
-            </li>
-          ))}
+          {mainNav.map((item) => {
+            const itemIsCurrent = isCurrentPath(item.href);
+            const hasChildren = Boolean(item.children?.length);
+
+            return (
+              <li class:list={["nav-item", hasChildren && "has-submenu", itemIsCurrent && "is-current"]}>
+                {hasChildren ? (
+                  <>
+                    <div class="nav-parent-row">
+                      <a class="nav-parent-link" href={item.href} aria-current={itemIsCurrent ? "page" : undefined}>
+                        {item.label}
+                      </a>
+                      <span class="nav-caret" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="nav-submenu" role="menu" aria-label={item.label}>
+                      {item.children?.map((child) => {
+                        const childIsCurrent = isCurrentPath(child.href);
+
+                        return (
+                          <a
+                            class:list={["nav-submenu-link", childIsCurrent && "is-current"]}
+                            href={child.href}
+                            aria-current={childIsCurrent ? "page" : undefined}
+                          >
+                            {child.label}
+                          </a>
+                        );
+                      })}
+                    </div>
+                  </>
+                ) : (
+                  <a
+                    class={item.label === "お問い合わせ" ? "nav-contact-link" : undefined}
+                    href={item.href}
+                    aria-current={itemIsCurrent ? "page" : undefined}
+                  >
+                    {item.label}
+                  </a>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </nav>
 
@@ -28,13 +69,55 @@ import { mainNav, site } from "../content/site";
         <div class="mobile-menu-panel">
           <nav aria-label="Mobile navigation">
             <ul class="mobile-nav-list">
-              {mainNav.map((item) => (
-                <li>
-                  <a class={item.label === "お問い合わせ" ? "nav-contact-link mobile-nav-contact-link" : undefined} href={item.href}>
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+              {mainNav.map((item) => {
+                const itemIsCurrent = isCurrentPath(item.href);
+                const hasChildren = Boolean(item.children?.length);
+
+                return (
+                  <li>
+                    {hasChildren ? (
+                      <details class="mobile-nav-group" open={itemIsCurrent}>
+                        <summary>
+                          <span>{item.label}</span>
+                          <span class="mobile-nav-caret" aria-hidden="true"></span>
+                        </summary>
+
+                        <div class="mobile-submenu">
+                          <a
+                            class:list={["mobile-submenu-link", itemIsCurrent && "is-current"]}
+                            href={item.href}
+                            aria-current={itemIsCurrent ? "page" : undefined}
+                          >
+                            {item.label}トップ
+                          </a>
+
+                          {item.children?.map((child) => {
+                            const childIsCurrent = isCurrentPath(child.href);
+
+                            return (
+                              <a
+                                class:list={["mobile-submenu-link", childIsCurrent && "is-current"]}
+                                href={child.href}
+                                aria-current={childIsCurrent ? "page" : undefined}
+                              >
+                                {child.label}
+                              </a>
+                            );
+                          })}
+                        </div>
+                      </details>
+                    ) : (
+                      <a
+                        class={item.label === "お問い合わせ" ? "nav-contact-link mobile-nav-contact-link" : undefined}
+                        href={item.href}
+                        aria-current={itemIsCurrent ? "page" : undefined}
+                      >
+                        {item.label}
+                      </a>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </nav>
         </div>

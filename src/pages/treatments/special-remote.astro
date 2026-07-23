@@ -1,20 +1,16 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
-import CTASection from "../../components/CTASection.astro";
+import PageHero from "../../components/PageHero.astro";
 import TreatmentNav from "../../components/TreatmentNav.astro";
 import page from "../../content/treatments-special-remote";
+import { toFullWidthDigits } from "../../utils/text";
 
 const [introSection, recentSection, precautionsSection] = page.sections ?? [];
 const highlightedNotice = "開催案内は会員にはメールと公式ホームページでお知らせします。";
 ---
 
 <MainLayout title={page.title} description={page.description}>
-  <section class="hero treatments-hero special-remote-hero">
-    <div class="container treatments-hero-shell">
-      <h1>{page.heroTitle}</h1>
-      {page.heroIntro && <p class="hero-intro treatments-hero-intro">{page.heroIntro}</p>}
-    </div>
-  </section>
+  <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
 
   {introSection && (
     <section class="content-section">
@@ -67,7 +63,7 @@ const highlightedNotice = "開催案内は会員にはメールと公式ホー�
         <div class="remote-precaution-list">
           {precautionsSection.bullets?.map((bullet, index) => (
             <article class="remote-precaution-item">
-              <p class="about-bullet-index">{index + 1}</p>
+              <p class="about-bullet-index">{toFullWidthDigits(index + 1)}</p>
               <p>{bullet}</p>
             </article>
           ))}
@@ -77,8 +73,4 @@ const highlightedNotice = "開催案内は会員にはメールと公式ホー�
   )}
 
   <TreatmentNav currentHref="/treatments/special-remote" />
-
-  <CTASection
-    class="about-final-cta"
-  />
 </MainLayout>
