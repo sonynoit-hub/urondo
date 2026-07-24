@@ -101,16 +101,6 @@ const isCurrentPath = (href?: string) =>
                         </summary>
 
                         <div class="mobile-submenu">
-                          {item.href && (
-                            <a
-                              class:list={["mobile-submenu-link", itemIsCurrent && "is-current"]}
-                              href={item.href}
-                              aria-current={itemIsCurrent ? "page" : undefined}
-                            >
-                              {item.label}トップ
-                            </a>
-                          )}
-
                           {item.children?.map((child) => {
                             const childIsCurrent = isCurrentPath(child.href);
 

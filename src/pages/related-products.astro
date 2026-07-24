@@ -803,6 +803,38 @@ const talismans = [
 
   }
 
+  @media (max-width: 1024px) {
+    .talisman-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .application-card {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .product-card {
+      grid-template-columns: 1fr;
+    }
+
+    .product-image-wrap {
+      min-height: 280px;
+    }
+
+    .talisman-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .talisman-card.is-featured {
+      grid-column: auto;
+    }
+
+    .application-card {
+      grid-template-columns: 1fr;
+    }
+  }
+
   @media (max-width: 640px) {
     .products-hero {
       padding: 1.8rem 0;

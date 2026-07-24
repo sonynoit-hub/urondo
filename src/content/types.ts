@@ -37,6 +37,7 @@ export type DownloadItem = {
   label: string;
   href: string;
   description?: string;
+  blank?: boolean;
 };
 
 export type LocationItem = {
