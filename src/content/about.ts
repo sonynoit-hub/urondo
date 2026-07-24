@@ -4,7 +4,7 @@ const about: PageData = {
   title: "先生紹介・気功とは",
   description: "梁蔭全と梁蔭全の気功の紹介ページ。",
   heroTitle: "梁蔭全と梁気功とは",
-  heroIntro: "梁蔭全先生の経歴と、気功とは何かをご紹介します。",
+  heroIntro: "梁蔭全先生の経歴と、梁気功とは何かをご紹介します。",
   sections: [
     {
       title: "梁蔭全とは",

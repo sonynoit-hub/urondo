@@ -92,56 +92,58 @@ const companyRows = companyItems
 ---
 
 <div class="pdf-home">
-  <section class="pdf-panel pdf-cover" aria-labelledby="top-message">
-    <div class="pdf-panel-inner pdf-cover-inner">
-      <p class="pdf-company-name">株式会社烏龍堂</p>
-      <div class="pdf-cover-message">
-        <h1 id="top-message">
-          {page.heroLines.map((line) => <span>{line}</span>)}
-        </h1>
-        <p class="pdf-cover-lead">{page.heroIntro}</p>
-      </div>
-      <div class="pdf-cover-rule" aria-hidden="true">
-        <span></span>
-        <i></i>
-        <span></span>
-      </div>
-    </div>
-  </section>
-
-  <section class="pdf-panel pdf-philosophy" aria-labelledby="philosophy-title">
-    <div class="pdf-panel-inner pdf-philosophy-inner">
-      <header class="pdf-title-plaque">
-        <h2 id="philosophy-title">{page.philosophy.title}</h2>
-        <div class="pdf-ornament" aria-hidden="true">
+  <div class="pdf-intro-panels">
+    <section class="pdf-panel pdf-cover" aria-labelledby="top-message">
+      <div class="pdf-panel-inner pdf-cover-inner">
+        <p class="pdf-company-name">株式会社烏龍堂</p>
+        <div class="pdf-cover-message">
+          <h1 id="top-message">
+            {page.heroLines.map((line) => <span>{line}</span>)}
+          </h1>
+          <p class="pdf-cover-lead">{page.heroIntro}</p>
+        </div>
+        <div class="pdf-cover-rule" aria-hidden="true">
           <span></span>
           <i></i>
           <span></span>
         </div>
-        <p>
-          {philosophyStatementLines.map((line) => <span>{line}</span>)}
-        </p>
-      </header>
-
-      <div class="pdf-philosophy-copy">
-        <p>{philosophyParagraphs[0]}</p>
-        <div class="pdf-promise-list">
-          {page.philosophy.promises.map((promise) => <p>―{promise}</p>)}
-        </div>
-        {philosophyParagraphs.slice(1).map((paragraph, index) => (
-          <p
-            class:list={[
-              index === 0 && "pdf-philosophy-service",
-              index === 1 && "pdf-philosophy-principle",
-              index === 2 && "pdf-philosophy-conclusion"
-            ]}
-          >
-            {paragraph}
-          </p>
-        ))}
       </div>
-    </div>
-  </section>
+      </div>
+
+    <section class="pdf-panel pdf-philosophy" aria-labelledby="philosophy-title">
+      <div class="pdf-panel-inner pdf-philosophy-inner">
+        <header class="pdf-title-plaque">
+          <h2 id="philosophy-title">{page.philosophy.title}</h2>
+          <div class="pdf-ornament" aria-hidden="true">
+            <span></span>
+            <i></i>
+            <span></span>
+          </div>
+          <p>
+            {philosophyStatementLines.map((line) => <span>{line}</span>)}
+          </p>
+        </header>
+
+        <div class="pdf-philosophy-copy">
+          <p>{philosophyParagraphs[0]}</p>
+          <div class="pdf-promise-list">
+            {page.philosophy.promises.map((promise) => <p>―{promise}</p>)}
+          </div>
+          {philosophyParagraphs.slice(1).map((paragraph, index) => (
+            <p
+              class:list={[
+                index === 0 && "pdf-philosophy-service",
+                index === 1 && "pdf-philosophy-principle",
+                index === 2 && "pdf-philosophy-conclusion"
+              ]}
+            >
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
 
   <div class="pdf-programs">
   <section class="pdf-panel pdf-program" aria-labelledby="program-title">
@@ -280,6 +282,33 @@ const companyRows = companyItems
     padding: 0;
   }
 
+  .pdf-intro-panels {
+    isolation: isolate;
+    position: relative;
+  }
+
+  .pdf-intro-panels::before,
+  .pdf-intro-panels::after {
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .pdf-intro-panels::before {
+    background:
+      linear-gradient(180deg, rgba(30, 44, 40, 0.22) 0%, rgba(76, 62, 35, 0.12) 18%, rgba(245, 239, 228, 0.08) 42%, rgba(247, 242, 234, 0.2) 70%, rgba(249, 246, 240, 0.34) 100%),
+      url("/images/home/hero-bg-mountains.png") center top / cover no-repeat,
+      #f5f1e7;
+    z-index: 0;
+  }
+
+  .pdf-intro-panels::after {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(252, 249, 242, 0.06) 36%, rgba(250, 246, 239, 0.16) 58%, rgba(249, 246, 240, 0.26) 78%, rgba(249, 246, 240, 0.38) 100%);
+    z-index: 0;
+  }
+
   :global(body:has(.pdf-home) .site-footer) {
     margin-top: 0;
   }
@@ -327,11 +356,8 @@ const companyRows = companyItems
   }
 
   .pdf-cover {
-    background:
-      linear-gradient(rgba(250, 247, 239, 0.18), rgba(250, 247, 239, 0.18)),
-      url("/images/home/hero-bg-mountains.png") center / cover no-repeat,
-      #f5f1e7;
-    min-height: calc(100svh - 70px);
+    background: transparent;
+    min-height: calc(118svh - 70px);
   }
 
   .pdf-cover::after {
@@ -515,12 +541,10 @@ const companyRows = companyItems
   }
 
   .pdf-philosophy {
-    background:
-      linear-gradient(rgba(252, 249, 241, 0.12), rgba(252, 249, 241, 0.12)),
-      url("/images/home/philosophy-bg-harmony.png") center / cover no-repeat,
-      #f5f1e7;
+    background: transparent;
     border-bottom: 0;
     min-height: calc(100svh - 70px);
+    margin-top: -1px;
   }
 
   .pdf-philosophy::before,

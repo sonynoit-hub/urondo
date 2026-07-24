@@ -11,6 +11,8 @@ interface Props {
 }
 
 const { title, description = site.name } = Astro.props;
+const currentPath = Astro.url.pathname;
+const showFloatingNews = currentPath !== "/contact";
 ---
 
 <!doctype html>
@@ -27,7 +29,7 @@ const { title, description = site.name } = Astro.props;
     <main class="page-shell">
       <slot />
     </main>
-    <FloatingNews />
+    {showFloatingNews && <FloatingNews />}
     <Footer />
   </body>
 </html>

@@ -102,22 +102,6 @@ const courseCards = [
 <MainLayout title={page.title} description={page.description}>
   <PageHero title={page.heroTitle} subtitle={page.heroIntro ?? page.description} />
 
-  {introSection && (
-    <section class="content-section class-detail-section">
-      <div class="container">
-        <div class="class-detail-overview-card class-detail-overview-card-correspondence">
-          <div class="home-section-heading narrow-heading class-detail-heading">
-            <h2>{introSection.title}</h2>
-          </div>
-
-          <div class="class-detail-prose">
-            {introSection.paragraphs?.slice(0, 2).map((paragraph) => <p>{paragraph}</p>)}
-          </div>
-        </div>
-      </div>
-    </section>
-  )}
-
   <section class="content-section class-detail-section">
     <div class="container">
       <div class="home-section-heading narrow-heading class-detail-heading">
