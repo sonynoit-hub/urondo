@@ -25,11 +25,11 @@ const flowSteps = flowSection
       },
       {
         title: "施術",
-        paragraphs: []
+        paragraphs: flowSection.paragraphs?.slice(4, 5) ?? []
       },
       {
         title: "施術後の説明・次回予約",
-        paragraphs: flowSection.paragraphs?.slice(4, 5) ?? []
+        paragraphs: flowSection.paragraphs?.slice(5, 7) ?? []
       }
     ]
   : [];

@@ -15,8 +15,8 @@ const [
 ] = page.sections ?? [];
 
 const scheduleCards = [
-  thursdaySection && { label: "木曜", section: thursdaySection },
-  fridaySection && { label: "金曜", section: fridaySection }
+  thursdaySection && { label: "木曜日クラス", section: thursdaySection },
+  fridaySection && { label: "金曜日クラス", section: fridaySection }
 ].filter(Boolean);
 
 const sharedInfoRows = [feeSection, venueSection, certificateSection, applicationSection].filter(Boolean);
@@ -36,13 +36,10 @@ const sharedInfoRows = [feeSection, venueSection, certificateSection, applicatio
             height="469"
             loading="eager"
           />
+          <figcaption class="classroom-overview-image-title">銀座教室</figcaption>
         </figure>
 
         <article class="class-detail-overview-card classroom-overview-copy">
-          <div class="home-section-heading narrow-heading class-detail-heading">
-            <h2>{introSection.title}</h2>
-          </div>
-
           <div class="class-detail-prose">
             {introSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
           </div>
@@ -98,11 +95,10 @@ const sharedInfoRows = [feeSection, venueSection, certificateSection, applicatio
           <p class="section-lead">銀座教室は曜日ごとに時間帯と担当講師が異なります。ご都合に合わせてお選びください。</p>
         </div>
 
-        <div class="class-detail-compare-grid">
+        <div class="classroom-mini-grid">
           {scheduleCards.map((item) => (
-            <article class="class-detail-compare-card">
-              <div class="class-detail-schedule-label">{item?.label}</div>
-              {item?.section?.title && <h3>{item.section.title}</h3>}
+            <article class="classroom-mini-card">
+              <h3>{item?.label}</h3>
               <div class="class-detail-prose">
                 {item?.section?.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
               </div>

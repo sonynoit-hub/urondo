@@ -1,6 +1,7 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import FloatingNews from "../components/FloatingNews.astro";
 import { site } from "../content/site";
 import "../styles/global.css";
 
@@ -26,6 +27,7 @@ const { title, description = site.name } = Astro.props;
     <main class="page-shell">
       <slot />
     </main>
+    <FloatingNews />
     <Footer />
   </body>
 </html>

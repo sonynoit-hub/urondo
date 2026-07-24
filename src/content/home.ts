@@ -1,3 +1,4 @@
+import { newsItems, type NewsItem } from "./news";
 import type { CardItem, PageData } from "./types";
 
 type PhilosophyContent = {
@@ -19,6 +20,20 @@ type PracticeItem = {
   body: string;
 };
 
+type SidebarLinkItem = {
+  title: string;
+  subtitle?: string;
+  href: string;
+};
+
+type SidebarContent = {
+  newsItems: NewsItem[];
+  treatmentItems: SidebarLinkItem[];
+  classroomItems: SidebarLinkItem[];
+  hostLines: string[];
+  cohostLines: string[];
+};
+
 interface HomePageData extends PageData {
   heroLines: string[];
   philosophy: PhilosophyContent;
@@ -26,6 +41,7 @@ interface HomePageData extends PageData {
   treatmentStyles: CardItem[];
   classroom: FeatureContent;
   classroomPractices: PracticeItem[];
+  sidebar: SidebarContent;
 }
 
 const home: HomePageData = {
@@ -42,24 +58,23 @@ const home: HomePageData = {
     title: "株式会社烏龍堂の理念",
     statement: "東方の生命智慧で、健康・長寿・幸福が調和する社会を創る。",
     promises: [
-      "烏龍茶のように、深く温かく、人を癒す存在であること。",
+      "お茶のように、深く温かく、人を癒す存在であること。",
       "龍が象徴する「見えざる気」の力で、人々の生命力を覚醒させること。"
     ],
     paragraphs: [
       "「烏龍堂」の名には、二つの誓いがあります。",
       "私たちは、オーダーメイドの気功施術と健康教室を通じて、一人ひとりが自らの自然治癒力に気づき、生涯にわたって心身ともに輝き続けることをサポートします。",
       "健康があってこそ、長寿は喜びとなり、長寿があってこそ、幸福は深まります。",
-      "烏龍堂は、「健康長寿幸福社会」の実現に向け、今日も“気”の力で未来を耕し続けます。"
+      "株式会社烏龍堂は、「健康・長寿・幸福社会」の実現に向け、今日も“気”の力で未来を耕し続けます。"
     ]
   },
   treatment: {
     title: "超実感気功療法",
     intro:
-      "当社の中核を成すのが、梁蔭全先生が39年の実績の中で体系化した「超実感気功療法」による施術です。これは「気」という生命エネルギーに働きかけ、人間が本来持つ自然治癒力を最大限に引き出す東洋医学の真髄です。",
+      "39年の実績から体系化した『超実感気功療法』による施術で、生命エネルギー『気』にアプローチし、皆様が本来持つ自然治癒力を最大限に引き出すお手伝いをいたします。",
     featureTitle: "施術の特長",
     featureParagraphs: [
-      "西洋医学では「異常なし」と言われながらも、慢性的な疲労、不眠、冷え、肩こり、頭痛、めまい、胃腸障害など、はっきりとした原因がつかめない不調に悩む方は少なくありません。当社の気功療法は、こうした不定愁訴はもちろん、難病指定されている疾患の症状緩和に至るまで、幅広く対応します。",
-      "梁蔭全先生による施術は、まず全身の「気」の流れを独自の診断法で見極めることから始まります。滞っている箇所、不足している箇所を見極めた上で、先生の強力な「外気」を必要な経穴（ツボ）や経絡に送り込み、滞りを取り除き、生命エネルギーの流れを正常化していきます。"
+      "西洋医学では「異常なし」と言われながらも、慢性的な疲労、不眠、冷え、肩こり、頭痛、めまい、胃腸障害など、はっきりとした原因がつかめない不調に悩む方は少なくありません。こうした不定愁訴はもちろん、難病指定されている疾患の症状緩和に至るまで、幅広く対応します。梁蔭全先生による施術は、まず全身の「気」の流れを独自の診断法で見極めることから始まります。滞っている箇所、不足している箇所を見極めた上で、先生の強力な「外気」を必要な経穴（ツボ）や経絡に送り込み、滞りを取り除き、生命エネルギーの流れを正常化していきます。"
     ]
   },
   treatmentStyles: [
@@ -91,11 +106,11 @@ const home: HomePageData = {
   classroom: {
     title: "健康気功教室",
     intro:
-      "病気になってから治すのではなく、そもそも病気にならない心身をつくる——それが東方養生思想の根幹です。私たちの気功教室は、この考え方に基づき、梁蔭全総師範および認定師範の指導のもと、老若男女を問わず、無理なく続けられる健康習慣を身につける場です。",
+      "病気になってから治すのではなく、そもそも病気にならない心身をつくる——それが東方養生思想の根幹です。私たちの気功教室は、この考え方に基づき、梁蔭全主任講師および認定講師の指導のもと、老若男女を問わず、無理なく続けられる健康習慣を身につける場です。",
     featureTitle: "教室の特長",
     featureParagraphs: [
-      "単なる気功の型や体操を教える場ではなく、梁蔭全総師範が幼少より祖父（道教羅浮派宗主）から受け継ぎ、さらに来日後に仏教・密教の功法も融合させて完成させた「仙道気功養生法」をベースにしています。",
-      "深い呼吸法、ゆったりとした身体の動き、意念（イメージ）の集中によって、心身の緊張を解きほぐし、気血の巡りを良くしていきます。"
+      "当教室は、単なる気功の型や体操を教える場ではありません。梁蔭全先生が祖父（道教羅浮派宗主）から受け継いだ秘伝に、仏教・密教の功法を融合させて完成させた「仙道気功養生法」をベースにしています。「深い呼吸」「ゆったりとした動き」「意念（イメージ）の集中」を組み合わせることで、心身の緊張を芯から解きほぐし、気血の巡る健やかな身体へと導きます。"
+      
     ]
   },
   classroomPractices: [
@@ -116,7 +131,46 @@ const home: HomePageData = {
       body:
         "梁先生または指導員が発する「気」を直接体感。人によっては温かさ、電流のようなビリビリ感、心地よい風のような感覚などを感じ取ることができます。"
     }
-  ]
+  ],
+  sidebar: {
+    newsItems,
+    treatmentItems: [
+      {
+        title: "通院施術",
+        subtitle: "新中野・銀座で直接施術",
+        href: "/treatments/in-person"
+      },
+      {
+        title: "遠隔気功療法",
+        subtitle: "時間と場所を問わず施術",
+        href: "/treatments/remote"
+      },
+      {
+        title: "個別指導",
+        subtitle: "気功指導と健康計画作成",
+        href: "/treatments/private-instruction"
+      }
+    ],
+    classroomItems: [
+      {
+        title: "教室案内",
+        subtitle: "新中野・銀座・北千住",
+        href: "/classes"
+      },
+      {
+        title: "通信教育コース",
+        subtitle: "自宅で学ぶコース",
+        href: "/classes/correspondence"
+      },
+      {
+        title: "特別講座",
+        subtitle: "不定期開催",
+        href: "/classes/special-lectures"
+      }
+    ],
+    hostLines: ["株式会社烏龍堂"],
+    cohostLines: ["一般社団法人 全日本養生協会", "東京古禅美術館"]
+  }
 };
 
 export default home;

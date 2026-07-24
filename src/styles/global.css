@@ -88,6 +88,24 @@ img {
   letter-spacing: 0.04em;
 }
 
+.brand {
+  display: grid;
+  gap: 0.18rem;
+  line-height: 1.2;
+}
+
+.brand-name {
+  color: var(--accent-deep);
+}
+
+.brand-tagline {
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+}
+
 .header-actions {
   align-items: center;
   display: flex;
@@ -106,6 +124,7 @@ img {
 }
 
 .desktop-nav a,
+.nav-parent-label,
 .mobile-nav-list a {
   font-size: 0.94rem;
   font-weight: 500;
@@ -150,7 +169,8 @@ img {
 }
 
 .nav-item > a[aria-current="page"],
-.nav-parent-link[aria-current="page"] {
+.nav-parent-link[aria-current="page"],
+.nav-item.is-current .nav-parent-label {
   color: var(--accent);
 }
 
@@ -190,6 +210,10 @@ img {
 }
 
 .nav-parent-link {
+  display: inline-flex;
+}
+
+.nav-parent-label {
   display: inline-flex;
 }
 
@@ -1408,8 +1432,98 @@ img {
   padding-top: 0.35rem;
 }
 
+.classes-subpage-nav-section {
+  padding-top: 0.25rem;
+}
+
+.classes-subpage-nav {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0 auto;
+  max-width: 110rem;
+}
+
+.classes-subpage-button {
+  align-items: center;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(243, 237, 226, 0.72));
+  border: 2px solid rgba(181, 139, 69, 0.7);
+  border-radius: 24px;
+  box-shadow: 0 12px 28px rgba(28, 38, 35, 0.05);
+  color: var(--accent);
+  display: flex;
+  font-size: clamp(0.98rem, 1.15vw, 1.15rem);
+  font-weight: 700;
+  justify-content: center;
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+  min-height: 9rem;
+  padding: 1.2rem 1rem;
+  text-align: center;
+  text-wrap: balance;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+.classes-subpage-button:hover,
+.classes-subpage-button:focus-visible,
+.classes-subpage-button.is-current {
+  background: rgba(33, 78, 67, 0.98);
+  border-color: rgba(33, 78, 67, 0.88);
+  box-shadow: 0 14px 30px rgba(28, 38, 35, 0.1);
+  color: #f8f3ea;
+  transform: translateY(-1px);
+}
+
+.classes-subpage-button:focus-visible {
+  outline: none;
+}
+
+@media (max-width: 1260px) {
+  .classes-subpage-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .classes-subpage-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .classes-subpage-button {
+    min-height: 7.25rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .classes-subpage-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .classes-subpage-button {
+    min-height: 5.25rem;
+  }
+}
+
 .classes-teacher-heading {
   max-width: none;
+}
+
+.classes-teacher-cards {
+  display: grid;
+  gap: 1.2rem;
+  max-width: 68rem;
+}
+
+.classes-reference-gallery {
+  display: grid;
+  gap: 1.2rem;
+  padding: 0.5rem 0;
+}
+
+@media (min-width: 1025px) {
+  .classes-reference-lead {
+    white-space: nowrap;
+  }
 }
 
 .classes-teacher-card {
@@ -1545,6 +1659,18 @@ img {
   font-size: 0.91rem;
   line-height: 1.34;
   margin: 0;
+}
+
+.company-history-entry {
+  align-items: baseline;
+  display: grid;
+  gap: 0.55rem;
+  grid-template-columns: 7.2em minmax(0, 1fr);
+}
+
+.company-history-date {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
 }
 
 .company-overview-icon {
@@ -1814,6 +1940,9 @@ img {
   margin: 0;
 }
 
+.about-document-card {
+}
+
 .about-document-card img {
   display: block;
   height: auto;
@@ -1871,6 +2000,30 @@ img {
 .about-qigong-flow {
   display: grid;
   gap: 1.6rem;
+}
+
+.about-qigong-layout {
+  align-items: start;
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  grid-template-columns: minmax(280px, 0.36fr) minmax(0, 0.64fr);
+}
+
+.about-qigong-poster {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(243, 237, 226, 0.86));
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 14px 34px rgba(28, 38, 35, 0.08);
+  margin: 0;
+  overflow: hidden;
+  padding: 0.8rem;
+}
+
+.about-qigong-poster img {
+  border-radius: 16px;
+  display: block;
+  height: auto;
+  width: 100%;
 }
 
 .about-qigong-lead {
@@ -2062,8 +2215,8 @@ img {
 
 .treatments-overview-grid {
   display: grid;
-  gap: clamp(1rem, 2vw, 1.5rem);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.7rem, 1.2vw, 1rem);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .treatments-overview-card {
@@ -2071,83 +2224,56 @@ img {
     linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(249, 245, 235, 0.9));
   border: 1px solid var(--border);
   border-top: 3px solid var(--gold);
-  border-radius: 18px;
-  box-shadow: 0 12px 34px rgba(28, 38, 35, 0.07);
-  display: grid;
-  gap: 1.15rem;
-  grid-template-rows: auto 1fr auto;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(28, 38, 35, 0.06);
+  display: flex;
+  min-height: 6.25rem;
   overflow: hidden;
-  padding: clamp(1.4rem, 2.5vw, 2rem);
+  padding: clamp(0.8rem, 1.35vw, 1.1rem);
   position: relative;
+  text-align: center;
   transition:
+    background-color 180ms ease,
     border-color 180ms ease,
     box-shadow 180ms ease,
+    color 180ms ease,
     transform 180ms ease;
 }
 
 .treatments-overview-card:hover,
 .treatments-overview-card:focus-within {
-  border-color: rgba(170, 134, 82, 0.55);
-  box-shadow: 0 20px 44px rgba(28, 38, 35, 0.12);
-  transform: translateY(-4px);
+  background: rgba(33, 78, 67, 0.98);
+  border-color: rgba(33, 78, 67, 0.88);
+  box-shadow: 0 14px 30px rgba(28, 38, 35, 0.1);
+  transform: translateY(-3px);
 }
 
-.treatments-card-heading {
+.treatments-overview-card.is-current {
+  background: rgba(33, 78, 67, 0.98);
+  border-color: rgba(33, 78, 67, 0.88);
+}
+
+.treatments-card-title-link {
   align-items: center;
+  color: inherit;
   display: flex;
-  gap: 1rem;
-  justify-content: space-between;
-}
-
-.treatments-card-heading > span {
-  align-items: center;
-  border: 1px solid rgba(170, 134, 82, 0.42);
-  border-radius: 50%;
-  color: var(--accent);
-  display: inline-flex;
-  flex: 0 0 auto;
-  font-size: 1rem;
-  height: 2.4rem;
   justify-content: center;
-  transition:
-    background-color 180ms ease,
-    color 180ms ease,
-    transform 180ms ease;
-  width: 2.4rem;
-}
-
-.treatments-overview-card:hover .treatments-card-heading > span,
-.treatments-overview-card:focus-within .treatments-card-heading > span {
-  background: var(--accent);
-  color: #fff;
-  transform: translate(2px, -2px);
+  width: 100%;
 }
 
 .treatments-overview-card h2 {
   color: var(--accent);
-  font-size: clamp(1.45rem, 2.2vw, 1.9rem);
+  font-size: clamp(1.05rem, 1.55vw, 1.35rem);
   letter-spacing: 0.03em;
   line-height: 1.3;
   margin: 0;
+  white-space: nowrap;
 }
 
-.treatments-overview-card p {
-  color: var(--muted);
-  line-height: 1.85;
-  margin: 0;
-}
-
-.treatments-overview-card .text-link {
-  border-top: 1px solid var(--border);
-  justify-content: flex-start;
-  margin-top: 0;
-  padding-top: 0.9rem;
-}
-
-.treatments-card-link::after {
-  content: "";
-  inset: 0;
-  position: absolute;
+.treatments-overview-card:hover h2,
+.treatments-overview-card:focus-within h2,
+.treatments-overview-card.is-current h2 {
+  color: #f8f3ea;
 }
 
 .in-person-lead-flow {
@@ -2423,12 +2549,26 @@ img {
   line-height: 1.4;
   padding: 0.8rem 0.95rem;
   text-align: center;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.treatment-nav-button:hover,
+.treatment-nav-button:focus-visible,
+.treatment-nav-button.is-current {
+  background: rgba(33, 78, 67, 0.98);
+  border-color: rgba(33, 78, 67, 0.88);
+  box-shadow: 0 12px 24px rgba(28, 38, 35, 0.08);
+  color: #f8f3ea;
+  transform: translateY(-1px);
 }
 
 .treatment-nav-button.is-current {
-  background: var(--surface-alt);
-  border-color: rgba(170, 134, 82, 0.7);
-  color: var(--gold);
+  color: #f8f3ea;
 }
 
 .private-instruction-card {
@@ -2838,8 +2978,20 @@ img {
 }
 
 .classroom-overview-image {
+  display: grid;
+  gap: 0.65rem;
   margin: 0;
   overflow: hidden;
+}
+
+.classroom-overview-image-title {
+  color: var(--accent);
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  margin: 0;
+  text-align: center;
 }
 
 .classroom-overview-image img {
@@ -2851,6 +3003,49 @@ img {
 
 .classroom-overview-copy {
   min-width: 0;
+}
+
+.classroom-mini-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.classroom-mini-grid-shin-nakano {
+  align-items: stretch;
+  grid-template-columns: minmax(0, 0.66fr) minmax(0, 0.34fr);
+}
+
+.classroom-mini-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 14px 34px rgba(28, 38, 35, 0.05);
+  min-height: 100%;
+  padding: 1.25rem 1.4rem;
+}
+
+.classroom-mini-card h3 {
+  color: var(--gold);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  margin: 0 0 0.7rem;
+}
+
+.classroom-mini-card .class-detail-prose {
+  gap: 0.55rem;
+}
+
+.classroom-mini-note {
+  margin-top: 0.2rem;
+}
+
+.classroom-mini-split {
+  border-top: 1px solid rgba(170, 134, 82, 0.45);
+  margin-top: 1rem;
+  padding-top: 1rem;
 }
 
 .class-detail-prose {
@@ -3997,6 +4192,11 @@ summary:focus-visible,
     min-width: 0;
   }
 
+  .brand-tagline {
+    font-size: 0.62rem;
+    letter-spacing: 0.02em;
+  }
+
   .header-actions {
     margin-left: auto;
   }
@@ -4058,6 +4258,7 @@ summary:focus-visible,
   .problem-chip-grid,
   .experience-mosaic,
   .about-document-gallery,
+  .about-qigong-layout,
   .about-qigong-steps,
   .treatments-overview-grid,
   .in-person-flow-list,
@@ -4069,6 +4270,10 @@ summary:focus-visible,
   }
 
   .classroom-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .classroom-mini-grid {
     grid-template-columns: 1fr;
   }
 

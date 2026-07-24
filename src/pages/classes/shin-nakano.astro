@@ -13,7 +13,7 @@ const [
   applicationSection
 ] = page.sections ?? [];
 
-const infoRows = [scheduleSection, teacherSection, feeSection, venueSection, applicationSection].filter(Boolean);
+const infoRows = [feeSection, venueSection, applicationSection].filter(Boolean);
 ---
 
 <MainLayout title={page.title} description={page.description}>
@@ -24,19 +24,16 @@ const infoRows = [scheduleSection, teacherSection, feeSection, venueSection, app
       <div class="container classroom-overview-grid">
         <figure class="classroom-overview-image">
           <img
-            src="/images/source-extracted/classes-overview/classes-overview-01.png"
-            alt="赤い床に寝具が整えられた新中野教室の内観"
-            width="836"
-            height="469"
+            src="/images/source-extracted/access/shin-nakano.jpeg"
+            alt="赤い床と掛け軸が並ぶ新中野教室の内観"
+            width="588"
+            height="441"
             loading="eager"
           />
+          <figcaption class="classroom-overview-image-title">新中野教室</figcaption>
         </figure>
 
         <article class="class-detail-overview-card classroom-overview-copy">
-          <div class="home-section-heading narrow-heading class-detail-heading">
-            <h2>{introSection.title}</h2>
-          </div>
-
           <div class="class-detail-prose">
             {introSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
           </div>
@@ -89,6 +86,34 @@ const infoRows = [scheduleSection, teacherSection, feeSection, venueSection, app
       <div class="container">
         <div class="home-section-heading narrow-heading class-detail-heading">
           <h2>開催概要</h2>
+        </div>
+
+        <div class="classroom-mini-grid classroom-mini-grid-shin-nakano">
+          <article class="classroom-mini-card classroom-mini-card-saturday">
+            <h3>土曜日クラス</h3>
+            <div class="class-detail-prose">
+              {scheduleSection?.paragraphs?.[0] && <p>{scheduleSection.paragraphs[0]}</p>}
+              {scheduleSection?.paragraphs?.[2] && (
+                <div class="classroom-mini-note">
+                  <p>{scheduleSection.paragraphs[2]}</p>
+                </div>
+              )}
+            </div>
+
+            <div class="classroom-mini-split">
+              <h3>講師</h3>
+              <div class="class-detail-prose">
+                {teacherSection?.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+              </div>
+            </div>
+          </article>
+
+          <article class="classroom-mini-card classroom-mini-card-weekdays">
+            <h3>水曜・金曜クラス</h3>
+            <div class="class-detail-prose">
+              {scheduleSection?.paragraphs?.[1] && <p>{scheduleSection.paragraphs[1]}</p>}
+            </div>
+          </article>
         </div>
 
         <div class="class-detail-info-panel">

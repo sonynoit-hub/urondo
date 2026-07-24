@@ -1,6 +1,7 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import PageHero from "../components/PageHero.astro";
+import TreatmentOverviewCards from "../components/TreatmentOverviewCards.astro";
 import page from "../content/about";
 
 const [profileSection, qigongSection, scienceSection] = page.sections ?? [];
@@ -80,17 +81,29 @@ const scienceYearLabels = ["１９９０年", "１９９６年"];
         <h2>{qigongSection?.title}</h2>
       </div>
 
-      <div class="about-qigong-flow">
-        {qigongSection?.bullets?.[0] && (
-          <p class="about-qigong-lead">{qigongSection.bullets[0]}</p>
-        )}
+      <div class="about-qigong-layout">
+        <figure class="about-qigong-poster">
+          <img
+            src="/images/source-extracted/about-liang-qigong/about-liang-qigong-kiko.png"
+            alt="超実感気功療法を紹介する梁気功のポスター"
+            width="566"
+            height="862"
+            loading="lazy"
+          />
+        </figure>
 
-        <div class="about-qigong-steps">
-          {qigongSection?.bullets?.slice(1).map((bullet) => (
-            <article class="about-qigong-step">
-              <p>{bullet}</p>
-            </article>
-          ))}
+        <div class="about-qigong-flow">
+          {qigongSection?.bullets?.[0] && (
+            <p class="about-qigong-lead">{qigongSection.bullets[0]}</p>
+          )}
+
+          <div class="about-qigong-steps">
+            {qigongSection?.bullets?.slice(1).map((bullet) => (
+              <article class="about-qigong-step">
+                <p>{bullet}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -110,6 +123,15 @@ const scienceYearLabels = ["１９９０年", "１９９６年"];
           </article>
         ))}
       </div>
+    </div>
+  </section>
+
+  <section class="content-section treatments-overview-section">
+    <div class="container">
+      <div class="home-section-heading narrow-heading treatment-nav-heading">
+        <h2>施術案内</h2>
+      </div>
+      <TreatmentOverviewCards />
     </div>
   </section>
 </MainLayout>

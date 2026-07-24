@@ -40,8 +40,8 @@ const classes: PageData = {
         "新宿方面からは東京メトロ新中野駅出口４番から出て左方向に徒歩１分ローソン新中野駅前店横から入ってください。",
         "荻窪方面からは、出口３番から出て右方向に向かい、みずほ銀行前の横断歩道を渡って左へ。"
       ],
-      image: "/images/source-extracted/classes-overview/classes-overview-01.png",
-      alt: "赤い床に寝具が整えられた新中野教室の内観",
+      image: "/images/source-extracted/access/shin-nakano.jpeg",
+      alt: "赤い床と掛け軸が並ぶ新中野教室の内観",
       href: "/classes/shin-nakano"
     },
     {

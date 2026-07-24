@@ -1,0 +1,146 @@
+---
+const referenceImages = [
+  {
+    src: "/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-02.jpeg",
+    alt: "太陽神功の練功方法と効果に関する資料",
+    title: "太陽神功"
+  },
+  {
+    src: "/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-03.jpeg",
+    alt: "天師動玄陰寒氷掌の練功方法と効果に関する資料",
+    title: "天師動玄陰寒氷掌"
+  },
+  {
+    src: "/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-04.jpeg",
+    alt: "基深密抽火定霊熱秘法の練功方法と効果に関する資料",
+    title: "基深密抽火定霊熱秘法"
+  },
+  {
+    src: "/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-05.jpeg",
+    alt: "禅の拳鎮魔法の練功方法と効果に関する資料",
+    title: "禅の拳鎮魔法"
+  },
+  {
+    src: "/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-06.jpeg",
+    alt: "仙道無上神霄九龍五雷法の練功方法と効果に関する資料",
+    title: "仙道無上神霄九龍五雷法"
+  },
+  {
+    src: "/images/source-extracted/classes-kitasenju-advanced/classes-kitasenju-advanced-07.jpeg",
+    alt: "二十八宿運命自控法の練功方法と効果に関する資料",
+    title: "二十八宿運命自控法"
+  }
+];
+const referenceImagesJson = JSON.stringify(referenceImages);
+---
+
+<section class="classes-reference-gallery" aria-labelledby="classes-reference-title">
+  <div class="home-section-heading narrow-heading class-detail-heading">
+    <h2 id="classes-reference-title">講座内容</h2>
+    <p class="section-lead classes-reference-lead">梁先生が『仙道気功養生法』および『心と体大元気365日の人体改造企画』をベースに、受講者の状況を確認しながら選定いたします。</p>
+  </div>
+
+  <div class="class-detail-poster-grid class-detail-poster-grid-kitasenju">
+    {referenceImages.map((image, index) => (
+      <figure class="class-detail-poster-card">
+        <button
+          class="class-detail-poster-trigger"
+          type="button"
+          data-poster-index={index}
+          aria-label={`${image.title}を拡大表示`}
+        >
+          <img
+            src={image.src}
+            alt={image.alt}
+            width="605"
+            height="841"
+            loading="lazy"
+          />
+        </button>
+        <figcaption>{image.title}</figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<div class="class-detail-lightbox" data-class-reference-lightbox hidden>
+  <button class="class-detail-lightbox-backdrop" type="button" data-lightbox-close aria-label="拡大表示を閉じる"></button>
+
+  <div class="class-detail-lightbox-dialog" role="dialog" aria-modal="true" aria-label="教室資料の拡大表示">
+    <div class="class-detail-lightbox-toolbar">
+      <div class="class-detail-lightbox-meta">
+        <span class="class-detail-lightbox-count"></span>
+        <p class="class-detail-lightbox-title"></p>
+      </div>
+      <button class="class-detail-lightbox-close" type="button" data-lightbox-close aria-label="閉じる">×</button>
+    </div>
+
+    <div class="class-detail-lightbox-stage">
+      <button class="class-detail-lightbox-nav" type="button" data-lightbox-prev aria-label="前の資料を見る">
+        ‹
+      </button>
+
+      <figure class="class-detail-lightbox-figure">
+        <img class="class-detail-lightbox-image" src="" alt="" width="605" height="841" />
+      </figure>
+
+      <button class="class-detail-lightbox-nav" type="button" data-lightbox-next aria-label="次の資料を見る">
+        ›
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ referenceImagesJson }}>
+  const viewerImages = JSON.parse(referenceImagesJson);
+  const lightbox = document.querySelector("[data-class-reference-lightbox]");
+  const imageEl = lightbox?.querySelector(".class-detail-lightbox-image");
+  const titleEl = lightbox?.querySelector(".class-detail-lightbox-title");
+  const countEl = lightbox?.querySelector(".class-detail-lightbox-count");
+  const openButtons = Array.from(document.querySelectorAll("[data-poster-index]"));
+  const prevButton = lightbox?.querySelector("[data-lightbox-prev]");
+  const nextButton = lightbox?.querySelector("[data-lightbox-next]");
+  const closeButtons = Array.from(lightbox?.querySelectorAll("[data-lightbox-close]") ?? []);
+  let currentIndex = 0;
+
+  const renderViewer = (index) => {
+    if (!lightbox || !imageEl || !titleEl || !countEl) return;
+    currentIndex = (index + viewerImages.length) % viewerImages.length;
+    const item = viewerImages[currentIndex];
+    imageEl.setAttribute("src", item.src);
+    imageEl.setAttribute("alt", item.alt);
+    titleEl.textContent = item.title;
+    countEl.textContent = `${currentIndex + 1} / ${viewerImages.length}`;
+  };
+
+  const openViewer = (index) => {
+    if (!lightbox) return;
+    renderViewer(index);
+    lightbox.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+  };
+
+  const closeViewer = () => {
+    if (!lightbox) return;
+    lightbox.hidden = true;
+    document.documentElement.style.overflow = "";
+  };
+
+  openButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const index = Number(button.getAttribute("data-poster-index") ?? "0");
+      openViewer(index);
+    });
+  });
+
+  prevButton?.addEventListener("click", () => renderViewer(currentIndex - 1));
+  nextButton?.addEventListener("click", () => renderViewer(currentIndex + 1));
+  closeButtons.forEach((button) => button.addEventListener("click", closeViewer));
+
+  document.addEventListener("keydown", (event) => {
+    if (!lightbox || lightbox.hidden) return;
+    if (event.key === "Escape") closeViewer();
+    if (event.key === "ArrowLeft") renderViewer(currentIndex - 1);
+    if (event.key === "ArrowRight") renderViewer(currentIndex + 1);
+  });
+</script>

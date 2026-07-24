@@ -10,11 +10,11 @@ export const site = {
 
 export const mainNav: NavItem[] = [
   { label: "ホーム", href: "/" },
-  { label: "梁蔭全と梁気功", href: "/about" },
   {
     label: "施術案内",
-    href: "/treatments",
+    href: "/about",
     children: [
+      { label: "梁蔭全と梁気功", href: "/about" },
       { label: "通院施術", href: "/treatments/in-person" },
       { label: "遠隔念力気功", href: "/treatments/remote" },
       { label: "梁蔭全先生の個別指導", href: "/treatments/private-instruction" },
@@ -25,7 +25,7 @@ export const mainNav: NavItem[] = [
     label: "健康気功教室",
     href: "/classes",
     children: [
-      { label: "教室案内", href: "/classes" },
+      { label: "講師紹介と講座内容", href: "/classes" },
       { label: "新中野教室", href: "/classes/shin-nakano" },
       { label: "銀座教室", href: "/classes/ginza" },
       { label: "北千住上級者向け特別師範教室", href: "/classes/kitasenju-advanced" },
@@ -35,7 +35,8 @@ export const mainNav: NavItem[] = [
   },
   { label: "関連販売物", href: "/related-products" },
   { label: "アクセス", href: "/access" },
-  { label: "お問い合わせ", href: "/contact" }
+  { label: "お問い合わせ", href: "/contact" },
+  { label: "お知らせ", href: "/news" }
 ];
 
 export const footerNav: NavItem[] = [

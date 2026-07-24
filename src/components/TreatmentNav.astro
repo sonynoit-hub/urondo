@@ -1,32 +1,19 @@
 ---
-import treatments from "../content/treatments";
+import TreatmentOverviewCards from "./TreatmentOverviewCards.astro";
 
 interface Props {
   currentHref: string;
 }
 
 const { currentHref } = Astro.props;
-const items = treatments.cards ?? [];
 ---
 
 <section class="content-section treatment-nav-section">
   <div class="container">
     <div class="home-section-heading narrow-heading treatment-nav-heading">
-      <h2>その他の施術案内</h2>
+      <h2>施術案内</h2>
     </div>
 
-    <div class="treatment-nav-grid">
-      {items.map((item) => {
-        const isCurrent = item.href === currentHref;
-        return (
-          item.href && (
-            <a class:list={["treatment-nav-button", isCurrent && "is-current"]} href={item.href} aria-current={isCurrent ? "page" : undefined}>
-              <span>{item.title}</span>
-              <span aria-hidden="true">↓</span>
-            </a>
-          )
-        );
-      })}
-    </div>
+    <TreatmentOverviewCards currentHref={currentHref} />
   </div>
 </section>

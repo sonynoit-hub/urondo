@@ -1,11 +1,16 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+import ClassReferenceGallery from "../../components/ClassReferenceGallery.astro";
 import page from "../../content/classes";
 
 const [teacherGreetingSection, teacherGoalsSection, teacherSupportSection] = page.sections ?? [];
-const locationHrefs = new Set((page.locations ?? []).map((location) => location.href).filter(Boolean));
-const supportPrograms = (page.cards ?? []).filter((card) => card.href && !locationHrefs.has(card.href));
+const currentPath = Astro.url.pathname;
+const isCurrentPath = (href?: string) =>
+  Boolean(
+    href &&
+    (href === "/" ? currentPath === "/" : currentPath === href || currentPath.startsWith(`${href}/`))
+  );
 ---
 
 <MainLayout title={page.title} description={page.description}>
@@ -66,32 +71,40 @@ const supportPrograms = (page.cards ?? []).filter((card) => card.href && !locati
       <div class="container">
         <div class="home-section-heading narrow-heading classes-teacher-heading">
           <h2>講師紹介</h2>
-          <p class="section-lead">健康気功教室で大切にしている考え方と、講師陣のご紹介です。</p>
+          <p class="section-lead">梁蔭全先生は来日以降39年間で延べ100万人以上の生徒さんに気功を教えてきています。</p>
         </div>
 
-        <div class="classes-teacher-card">
-          {teacherGreetingSection && (
-            <div class="classes-teacher-block">
-              {teacherGreetingSection.title && <h3>{teacherGreetingSection.title}</h3>}
-              {teacherGreetingSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+        <div class="classes-teacher-cards">
+          {(teacherGreetingSection || teacherSupportSection) && (
+            <div class="classes-teacher-card">
+              {teacherGreetingSection && (
+                <div class="classes-teacher-block">
+                  {teacherGreetingSection.title && <h3>{teacherGreetingSection.title}</h3>}
+                  {teacherGreetingSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+                </div>
+              )}
+
+              {teacherSupportSection && (
+                <div class="classes-teacher-block classes-teacher-support">
+                  {teacherSupportSection.title && <h3>{teacherSupportSection.title}</h3>}
+                  {teacherSupportSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+                </div>
+              )}
             </div>
           )}
 
-          {teacherSupportSection && (
-            <div class="classes-teacher-block classes-teacher-support">
-              {teacherSupportSection.title && <h3>{teacherSupportSection.title}</h3>}
-              {teacherSupportSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
-            </div>
-          )}
+          <ClassReferenceGallery />
 
           {teacherGoalsSection && (
-            <div class="classes-teacher-block classes-teacher-goals">
-              {teacherGoalsSection.title && <h3>{teacherGoalsSection.title}</h3>}
-              {teacherGoalsSection.bullets && (
-                <ul>
-                  {teacherGoalsSection.bullets.map((bullet) => <li>{bullet}</li>)}
-                </ul>
-              )}
+            <div class="classes-teacher-card">
+              <div class="classes-teacher-block classes-teacher-goals">
+                {teacherGoalsSection.title && <h3>{teacherGoalsSection.title}</h3>}
+                {teacherGoalsSection.bullets && (
+                  <ul>
+                    {teacherGoalsSection.bullets.map((bullet) => <li>{bullet}</li>)}
+                  </ul>
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -99,25 +112,22 @@ const supportPrograms = (page.cards ?? []).filter((card) => card.href && !locati
     </section>
   )}
 
-  {supportPrograms.length > 0 && (
-    <section class="content-section classes-programs-section">
+  {page.cards && page.cards.length > 0 && (
+    <section class="content-section classes-subpage-nav-section">
       <div class="container">
-        <div class="home-section-heading narrow-heading classes-programs-heading">
-          <h2>その他の講座</h2>
-          <p class="section-lead">通学教室のほかに、通信教育コースと特別講座もご案内しています。</p>
-        </div>
-
-        <div class="classes-program-grid">
-          {supportPrograms.map((card) => (
-            card.href && (
-              <a class="classes-program-card" href={card.href}>
-                <span>{card.title}</span>
-                {card.body && <small>{card.body}</small>}
-              </a>
-            )
+        <div class="classes-subpage-nav">
+          {page.cards.map((card) => (
+            <a
+              class:list={["classes-subpage-button", isCurrentPath(card.href) && "is-current"]}
+              href={card.href ?? "#"}
+              aria-current={isCurrentPath(card.href) ? "page" : undefined}
+            >
+              {card.title}
+            </a>
           ))}
         </div>
       </div>
     </section>
   )}
+
 </MainLayout>

@@ -1,0 +1,32 @@
+---
+import treatments from "../content/treatments";
+
+interface Props {
+  currentHref?: string;
+}
+
+const { currentHref } = Astro.props;
+const items = treatments.cards ?? [];
+---
+
+<div class="treatments-overview-grid">
+  {items.map((item) => {
+    const isCurrent = item.href === currentHref;
+
+    return (
+      <article class:list={["treatments-overview-card", isCurrent && "is-current"]}>
+        {item.href
+          ? (
+            <a
+              class="treatments-card-title-link"
+              href={item.href}
+              aria-current={isCurrent ? "page" : undefined}
+            >
+              <h2>{item.title}</h2>
+            </a>
+          )
+          : <h2>{item.title}</h2>}
+      </article>
+    );
+  })}
+</div>

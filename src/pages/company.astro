@@ -31,6 +31,17 @@ const iconByLabel: Record<string, CompanyIconKey> = {
 };
 
 const [overviewSection] = page.sections ?? [];
+const historyDatePattern = /^(平成\d+年\d+月)\s*(.+)$/;
+const splitCompanyValue = (label: string, value: string) => {
+  if (label !== "沿革") {
+    return { date: null, body: value };
+  }
+
+  const match = value.match(historyDatePattern);
+
+  return match ? { date: match[1], body: match[2] } : { date: null, body: value };
+};
+
 const companyRows = (overviewSection?.bullets ?? [])
   .map((item) => {
     const separatorIndex = item.indexOf("：");
@@ -70,9 +81,16 @@ const companyRows = (overviewSection?.bullets ?? [])
               <CompanyOverviewIcon icon={row.icon} />
               {row.label && <p class="about-bullet-index">{row.label}</p>}
               <div class="company-overview-values">
-                {row.values.map((value) => (
-                  <p>{value}</p>
-                ))}
+                {row.values.map((value) => {
+                  const entry = splitCompanyValue(row.label, value);
+
+                  return (
+                    <p class:list={[entry.date && "company-history-entry"]}>
+                      {entry.date && <span class="company-history-date">{entry.date}</span>}
+                      <span>{entry.body}</span>
+                    </p>
+                  );
+                })}
               </div>
             </div>
           ))}

@@ -5,6 +5,14 @@ import { toAsciiDigits } from "../utils/text";
 const phoneHref = `tel:${toAsciiDigits(site.phone)}`;
 const [postalCode, ...addressParts] = site.address.split(" ");
 const addressLine = addressParts.join(" ");
+const supportLabels = new Set(["お問い合わせ", "お知らせ"]);
+const footerMainNav = mainNav.filter((item) => !supportLabels.has(item.label));
+const footerSupportNav = [
+  ...footerNav,
+  ...mainNav
+    .filter((item) => supportLabels.has(item.label))
+    .map((item) => ({ label: item.label, href: item.href ?? "/" }))
+];
 ---
 
 <footer class="site-footer">
@@ -17,19 +25,21 @@ const addressLine = addressParts.join(" ");
       </p>
       <p><a class="footer-number" href={phoneHref}>{site.phone}</a></p>
       <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+      <p>共催　一般社団法人全日本養生協会　東京古禅美術館</p>
     </div>
 
     <nav aria-label="Footer main navigation">
       <ul class="footer-links">
-        {mainNav.map((item) => (
-          <li><a href={item.href}>{item.label}</a></li>
-        ))}
+        {footerMainNav.map((item) => {
+          const href = item.href ?? item.children?.[0]?.href;
+          return href && <li><a href={href}>{item.label}</a></li>;
+        })}
       </ul>
     </nav>
 
     <nav aria-label="Footer support navigation">
       <ul class="footer-links">
-        {footerNav.map((item) => (
+        {footerSupportNav.map((item) => (
           <li><a href={item.href}>{item.label}</a></li>
         ))}
       </ul>
