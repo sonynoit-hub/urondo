@@ -247,7 +247,7 @@ const talismans = [
         <div>
           <h2>秘伝呪符をご希望の方へ</h2>
           <p>
-            「秘伝呪符申込書」に必要事項を明記のうえ、呪符料・送料とともに現金書留で郵送願います。
+            「<a href="/downloads">秘伝呪符申込書</a>」に必要事項を明記のうえ、呪符料・送料とともに現金書留で郵送願います。
           </p>
           <p>
             特別大切な行事の予定がある方や特に運気向上を願う方のために、梁先生が特別な念を込めて呪符を作成いたします。
@@ -761,6 +761,17 @@ const talismans = [
     color: rgba(255, 255, 255, 0.76);
     line-height: 1.85;
     margin: 0;
+  }
+
+  .application-card div p a {
+    color: #f6df2a;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  .application-card div p a:hover,
+  .application-card div p a:focus-visible {
+    color: #fff;
   }
 
   .application-card div p + p {

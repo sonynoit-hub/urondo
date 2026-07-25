@@ -2681,6 +2681,10 @@ img {
   color: var(--gold);
 }
 
+.remote-precaution-br {
+  display: none;
+}
+
 .remote-application-steps {
   display: grid;
   gap: 0;
@@ -2726,6 +2730,7 @@ img {
   display: grid;
   gap: 0.45rem;
   padding: 1.35rem;
+  text-align: center;
 }
 
 .remote-download-card strong {
@@ -4233,6 +4238,10 @@ summary:focus-visible,
 }
 
 @media (max-width: 720px) {
+  .remote-precaution-br {
+    display: unset;
+  }
+
   .final-cta-inner {
     align-items: flex-start;
     flex-direction: column;
@@ -4388,7 +4397,9 @@ summary:focus-visible,
   }
 
   .remote-precaution-item {
-    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 0.65rem;
+    grid-template-columns: auto minmax(0, 1fr);
   }
 
   .special-remote-intro-card {

@@ -122,11 +122,6 @@ const companyRows = companyItems
       <div class="pdf-panel-inner pdf-philosophy-inner">
         <header class="pdf-title-plaque">
           <h2 id="philosophy-title">{page.philosophy.title}</h2>
-          <div class="pdf-ornament" aria-hidden="true">
-            <span></span>
-            <i></i>
-            <span></span>
-          </div>
           <p>
             {philosophyStatementLines.map((line) => <span>{line}</span>)}
           </p>
@@ -158,11 +153,6 @@ const companyRows = companyItems
     <div class="pdf-panel-inner pdf-program-inner">
       <header class="pdf-program-heading">
         <h2 id="program-title">株式会社烏龍堂がご提供するプログラム</h2>
-        <div class="pdf-ornament" aria-hidden="true">
-          <span></span>
-          <i></i>
-          <span></span>
-        </div>
       </header>
 
       <div class="pdf-topic-heading">
@@ -251,11 +241,6 @@ const companyRows = companyItems
     <div class="pdf-panel-inner pdf-company-inner">
       <header class="pdf-program-heading pdf-company-heading">
         <h2 id="company-overview-title">{companyPage.heroTitle}</h2>
-        <div class="pdf-ornament" aria-hidden="true">
-          <span></span>
-          <i></i>
-          <span></span>
-        </div>
       </header>
 
       <div class="company-overview-card">
@@ -372,7 +357,7 @@ const companyRows = companyItems
 
   .pdf-cover {
     background: transparent;
-    min-height: calc(118svh - 70px);
+    min-height: calc(92svh - 70px);
   }
 
   .pdf-cover::after {
@@ -387,7 +372,7 @@ const companyRows = companyItems
     display: grid;
     grid-template-rows: auto 1fr auto;
     justify-items: center;
-    padding-bottom: clamp(2.25rem, 4vw, 3.75rem);
+    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
     padding-top: clamp(2.25rem, 4vw, 3.75rem);
     text-align: center;
   }
@@ -416,7 +401,7 @@ const companyRows = companyItems
   .pdf-cover-message {
     align-self: center;
     margin-top: clamp(0.5rem, 1.5vw, 1.25rem);
-    transform: translateY(-1.4rem);
+    transform: translateY(-3.75rem);
     width: 100%;
   }
 
@@ -449,15 +434,11 @@ const companyRows = companyItems
     display: inline;
   }
 
-  .pdf-cover-rule,
-  .pdf-ornament {
+  .pdf-cover-rule {
     align-items: center;
+    align-self: end;
     display: grid;
     grid-template-columns: minmax(2rem, 1fr) auto minmax(2rem, 1fr);
-  }
-
-  .pdf-cover-rule {
-    align-self: end;
     width: min(30rem, 64%);
   }
 
@@ -539,19 +520,16 @@ const companyRows = companyItems
     margin: 0;
   }
 
-  .pdf-cover-rule span,
-  .pdf-ornament span {
+  .pdf-cover-rule span {
     background: linear-gradient(90deg, transparent, #b48942);
     height: 1px;
   }
 
-  .pdf-cover-rule span:last-child,
-  .pdf-ornament span:last-child {
+  .pdf-cover-rule span:last-child {
     background: linear-gradient(90deg, #b48942, transparent);
   }
 
-  .pdf-cover-rule i,
-  .pdf-ornament i {
+  .pdf-cover-rule i {
     border: 1px solid #b48942;
     height: 0.55rem;
     margin: 0 0.8rem;
@@ -596,16 +574,11 @@ const companyRows = companyItems
     color: #173e34;
   }
 
-  .pdf-ornament {
-    margin: 0.7rem auto;
-    width: min(18rem, 72%);
-  }
-
   .pdf-title-plaque > p {
     color: #7c6336;
     font-size: clamp(1.2rem, 2.5vw, 1.85rem);
     line-height: 1.65;
-    margin: 0;
+    margin: 0.7rem 0 0;
   }
 
   .pdf-title-plaque > p span {
@@ -696,10 +669,6 @@ const companyRows = companyItems
 
   .pdf-program-heading h2 {
     color: #173e34;
-  }
-
-  .pdf-program-heading .pdf-ornament {
-    margin-bottom: 0;
   }
 
   .pdf-topic-heading {
@@ -913,11 +882,36 @@ const companyRows = companyItems
     margin: 0;
   }
 
-  .pdf-company-heading .pdf-ornament {
-    margin-bottom: 0;
-  }
-
   @media (min-width: 1025px) {
+    .pdf-cover {
+      min-height: calc(92svh - 70px);
+    }
+
+    .pdf-company-name {
+      font-size: clamp(1.5rem, 3vw, 2.35rem);
+    }
+
+    .pdf-cover-inner {
+      grid-template-rows: auto 1fr auto;
+      padding-bottom: clamp(1.75rem, 3vw, 2.75rem);
+    }
+
+    .pdf-cover-message {
+      align-self: start;
+      margin-top: clamp(1.75rem, 3.5vw, 3rem);
+      transform: none;
+    }
+
+    .pdf-cover-rule {
+      align-self: end;
+      margin-top: 0;
+    }
+
+    .pdf-philosophy-inner {
+      align-content: start;
+      padding-top: clamp(1.35rem, 2.5vw, 2rem);
+    }
+
     .pdf-program-inner {
       align-content: end;
       padding-bottom: clamp(2rem, 3vw, 3rem);
@@ -939,8 +933,13 @@ const companyRows = companyItems
     }
 
     .pdf-cover-inner {
-      min-height: 34rem;
-      padding: 2.25rem 2rem;
+      min-height: calc(92svh - 70px);
+      padding: 2.25rem 2rem 1.75rem;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .pdf-philosophy-inner {
+      padding-top: 1.5rem;
     }
 
     .pdf-side-rail {
@@ -971,10 +970,16 @@ const companyRows = companyItems
   @media (max-width: 520px) {
     .pdf-cover-inner {
       align-content: start;
-      gap: 1rem;
+      gap: 0;
       grid-template-rows: auto auto auto;
       min-height: 0;
-      padding: 1.7rem 1.5rem 1.9rem;
+      padding: clamp(3.25rem, 13vh, 5.5rem) 1.5rem 1.1rem;
+    }
+
+    .pdf-cover-message {
+      align-self: start;
+      margin-top: 1.75rem;
+      transform: none;
     }
 
     .pdf-cover h1 {
@@ -998,7 +1003,7 @@ const companyRows = companyItems
       justify-items: center;
       margin-left: auto;
       margin-right: auto;
-      margin-top: 0.85rem;
+      margin-top: 0.7rem;
       max-width: 18.5rem;
       text-align: center;
     }
@@ -1009,16 +1014,99 @@ const companyRows = companyItems
     }
 
     .pdf-cover-rule {
-      align-self: start;
-      margin-top: 0.2rem;
+      align-self: center;
+      margin-top: 1.4rem;
       width: min(20rem, 74%);
     }
 
+    .pdf-cover {
+      min-height: 0;
+    }
+
+    .pdf-philosophy {
+      min-height: 0;
+    }
+
+    .pdf-philosophy-inner {
+      gap: 1.25rem;
+      padding: 1rem 1.5rem 1.35rem;
+    }
+
+    .pdf-title-plaque h2 {
+      font-size: clamp(1rem, 1.55vw, 1.3rem);
+      letter-spacing: 0.06em;
+    }
+
     .pdf-title-plaque > p {
-      font-size: 1.1rem;
+      font-size: clamp(0.82rem, 3.1vw, 1rem);
+      line-height: 1.45;
+      margin-top: 0.5rem;
+    }
+
+    .pdf-philosophy-copy {
+      font-size: clamp(0.8rem, 3vw, 0.92rem);
+      gap: 0.35rem;
+      line-height: 1.7;
+    }
+
+    .pdf-program-inner {
+      align-content: start;
+      gap: 0.85rem;
+      padding: 1.5rem 1.5rem 1.75rem;
+    }
+
+    .pdf-program-heading h2 {
+      font-size: clamp(1rem, 1.55vw, 1.3rem);
+      letter-spacing: 0.06em;
+      line-height: 1.45;
+    }
+
+    .pdf-program .pdf-topic-heading {
+      gap: 0.55rem;
+    }
+
+    .pdf-program .pdf-topic-heading > span {
+      height: 1.2rem;
+      width: 1.2rem;
+    }
+
+    .pdf-program .pdf-topic-heading > span::after {
+      height: 0.58rem;
+      left: 0.2rem;
+      top: 0.14rem;
+      width: 0.64rem;
+    }
+
+    .pdf-program .pdf-topic-heading h3 {
+      font-size: clamp(0.95rem, 3.6vw, 1.08rem);
+    }
+
+    .pdf-program-intro,
+    .pdf-program .pdf-feature-copy p {
+      font-size: clamp(0.8rem, 3vw, 0.92rem);
+      line-height: 1.7;
+    }
+
+    .pdf-program .pdf-feature-copy {
+      gap: 0.45rem;
+    }
+
+    .pdf-program .pdf-feature-copy h3,
+    .pdf-program .pdf-style-heading h3 {
+      font-size: clamp(0.88rem, 3.2vw, 1rem);
+      margin-bottom: 0.15rem;
+    }
+
+    .pdf-program .pdf-style-heading {
+      gap: 0.7rem;
+    }
+
+    .pdf-program .pdf-style-heading span {
+      width: 4.5rem;
     }
 
     .pdf-treatment-columns {
+      gap: 0.65rem;
       grid-template-columns: 1fr;
     }
 
@@ -1026,12 +1114,132 @@ const companyRows = companyItems
     .pdf-treatment-column:nth-child(3) {
       border-left: 0;
       border-top: 1px solid rgba(181, 139, 69, 0.35);
-      padding: 1rem 0 0;
+      padding: 0.75rem 0 0;
     }
 
     .pdf-treatment-column:first-child {
       border-top: 0;
       padding-top: 0;
+    }
+
+    .pdf-treatment-column h4 {
+      font-size: clamp(0.85rem, 3.1vw, 0.95rem);
+      margin: 0 0 0.35rem;
+      min-height: 0;
+    }
+
+    .pdf-treatment-column p {
+      font-size: clamp(0.78rem, 2.9vw, 0.88rem);
+      line-height: 1.6;
+    }
+
+    .pdf-classroom-inner {
+      align-content: start;
+      gap: 0.85rem;
+      padding: 1.35rem 1.5rem 1.75rem;
+    }
+
+    .pdf-classroom .pdf-topic-heading {
+      gap: 0.55rem;
+    }
+
+    .pdf-classroom .pdf-topic-heading > span {
+      height: 1.2rem;
+      width: 1.2rem;
+    }
+
+    .pdf-classroom .pdf-topic-heading > span::after {
+      height: 0.58rem;
+      left: 0.2rem;
+      top: 0.14rem;
+      width: 0.64rem;
+    }
+
+    .pdf-classroom .pdf-topic-heading h2 {
+      font-size: clamp(0.95rem, 3.6vw, 1.08rem);
+    }
+
+    .pdf-classroom-intro,
+    .pdf-classroom .pdf-feature-copy p {
+      font-size: clamp(0.8rem, 3vw, 0.92rem);
+      line-height: 1.7;
+    }
+
+    .pdf-classroom .pdf-feature-copy {
+      gap: 0.45rem;
+    }
+
+    .pdf-classroom .pdf-feature-copy h3,
+    .pdf-classroom .pdf-class-example h3 {
+      font-size: clamp(0.88rem, 3.2vw, 1rem);
+      margin-bottom: 0.15rem;
+    }
+
+    .pdf-classroom .pdf-class-example {
+      margin-top: 0.35rem;
+    }
+
+    .pdf-classroom .pdf-class-example ul {
+      gap: 0.45rem;
+      margin-top: 0.5rem;
+    }
+
+    .pdf-classroom .pdf-class-example li {
+      font-size: clamp(0.78rem, 2.9vw, 0.88rem);
+      gap: 0.15rem;
+      line-height: 1.6;
+      padding-left: 0.85rem;
+    }
+
+    .pdf-company-inner {
+      align-content: start;
+      gap: 0.9rem;
+      padding: 1.5rem 1.5rem 1.75rem;
+    }
+
+    .pdf-company-heading h2 {
+      font-size: clamp(1rem, 1.55vw, 1.3rem);
+      letter-spacing: 0.06em;
+      line-height: 1.45;
+    }
+
+    .pdf-company .company-overview-card {
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(28, 38, 35, 0.05);
+    }
+
+    .pdf-company .company-overview-row {
+      gap: 0.4rem 0.65rem;
+      padding: 0.55rem 0.75rem;
+    }
+
+    .pdf-company .company-overview-icon {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+
+    .pdf-company .company-overview-icon svg {
+      height: 0.8rem;
+      width: 0.8rem;
+    }
+
+    .pdf-company .company-overview-row .about-bullet-index {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+    }
+
+    .pdf-company .company-overview-values {
+      gap: 0.18rem;
+    }
+
+    .pdf-company .company-overview-values p {
+      font-size: clamp(0.78rem, 2.9vw, 0.88rem);
+      line-height: 1.5;
+    }
+
+    .pdf-company .company-history-entry {
+      gap: 0.2rem 0.45rem;
+      grid-template-columns: 6.4em minmax(0, 1fr);
     }
   }
 </style>

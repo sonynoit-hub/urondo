@@ -7,21 +7,21 @@ const downloads: PageData = {
   heroIntro: "各種申込書とオンライン入力ページをご利用いただけます。",
   downloads: [
     {
-      label: "健康気功教室申込書",
-      href: "/downloads/health-qigong-application.pages"
+      label: "秘伝呪符申込書\n（PDF）",
+      href: "/downloads/秘伝呪符申込書.pdf"
     },
     {
-      label: "秘伝呪符申込書",
-      href: "/downloads/hiden-jufu-application.pages"
+      label: "秘伝呪符申込書\n（Excel）",
+      href: "/downloads/秘伝呪符申込書.xlsx"
     },
     {
       label: "遠隔念力気功申込書\n（PDF）",
-      href: "/downloads/remote-treatment-application.pdf",
+      href: "/downloads/遠隔治療申込書.pdf",
       description: "印刷してご利用いただく方向けのPDF版です。"
     },
     {
       label: "遠隔念力気功申込書\n（Excel）",
-      href: "/downloads/remote-treatment-application.xlsx",
+      href: "/downloads/遠隔治療申込書.xlsx",
       description: "入力してご利用いただく方向けのExcel版です。"
     }
   ]

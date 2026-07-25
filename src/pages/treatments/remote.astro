@@ -144,7 +144,7 @@ const formatPrecautionText = (text: string) => text.replace(/^[0-9０-９]+）/,
           {precautionsSection.bullets?.map((bullet, index) => (
             <article class="remote-precaution-item">
               <p class="about-bullet-index">{toFullWidthDigits(index + 1)}</p>
-              <p>{formatPrecautionText(bullet)}</p>
+              <p set:html={formatPrecautionText(bullet).replace(/\n/g, '<br class="remote-precaution-br" />')} />
             </article>
           ))}
         </div>
