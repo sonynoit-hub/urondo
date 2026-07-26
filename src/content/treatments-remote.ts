@@ -8,17 +8,17 @@ const page: PageData = {
   downloads: [
     {
       label: "申込書ダウンロードページ",
-      href: "/downloads/remote-treatment-application",
+      href: "/downloads",
       description: "印刷をして利用される方はPDFファイルをご使用ください。"
     },
     {
       label: "PDF申込書",
-      href: "/downloads/remote-treatment-application.pdf",
+      href: "/downloads/遠隔治療申込書.pdf",
       description: "印刷してご利用いただく方向けのPDF版です。"
     },
     {
       label: "Excel申込書",
-      href: "/downloads/remote-treatment-application.xlsx",
+      href: "/downloads/遠隔治療申込書.xlsx",
       description: "入力してご利用いただく方向けのExcel版です。"
     }
   ],

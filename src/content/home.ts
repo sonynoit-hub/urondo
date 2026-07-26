@@ -1,4 +1,3 @@
-import { newsItems, type NewsItem } from "./news";
 import type { CardItem, PageData } from "./types";
 
 type PhilosophyContent = {
@@ -20,20 +19,6 @@ type PracticeItem = {
   body: string;
 };
 
-type SidebarLinkItem = {
-  title: string;
-  subtitle?: string;
-  href: string;
-};
-
-type SidebarContent = {
-  newsItems: NewsItem[];
-  treatmentItems: SidebarLinkItem[];
-  classroomItems: SidebarLinkItem[];
-  hostLines: string[];
-  cohostLines: string[];
-};
-
 interface HomePageData extends PageData {
   heroLines: string[];
   philosophy: PhilosophyContent;
@@ -41,7 +26,6 @@ interface HomePageData extends PageData {
   treatmentStyles: CardItem[];
   classroom: FeatureContent;
   classroomPractices: PracticeItem[];
-  sidebar: SidebarContent;
 }
 
 const home: HomePageData = {
@@ -110,7 +94,6 @@ const home: HomePageData = {
     featureTitle: "教室の特長",
     featureParagraphs: [
       "当教室は、単なる気功の型や体操を教える場ではありません。梁蔭全先生が祖父（道教羅浮派宗主）から受け継いだ秘伝に、仏教・密教の功法を融合させて完成させた「仙道気功養生法」をベースにしています。「深い呼吸」「ゆったりとした動き」「意念（イメージ）の集中」を組み合わせることで、心身の緊張を芯から解きほぐし、気血の巡る健やかな身体へと導きます。"
-      
     ]
   },
   classroomPractices: [
@@ -131,46 +114,7 @@ const home: HomePageData = {
       body:
         "梁先生または指導員が発する「気」を直接体感。人によっては温かさ、電流のようなビリビリ感、心地よい風のような感覚などを感じ取ることができます。"
     }
-  ],
-  sidebar: {
-    newsItems,
-    treatmentItems: [
-      {
-        title: "通院施術",
-        subtitle: "新中野・銀座で直接施術",
-        href: "/treatments/in-person"
-      },
-      {
-        title: "遠隔気功療法",
-        subtitle: "時間と場所を問わず施術",
-        href: "/treatments/remote"
-      },
-      {
-        title: "個別指導",
-        subtitle: "気功指導と健康計画作成",
-        href: "/treatments/private-instruction"
-      }
-    ],
-    classroomItems: [
-      {
-        title: "教室案内",
-        subtitle: "新中野・銀座・北千住",
-        href: "/classes"
-      },
-      {
-        title: "通信教育コース",
-        subtitle: "自宅で学ぶコース",
-        href: "/classes/correspondence"
-      },
-      {
-        title: "特別講座",
-        subtitle: "不定期開催",
-        href: "/classes/special-lectures"
-      }
-    ],
-    hostLines: ["株式会社烏龍堂"],
-    cohostLines: ["一般社団法人 全日本養生協会", "東京古禅美術館"]
-  }
+  ]
 };
 
 export default home;

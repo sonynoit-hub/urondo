@@ -60,47 +60,6 @@ const mapUrl = (address: string) =>
 </MainLayout>
 
 <style>
-  .access-hero {
-    background:
-      radial-gradient(circle at 84% 20%, rgba(210, 183, 128, 0.24), transparent 22rem),
-      linear-gradient(135deg, #183d35, #2c5a4e);
-    color: #fff;
-    overflow: hidden;
-    padding: clamp(1.8rem, 4vw, 3rem) 0;
-    position: relative;
-  }
-
-  .access-hero::after {
-    border: 1px solid rgba(229, 208, 164, 0.2);
-    border-radius: 50%;
-    content: "";
-    height: 24rem;
-    position: absolute;
-    right: -8rem;
-    top: -13rem;
-    width: 24rem;
-  }
-
-  .access-hero-inner {
-    position: relative;
-    z-index: 1;
-  }
-
-  .access-hero h1 {
-    font-size: clamp(2.25rem, 4.25vw, 3.8rem);
-    letter-spacing: 0.08em;
-    line-height: 1;
-    margin: 0;
-  }
-
-  .access-hero-intro {
-    color: rgba(255, 255, 255, 0.82);
-    font-size: 1rem;
-    line-height: 1.65;
-    margin: 0.85rem 0 0;
-    max-width: 56rem;
-  }
-
   .locations-section {
     padding: 1.2rem 0 clamp(3rem, 7vw, 6.5rem);
   }
@@ -257,10 +216,6 @@ const mapUrl = (address: string) =>
   }
 
   @media (max-width: 700px) {
-    .access-hero {
-      padding: clamp(1.8rem, 4vw, 3rem) 0;
-    }
-
     .access-location {
       grid-template-columns: 1fr;
     }
