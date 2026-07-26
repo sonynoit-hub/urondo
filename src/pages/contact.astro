@@ -1,7 +1,10 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import page from "../content/contact";
-import { site } from "../content/site";
+
+const formUrl = (import.meta.env.PUBLIC_CONTACT_FORM_URL as string | undefined)?.trim();
+const formToken = (import.meta.env.PUBLIC_CONTACT_FORM_TOKEN as string | undefined)?.trim();
+const formReady = Boolean(formUrl && formToken);
 ---
 
 <MainLayout title={page.title} description={page.description}>
@@ -9,46 +12,131 @@ import { site } from "../content/site";
     <div class="container">
       <form
         class="qigong-app-form card contact-cta-form"
-        action={`mailto:${site.email}`}
-        method="post"
-        enctype="text/plain"
+        method="POST"
+        data-contact-form
+        data-contact-url={formUrl || undefined}
+        data-contact-token={formToken || undefined}
       >
         <header class="contact-cta-head">
           <h1>お問い合わせ</h1>
         </header>
 
+        <div class="contact-cta-status-slot" aria-live="polite">
+          <p class="contact-cta-status" data-contact-success>
+            お問い合わせありがとうございました。
+          </p>
+          <p class="contact-cta-status contact-cta-status-error" data-contact-error></p>
+        </div>
+
+        {
+          !formReady && (
+            <p class="contact-cta-status contact-cta-status-error contact-cta-status-config" role="alert">
+              送信設定が未完了です。<code>PUBLIC_CONTACT_FORM_URL</code> と
+              <code>PUBLIC_CONTACT_FORM_TOKEN</code> を設定してください。
+            </p>
+          )
+        }
+
+        <input type="text" name="_gotcha" value="" class="contact-cta-gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
         <label class="qigong-app-field">
           <span>お名前（必須）</span>
-          <input name="お名前" type="text" autocomplete="name" required />
+          <input name="お名前" type="text" autocomplete="name" required disabled={!formReady} />
         </label>
 
         <label class="qigong-app-field">
           <span>ご住所（必須）</span>
-          <input name="ご住所" type="text" autocomplete="street-address" required />
+          <input name="ご住所" type="text" autocomplete="street-address" required disabled={!formReady} />
         </label>
 
         <label class="qigong-app-field">
           <span>メールアドレス（必須）</span>
-          <input name="メールアドレス" type="email" autocomplete="email" required />
+          <input name="email" type="email" autocomplete="email" required disabled={!formReady} />
         </label>
 
         <label class="qigong-app-field">
           <span>お電話番号（必須）</span>
-          <input name="お電話番号" type="tel" autocomplete="tel" required />
+          <input name="お電話番号" type="tel" autocomplete="tel" required disabled={!formReady} />
         </label>
 
         <label class="qigong-app-field contact-cta-note-field">
           <span>お問い合わせ内容は以下の備考欄にご記入ください。</span>
-          <textarea name="備考" rows="4" required></textarea>
+          <textarea name="備考" rows="4" required disabled={!formReady}></textarea>
         </label>
 
         <div class="contact-cta-actions">
-          <button class="contact-cta-submit" type="submit">送信する</button>
+          <button class="contact-cta-submit" type="submit" disabled={!formReady}>送信する</button>
         </div>
       </form>
     </div>
   </section>
 </MainLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+  const successEl = document.querySelector<HTMLElement>("[data-contact-success]");
+  const errorEl = document.querySelector<HTMLElement>("[data-contact-error]");
+
+  const clearStatus = () => {
+    successEl?.classList.remove("is-visible");
+    errorEl?.classList.remove("is-visible");
+    if (errorEl) errorEl.textContent = "";
+  };
+
+  const showSuccess = () => {
+    clearStatus();
+    successEl?.classList.add("is-visible");
+  };
+
+  const showError = (message: string) => {
+    clearStatus();
+    if (!errorEl) return;
+    errorEl.textContent = message;
+    errorEl.classList.add("is-visible");
+  };
+
+  form?.addEventListener("submit", async (event) => {
+    const endpoint = form.dataset.contactUrl;
+    const token = form.dataset.contactToken;
+    if (!endpoint || !token) return;
+
+    event.preventDefault();
+    clearStatus();
+
+    const submitButton = form.querySelector<HTMLButtonElement>("button[type='submit']");
+    if (submitButton) submitButton.disabled = true;
+
+    const formData = new FormData(form);
+    const payload: Record<string, string> = { token };
+
+    for (const [key, value] of formData.entries()) {
+      payload[key] = String(value);
+    }
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+      });
+
+      const result = (await response.json().catch(() => null)) as
+        | { ok?: boolean }
+        | null;
+
+      if (!response.ok || !result?.ok) {
+        throw new Error("submit_failed");
+      }
+
+      form.reset();
+      showSuccess();
+    } catch {
+      showError("送信に失敗しました。時間をおいて再度お試しください。");
+    } finally {
+      if (submitButton) submitButton.disabled = false;
+    }
+  });
+</script>
 
 <style>
   :global(body:has(.contact-cta-section) .page-shell) {
@@ -98,6 +186,56 @@ import { site } from "../content/site";
     margin: 0;
   }
 
+  .contact-cta-status-slot {
+    display: grid;
+    grid-template-areas: "status";
+    min-height: 2.75rem;
+  }
+
+  .contact-cta-status-slot > .contact-cta-status {
+    grid-area: status;
+    align-self: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 160ms ease;
+  }
+
+  .contact-cta-status-slot > .contact-cta-status.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .contact-cta-status {
+    background: rgba(35, 79, 69, 0.08);
+    border: 1px solid rgba(35, 79, 69, 0.22);
+    border-radius: 12px;
+    color: var(--accent);
+    font-size: 0.88rem;
+    line-height: 1.45;
+    margin: 0;
+    padding: 0.55rem 0.75rem;
+    text-align: center;
+  }
+
+  .contact-cta-status-error {
+    background: rgba(140, 48, 48, 0.08);
+    border-color: rgba(140, 48, 48, 0.28);
+    color: #7a2a2a;
+  }
+
+  .contact-cta-status-error code {
+    font-size: 0.82em;
+  }
+
+  .contact-cta-gotcha {
+    left: -9999px;
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+  }
+
   .contact-cta-form .qigong-app-field {
     gap: 0.22rem;
   }
@@ -124,8 +262,9 @@ import { site } from "../content/site";
     font: inherit;
     line-height: 1.5;
     min-height: clamp(7rem, 16vh, 8.6rem);
+    height: clamp(7rem, 16vh, 8.6rem);
     padding: 0.58rem 0.74rem 0.62rem;
-    resize: vertical;
+    resize: none;
   }
 
   .contact-cta-note-field textarea:focus-visible {
@@ -166,6 +305,12 @@ import { site } from "../content/site";
     border-color: rgba(186, 154, 92, 0.6);
     box-shadow: 0 16px 30px rgba(20, 36, 31, 0.18);
     transform: translateY(-1px);
+  }
+
+  .contact-cta-submit:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    transform: none;
   }
 
   @media (max-width: 720px) {
