@@ -883,8 +883,29 @@ const companyRows = companyItems
   }
 
   @media (min-width: 1025px) {
+    .pdf-intro-panels {
+      background: #f5f1e7;
+      background-blend-mode: normal;
+    }
+
+    .pdf-intro-panels::before,
+    .pdf-intro-panels::after {
+      display: none;
+    }
+
     .pdf-cover {
-      min-height: calc(92svh - 70px);
+      background:
+        url("/images/home/hero-bg-large.png") right top / cover no-repeat,
+        #f5f1e7;
+      height: calc(100svh - 70px);
+      min-height: calc(100svh - 70px);
+      max-height: calc(100svh - 70px);
+    }
+
+    .pdf-philosophy {
+      background:
+        url("/images/home/introduction-bg-large.png") center top / cover no-repeat,
+        #f5f1e7;
     }
 
     .pdf-company-name {
@@ -892,19 +913,22 @@ const companyRows = companyItems
     }
 
     .pdf-cover-inner {
-      grid-template-rows: auto 1fr auto;
+      align-content: center;
+      grid-template-rows: auto auto auto;
+      height: 100%;
+      min-height: 100%;
       padding-bottom: clamp(1.75rem, 3vw, 2.75rem);
     }
 
     .pdf-cover-message {
-      align-self: start;
+      align-self: center;
       margin-top: clamp(1.75rem, 3.5vw, 3rem);
       transform: none;
     }
 
     .pdf-cover-rule {
-      align-self: end;
-      margin-top: 0;
+      align-self: center;
+      margin-top: clamp(2.5rem, 5vw, 4rem);
     }
 
     .pdf-philosophy-inner {

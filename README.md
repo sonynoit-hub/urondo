@@ -15,3 +15,4 @@ npm run dev
 - Customer source materials remain in the project root
 - Downloadable files are in `public/downloads/`
 - Page content modules live in `src/content/`
+- News (お知らせ) is edited at `/admin` — customer guide: [`src/content/NEWS_EDIT.md`](src/content/NEWS_EDIT.md); developer setup: [`docs/sanity-vercel-setup.md`](docs/sanity-vercel-setup.md)

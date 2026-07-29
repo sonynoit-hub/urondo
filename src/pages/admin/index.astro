@@ -1,0 +1,558 @@
+---
+export const prerender = false;
+
+import { isAuthenticated, isAdminAuthConfigured } from "../../lib/admin-auth";
+
+const loggedIn = await isAuthenticated(Astro.request);
+const authReady = isAdminAuthConfigured();
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>お知らせ管理 | Urondo</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <main class="admin">
+      <header class="admin-header">
+        <div>
+          <p class="admin-brand">Urondo</p>
+          <h1>お知らせの管理</h1>
+        </div>
+        {
+          loggedIn && (
+            <button type="button" class="btn btn-ghost" id="logout-btn">
+              ログアウト
+            </button>
+          )
+        }
+      </header>
+
+      {
+        !authReady ? (
+          <section class="panel">
+            <p class="message error">
+              管理画面の設定がまだ完了していません。管理者に
+              <code>ADMIN_PASSWORD</code> と <code>ADMIN_SESSION_SECRET</code> の設定を依頼してください。
+            </p>
+          </section>
+        ) : !loggedIn ? (
+          <section class="panel login-panel">
+            <p class="lead">パスワードを入力して、お知らせを編集します。</p>
+            <form id="login-form" class="stack">
+              <label class="field">
+                <span>パスワード</span>
+                <input type="password" name="password" autocomplete="current-password" required />
+              </label>
+              <p id="login-error" class="message error" hidden></p>
+              <button type="submit" class="btn btn-primary">ログイン</button>
+            </form>
+          </section>
+        ) : (
+          <section class="panel">
+            <p class="lead">
+              追加・編集・削除のあと「保存」するとサイトに反映されます（反映まで数分かかることがあります）。
+            </p>
+
+            <div class="toolbar">
+              <h2>お知らせ一覧</h2>
+              <button type="button" class="btn btn-primary" id="new-btn">＋ 新しいお知らせ</button>
+            </div>
+
+            <p id="list-error" class="message error" hidden></p>
+            <p id="list-status" class="message" hidden></p>
+
+            <div id="news-list" class="news-list" aria-live="polite"></div>
+
+            <dialog id="edit-dialog" class="dialog">
+              <form method="dialog" id="edit-form" class="stack">
+                <h2 id="dialog-title">お知らせを編集</h2>
+                <input type="hidden" name="id" />
+                <label class="field">
+                  <span>日付</span>
+                  <input type="date" name="date" required />
+                </label>
+                <label class="field">
+                  <span>タイトル</span>
+                  <input type="text" name="title" required maxlength="200" />
+                </label>
+                <label class="field">
+                  <span>リンク（任意）</span>
+                  <input type="text" name="href" placeholder="/downloads など" />
+                </label>
+                <p id="form-error" class="message error" hidden></p>
+                <div class="dialog-actions">
+                  <button type="submit" value="cancel" class="btn btn-ghost">キャンセル</button>
+                  <button type="submit" value="save" class="btn btn-primary">保存する</button>
+                </div>
+              </form>
+            </dialog>
+          </section>
+        )
+      }
+
+      <p class="footer-note">
+        <a href="/">サイトに戻る</a>
+      </p>
+    </main>
+
+    <script>
+      const loginForm = document.getElementById("login-form");
+      const logoutBtn = document.getElementById("logout-btn");
+      const newsList = document.getElementById("news-list");
+      const newBtn = document.getElementById("new-btn");
+      const dialog = document.getElementById("edit-dialog");
+      const editForm = document.getElementById("edit-form");
+      const listError = document.getElementById("list-error");
+      const listStatus = document.getElementById("list-status");
+      const formError = document.getElementById("form-error");
+      const dialogTitle = document.getElementById("dialog-title");
+
+      function setMessage(el, text) {
+        if (!el) return;
+        if (text) {
+          el.textContent = text;
+          el.hidden = false;
+        } else {
+          el.textContent = "";
+          el.hidden = true;
+        }
+      }
+
+      async function parseJson(response) {
+        try {
+          return await response.json();
+        } catch {
+          return {};
+        }
+      }
+
+      if (loginForm) {
+        loginForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const loginError = document.getElementById("login-error");
+          setMessage(loginError, "");
+          const formData = new FormData(loginForm);
+          const password = String(formData.get("password") || "");
+          const response = await fetch("/api/admin/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password })
+          });
+          const data = await parseJson(response);
+          if (!response.ok) {
+            setMessage(loginError, data.error || "ログインに失敗しました。");
+            return;
+          }
+          window.location.reload();
+        });
+      }
+
+      if (logoutBtn) {
+        logoutBtn.addEventListener("click", async () => {
+          await fetch("/api/admin/logout", { method: "POST" });
+          window.location.reload();
+        });
+      }
+
+      function openEditor(item) {
+        if (!dialog || !editForm || !dialogTitle) return;
+        setMessage(formError, "");
+        editForm.elements.namedItem("id").value = item?.id || "";
+        editForm.elements.namedItem("date").value = item?.date || "";
+        editForm.elements.namedItem("title").value = item?.title || "";
+        editForm.elements.namedItem("href").value = item?.href || "";
+        dialogTitle.textContent = item?.id ? "お知らせを編集" : "新しいお知らせ";
+        dialog.showModal();
+      }
+
+      function renderItems(items) {
+        if (!newsList) return;
+        if (!items.length) {
+          newsList.innerHTML = '<p class="empty">まだお知らせがありません。「新しいお知らせ」から追加してください。</p>';
+          return;
+        }
+
+        newsList.innerHTML = items
+          .map((item) => {
+            const hrefLabel = item.href
+              ? `<span class="meta-link">${escapeHtml(item.href)}</span>`
+              : `<span class="meta-muted">リンクなし</span>`;
+            return `
+              <article class="news-row" data-id="${escapeAttr(item._id)}">
+                <div class="news-main">
+                  <time>${escapeHtml(item.date)}</time>
+                  <p class="news-title">${escapeHtml(item.title)}</p>
+                  ${hrefLabel}
+                </div>
+                <div class="news-actions">
+                  <button type="button" class="btn btn-ghost edit-btn">編集</button>
+                  <button type="button" class="btn btn-danger delete-btn">削除</button>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+
+        newsList.querySelectorAll(".edit-btn").forEach((button) => {
+          button.addEventListener("click", () => {
+            const row = button.closest(".news-row");
+            const id = row?.dataset.id;
+            const item = items.find((entry) => entry._id === id);
+            if (!item) return;
+            openEditor({
+              id: item._id,
+              date: item.date,
+              title: item.title,
+              href: item.href || ""
+            });
+          });
+        });
+
+        newsList.querySelectorAll(".delete-btn").forEach((button) => {
+          button.addEventListener("click", async () => {
+            const row = button.closest(".news-row");
+            const id = row?.dataset.id;
+            if (!id) return;
+            if (!window.confirm("このお知らせを削除しますか？")) return;
+            setMessage(listStatus, "削除しています…");
+            const response = await fetch(`/api/admin/news/${encodeURIComponent(id)}`, {
+              method: "DELETE"
+            });
+            const data = await parseJson(response);
+            if (!response.ok) {
+              setMessage(listError, data.error || "削除に失敗しました。");
+              setMessage(listStatus, "");
+              return;
+            }
+            setMessage(listStatus, "削除しました。サイト反映まで数分かかることがあります。");
+            await loadNews();
+          });
+        });
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
+
+      function escapeAttr(value) {
+        return escapeHtml(value).replaceAll("'", "&#39;");
+      }
+
+      async function loadNews() {
+        if (!newsList) return;
+        setMessage(listError, "");
+        newsList.innerHTML = '<p class="empty">読み込み中…</p>';
+        const response = await fetch("/api/admin/news");
+        const data = await parseJson(response);
+        if (!response.ok) {
+          newsList.innerHTML = "";
+          setMessage(listError, data.error || "一覧を取得できませんでした。");
+          return;
+        }
+        renderItems(data.items || []);
+      }
+
+      if (newBtn) {
+        newBtn.addEventListener("click", () => openEditor(null));
+      }
+
+      if (editForm && dialog) {
+        editForm.addEventListener("submit", async (event) => {
+          const submitter = event.submitter;
+          if (submitter?.value === "cancel") {
+            return;
+          }
+          event.preventDefault();
+          setMessage(formError, "");
+
+          const id = String(editForm.elements.namedItem("id").value || "");
+          const payload = {
+            date: String(editForm.elements.namedItem("date").value || ""),
+            title: String(editForm.elements.namedItem("title").value || ""),
+            href: String(editForm.elements.namedItem("href").value || "")
+          };
+
+          const response = await fetch(id ? `/api/admin/news/${encodeURIComponent(id)}` : "/api/admin/news", {
+            method: id ? "PATCH" : "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          const data = await parseJson(response);
+          if (!response.ok) {
+            setMessage(formError, data.error || "保存に失敗しました。");
+            return;
+          }
+
+          dialog.close();
+          setMessage(listStatus, "保存しました。サイト反映まで数分かかることがあります。");
+          await loadNews();
+        });
+      }
+
+      if (newsList) {
+        loadNews();
+      }
+    </script>
+
+    <style>
+      :root {
+        --bg: #f7f3ea;
+        --panel: #fffdf8;
+        --text: #1c2623;
+        --muted: #53615d;
+        --border: #e1d5c1;
+        --accent: #214e43;
+        --danger: #8b3a3a;
+        --gold: #aa8652;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--text);
+        font-family: "Hiragino Mincho ProN", "Yu Mincho", "Times New Roman", serif;
+        background:
+          radial-gradient(circle at top, #fdfbf7 0%, var(--bg) 55%, #efe6d8 100%);
+      }
+
+      .admin {
+        width: min(720px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 2rem 0 3rem;
+      }
+
+      .admin-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .admin-brand {
+        margin: 0 0 0.25rem;
+        color: var(--gold);
+        letter-spacing: 0.12em;
+        font-size: 0.95rem;
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        font-weight: 600;
+      }
+
+      h1 {
+        font-size: clamp(1.6rem, 4vw, 2rem);
+      }
+
+      h2 {
+        font-size: 1.15rem;
+      }
+
+      .lead {
+        margin: 0 0 1.25rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 1.25rem;
+        padding: 1.35rem 1.4rem 1.5rem;
+        box-shadow: 0 16px 36px rgba(36, 55, 49, 0.06);
+      }
+
+      .stack {
+        display: grid;
+        gap: 0.9rem;
+      }
+
+      .field {
+        display: grid;
+        gap: 0.35rem;
+      }
+
+      .field span {
+        font-size: 0.95rem;
+      }
+
+      input[type="password"],
+      input[type="text"],
+      input[type="date"] {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 0.7rem;
+        padding: 0.75rem 0.85rem;
+        font: inherit;
+        background: #fff;
+      }
+
+      .btn {
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 0.65rem 1.1rem;
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .btn-ghost {
+        background: transparent;
+        border-color: var(--border);
+        color: var(--text);
+      }
+
+      .btn-danger {
+        background: #fff;
+        border-color: rgba(139, 58, 58, 0.35);
+        color: var(--danger);
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      .news-list {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .news-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.95rem 1rem;
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        background: #fff;
+      }
+
+      .news-main {
+        display: grid;
+        gap: 0.25rem;
+        min-width: 0;
+      }
+
+      .news-main time {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .news-title {
+        margin: 0;
+        line-height: 1.5;
+        word-break: break-word;
+      }
+
+      .meta-link,
+      .meta-muted {
+        font-size: 0.85rem;
+      }
+
+      .meta-link {
+        color: var(--accent);
+      }
+
+      .meta-muted {
+        color: var(--muted);
+      }
+
+      .news-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        flex-shrink: 0;
+      }
+
+      .message {
+        margin: 0 0 0.85rem;
+        line-height: 1.6;
+      }
+
+      .message.error {
+        color: var(--danger);
+      }
+
+      .empty {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .dialog {
+        border: 1px solid var(--border);
+        border-radius: 1.2rem;
+        padding: 0;
+        width: min(480px, calc(100% - 2rem));
+        background: var(--panel);
+      }
+
+      .dialog::backdrop {
+        background: rgba(28, 38, 35, 0.35);
+      }
+
+      .dialog form {
+        padding: 1.25rem 1.3rem 1.35rem;
+      }
+
+      .dialog-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.6rem;
+        margin-top: 0.4rem;
+      }
+
+      .footer-note {
+        margin: 1.25rem 0 0;
+        text-align: center;
+        color: var(--muted);
+      }
+
+      .footer-note a {
+        color: inherit;
+      }
+
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.85em;
+      }
+
+      @media (max-width: 640px) {
+        .news-row {
+          flex-direction: column;
+        }
+
+        .news-actions {
+          flex-direction: row;
+        }
+
+        .toolbar {
+          flex-direction: column;
+          align-items: stretch;
+        }
+      }
+    </style>
+  </body>
+</html>
