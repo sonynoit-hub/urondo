@@ -80,7 +80,21 @@ const isCurrentPath = (href?: string) =>
               {teacherGreetingSection && (
                 <div class="classes-teacher-block">
                   {teacherGreetingSection.title && <h3>{teacherGreetingSection.title}</h3>}
-                  {teacherGreetingSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+                  <div class="about-profile-grid">
+                    <div>
+                      {teacherGreetingSection.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+                    </div>
+
+                    <figure class="about-profile-figure">
+                      <img
+                        src="/images/source-extracted/about-liang-qigong/about-liang-qigong-01.jpeg"
+                        alt="座禅を組む梁蔭全先生の写真"
+                        width="200"
+                        height="300"
+                        loading="eager"
+                      />
+                    </figure>
+                  </div>
                 </div>
               )}
 

@@ -14,10 +14,10 @@ export const mainNav: NavItem[] = [
     label: "施術案内",
     href: "/about",
     children: [
-      { label: "梁蔭全と梁気功", href: "/about" },
+      { label: "リャン気功エネルギー", href: "/about" },
       { label: "通院施術", href: "/treatments/in-person" },
       { label: "遠隔念力気功", href: "/treatments/remote" },
-      { label: "梁蔭全先生の個別指導", href: "/treatments/private-instruction" },
+      { label: "個別指導", href: "/treatments/private-instruction" },
       { label: "特別遠隔施術", href: "/treatments/special-remote" }
     ]
   },

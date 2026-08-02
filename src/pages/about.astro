@@ -4,7 +4,7 @@ import PageHero from "../components/PageHero.astro";
 import TreatmentOverviewCards from "../components/TreatmentOverviewCards.astro";
 import page from "../content/about";
 
-const [profileSection, qigongSection, scienceSection] = page.sections ?? [];
+const [qigongSection, scienceSection] = page.sections ?? [];
 const scienceYearLabels = ["１９９０年", "１９９６年"];
 ---
 
@@ -14,23 +14,50 @@ const scienceYearLabels = ["１９９０年", "１９９６年"];
   <section class="content-section">
     <div class="container">
       <div class="home-section-heading narrow-heading">
-        <h2>{profileSection?.title}</h2>
+        <h2>{qigongSection?.title}</h2>
       </div>
 
-      <div class="about-profile-grid">
-        <div class="prose-block about-prose-card">
-          {profileSection?.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
-        </div>
-
-        <figure class="about-profile-figure">
+      <div class="about-qigong-layout">
+        <figure class="about-qigong-poster">
           <img
-            src="/images/source-extracted/about-liang-qigong/about-liang-qigong-01.jpeg"
-            alt="座禅を組む梁蔭全先生の写真"
-            width="200"
-            height="300"
-            loading="eager"
+            src="/images/source-extracted/about-liang-qigong/about-liang-qigong-kiko.png"
+            alt="超実感気功療法を紹介するリャン気功のポスター"
+            width="566"
+            height="862"
+            loading="lazy"
           />
         </figure>
+
+        <div class="about-qigong-flow">
+          {qigongSection?.bullets?.[0] && (
+            <p class="about-qigong-lead">{qigongSection.bullets[0]}</p>
+          )}
+
+          <div class="about-qigong-steps">
+            {qigongSection?.bullets?.slice(1).map((bullet) => (
+              <article class="about-qigong-step">
+                <p>{bullet}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="container">
+      <div class="home-section-heading narrow-heading">
+        <h2>{scienceSection?.title}</h2>
+      </div>
+
+      <div class="about-science-list">
+        {scienceSection?.bullets?.map((bullet, index) => (
+          <article class="about-science-item">
+            <p class="about-bullet-index about-science-year">{scienceYearLabels[index]}</p>
+            <p>{bullet}</p>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -71,57 +98,6 @@ const scienceYearLabels = ["１９９０年", "１９９６年"];
             loading="lazy"
           />
         </figure>
-      </div>
-    </div>
-  </section>
-
-  <section class="content-section">
-    <div class="container">
-      <div class="home-section-heading narrow-heading">
-        <h2>{qigongSection?.title}</h2>
-      </div>
-
-      <div class="about-qigong-layout">
-        <figure class="about-qigong-poster">
-          <img
-            src="/images/source-extracted/about-liang-qigong/about-liang-qigong-kiko.png"
-            alt="超実感気功療法を紹介する梁気功のポスター"
-            width="566"
-            height="862"
-            loading="lazy"
-          />
-        </figure>
-
-        <div class="about-qigong-flow">
-          {qigongSection?.bullets?.[0] && (
-            <p class="about-qigong-lead">{qigongSection.bullets[0]}</p>
-          )}
-
-          <div class="about-qigong-steps">
-            {qigongSection?.bullets?.slice(1).map((bullet) => (
-              <article class="about-qigong-step">
-                <p>{bullet}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="content-section">
-    <div class="container">
-      <div class="home-section-heading narrow-heading">
-        <h2>{scienceSection?.title}</h2>
-      </div>
-
-      <div class="about-science-list">
-        {scienceSection?.bullets?.map((bullet, index) => (
-          <article class="about-science-item">
-            <p class="about-bullet-index about-science-year">{scienceYearLabels[index]}</p>
-            <p>{bullet}</p>
-          </article>
-        ))}
       </div>
     </div>
   </section>
