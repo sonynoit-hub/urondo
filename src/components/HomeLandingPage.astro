@@ -31,7 +31,6 @@ const iconByLabel: Record<string, CompanyIconKey> = {
 };
 
 const philosophyParagraphs = page.philosophy.paragraphs;
-const philosophyStatementLines = page.philosophy.statement.replace("、", "、\n").split("\n");
 const heroIntroParts = page.heroIntro.split("「超実感気功療法」");
 const treatmentEmphasis = new Set([
   "39年の実績",
@@ -123,9 +122,7 @@ const companyRows = companyItems
       <div class="pdf-panel-inner pdf-philosophy-inner">
         <header class="pdf-title-plaque">
           <h2 id="philosophy-title">{page.philosophy.title}</h2>
-          <p>
-            {philosophyStatementLines.map((line) => <span>{line}</span>)}
-          </p>
+          <p>{page.philosophy.statement}</p>
         </header>
 
         <div class="pdf-philosophy-copy">
@@ -889,11 +886,11 @@ const companyRows = companyItems
   }
 
   .pdf-company-inner {
-    align-content: center;
+    align-content: start;
     display: grid;
-    gap: clamp(1rem, 2vw, 1.5rem);
+    gap: clamp(0.75rem, 1.5vw, 1.1rem);
     padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
-    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+    padding-top: clamp(0.85rem, 2vw, 1.35rem);
   }
 
   .pdf-company-heading {
@@ -995,7 +992,7 @@ const companyRows = companyItems
     }
 
     .pdf-cover-rule-hero {
-      margin-top: clamp(3.75rem, 7.5vh, 5.25rem);
+      margin-top: calc(clamp(3.75rem, 7.5vh, 5.25rem) + 12px);
     }
 
     .pdf-section-rule {
@@ -1017,6 +1014,27 @@ const companyRows = companyItems
       padding-bottom: clamp(1.65rem, 3vw, 2.35rem);
       padding-top: clamp(1.65rem, 3vw, 2.35rem);
     }
+
+    .pdf-classroom {
+      min-height: 0;
+    }
+
+    .pdf-classroom-inner {
+      padding-bottom: 0;
+    }
+
+    .pdf-classroom .pdf-section-rule {
+      margin-top: 1.5rem;
+    }
+
+    .pdf-company {
+      min-height: 0;
+    }
+
+    .pdf-company-inner {
+      /* Match list → rule (grid gap + rule margin-top) */
+      padding-top: calc(1.5rem + clamp(0.85rem, 1.7vw, 1.35rem));
+    }
   }
 
   @media (max-width: 1024px) {
@@ -1034,8 +1052,33 @@ const companyRows = companyItems
       grid-template-rows: auto 1fr auto;
     }
 
+    .pdf-cover-rule-hero {
+      margin-top: 12px;
+    }
+
     .pdf-philosophy-inner {
       padding-top: 1.5rem;
+    }
+
+    .pdf-classroom {
+      min-height: 0;
+    }
+
+    .pdf-classroom-inner {
+      padding-bottom: 0;
+    }
+
+    .pdf-classroom .pdf-section-rule {
+      margin-top: 1.5rem;
+    }
+
+    .pdf-company {
+      min-height: 0;
+    }
+
+    .pdf-company-inner {
+      align-content: start;
+      padding-top: calc(1.5rem + clamp(0.85rem, 1.7vw, 1.35rem));
     }
 
     .pdf-side-rail {
