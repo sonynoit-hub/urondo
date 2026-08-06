@@ -889,11 +889,11 @@ const companyRows = companyItems
   }
 
   .pdf-company-inner {
-    align-content: center;
+    align-content: start;
     display: grid;
-    gap: clamp(1rem, 2vw, 1.5rem);
+    gap: clamp(0.75rem, 1.5vw, 1.1rem);
     padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
-    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+    padding-top: clamp(0.85rem, 2vw, 1.35rem);
   }
 
   .pdf-company-heading {
@@ -995,7 +995,7 @@ const companyRows = companyItems
     }
 
     .pdf-cover-rule-hero {
-      margin-top: clamp(3.75rem, 7.5vh, 5.25rem);
+      margin-top: calc(clamp(3.75rem, 7.5vh, 5.25rem) + 12px);
     }
 
     .pdf-section-rule {
@@ -1011,11 +1011,40 @@ const companyRows = companyItems
       padding-top: clamp(1.1rem, 2.2vh, 1.75rem);
     }
 
+    .pdf-philosophy .pdf-title-plaque > p {
+      white-space: nowrap;
+    }
+
+    .pdf-philosophy .pdf-title-plaque > p span {
+      display: inline;
+    }
+
     .pdf-program-inner,
     .pdf-classroom-inner {
       align-content: start;
       padding-bottom: clamp(1.65rem, 3vw, 2.35rem);
       padding-top: clamp(1.65rem, 3vw, 2.35rem);
+    }
+
+    .pdf-classroom {
+      min-height: 0;
+    }
+
+    .pdf-classroom-inner {
+      padding-bottom: 0;
+    }
+
+    .pdf-classroom .pdf-section-rule {
+      margin-top: 1.5rem;
+    }
+
+    .pdf-company {
+      min-height: 0;
+    }
+
+    .pdf-company-inner {
+      /* Match list → rule (grid gap + rule margin-top) */
+      padding-top: calc(1.5rem + clamp(0.85rem, 1.7vw, 1.35rem));
     }
   }
 
@@ -1034,8 +1063,33 @@ const companyRows = companyItems
       grid-template-rows: auto 1fr auto;
     }
 
+    .pdf-cover-rule-hero {
+      margin-top: 12px;
+    }
+
     .pdf-philosophy-inner {
       padding-top: 1.5rem;
+    }
+
+    .pdf-classroom {
+      min-height: 0;
+    }
+
+    .pdf-classroom-inner {
+      padding-bottom: 0;
+    }
+
+    .pdf-classroom .pdf-section-rule {
+      margin-top: 1.5rem;
+    }
+
+    .pdf-company {
+      min-height: 0;
+    }
+
+    .pdf-company-inner {
+      align-content: start;
+      padding-top: calc(1.5rem + clamp(0.85rem, 1.7vw, 1.35rem));
     }
 
     .pdf-side-rail {
